@@ -1,4 +1,4 @@
- sds
- printf("Hola mundo");
-Miguel -> prueba;
-Alex->prueba
+printf("Hola mundo");
+Comprobar que podeis hacer un commit y actualizar este archivo poniendo vuestro nombre:
+Miguel
+Alex
