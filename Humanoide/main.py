@@ -8,7 +8,7 @@ import Adafruit_PCA9685
 #importamos la libreria del giroscopio
 import mpu6050
 import time
-
+import math #para las operaciones matematicas
 
 #incializamos variables necesarias en nuestro codigo
 direccion_driver = 0x41         #estos dos valores son orientativos, hay que cambiarlos
