@@ -1,5 +1,4 @@
-import servo
-import acelerometro
+
 
 
 def kinect_2d(x,y): #x e y son las coordenadas del punto al que nos queremos mover en coordenadas cartesianas
@@ -48,6 +47,8 @@ if '__name__' == '__main__':
     import time
     import mpu6050
     import Adafruit_PCA9685
+    import servo
+
 
     direccion_driver = 0x40         #estos dos valores son orientativos, hay que cambiarlos
 
