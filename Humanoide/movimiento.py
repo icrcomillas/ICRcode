@@ -54,7 +54,7 @@ if '__name__' == '__main__':
 
 
     #creamos el objeto driver
-    driver = Adafruit_PCA9685.PCA9685(addres = direccion_driver)
+    driver = Adafruit_PCA9685.PCA9685()
     #creamos el objeto giroscopio
 
 
@@ -66,9 +66,9 @@ if '__name__' == '__main__':
     RANGO_MAXIMO = 20      #este será el angulo maximo al que se moveran los servos
     RANGO_MINIMO = 0        #rango minimo al que se mueven los servos
 
-    servo.mover_servo(0,50)
+    driver.set_pwm(0, 0, 0)
     time.sleep(1)
-    servo.mover_servo(0,0)
+    driver.set_pwm(0, 0,90)
     #movemos todos los servos, hasta su rango maximo
     """for i in range(0,NUMERO_SERVOS):
         for j in range(RANGO_MINIMO, RANGO_MAXIMO):
