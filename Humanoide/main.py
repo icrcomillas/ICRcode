@@ -11,7 +11,7 @@ import time
 import math #para las operaciones matematicas
 
 #incializamos variables necesarias en nuestro codigo
-direccion_driver = 0x41         #estos dos valores son orientativos, hay que cambiarlos
+direccion_driver = 0x40         #estos dos valores son orientativos, hay que cambiarlos
 direccion_giroscopio = 0x81
 #creamos el objeto driver
 driver = Adafruit_PCA9685.PCA9685(addres = direccion_driver)

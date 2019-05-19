@@ -49,37 +49,27 @@ if '__name__' == '__main__':
     import mpu6050
     import Adafruit_PCA9685
 
-    direccion_driver = 0x41         #estos dos valores son orientativos, hay que cambiarlos
-    direccion_giroscopio = 0x81
+    direccion_driver = 0x40         #estos dos valores son orientativos, hay que cambiarlos
+
 
     #creamos el objeto driver
     driver = Adafruit_PCA9685.PCA9685(addres = direccion_driver)
     #creamos el objeto giroscopio
-    giro = mpu6050(addres = direccion_giroscopio )
+
 
     print("se ha entrado en el modo debug")
     #esperamos dos segundos
     time.sleep(2)
 
     NUMERO_SERVOS = 2       #este será el numero de servos que tendremos en nuestro robot
-    RANGO_MAXIMO = 200      #este será el angulo maximo al que se moveran los servos
+    RANGO_MAXIMO = 20      #este será el angulo maximo al que se moveran los servos
     RANGO_MINIMO = 0        #rango minimo al que se mueven los servos
 
 
     #movemos todos los servos, hasta su rango maximo
-    for i in range(1,NUMERO_SERVOS):
+    for i in range(0,NUMERO_SERVOS):
         for j in range(RANGO_MINIMO, RANGO_MAXIMO):
             servo.mover_servo(i,j)
             time.sleep(0.1)
 
     print("se han terminado de mover los servos")
-    print("se van a recibir los datos del giroscopio")
-
-    acelx, acely, acelz = acelerometro.acel_giro()
-    posx, posy, posz = acelerometro.pos_giro()
-
-    print("las aceleraciones son "+string(acelx)+ " en x "+string(acely)+" en y "+string(acelz)+" en z"
-
-    print("las posiciones son "+string(posx)+ " en x "+string(posy)+" en y "+string(posz)+" en z"
-z= kinect_2d(2,3)
-print(z)
