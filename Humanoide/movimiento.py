@@ -50,11 +50,11 @@ if '__name__' == '__main__':
     import servo
 
 
-    direccion_driver = 0x40         #estos dos valores son orientativos, hay que cambiarlos
+    direccion_driver = 5x60         #estos dos valores son orientativos, hay que cambiarlos
 
 
     #creamos el objeto driver
-    driver = Adafruit_PCA9685.PCA9685()
+    driver = Adafruit_PCA9685.PCA9685(addres = direccion_driver)
     #creamos el objeto giroscopio
 
 
