@@ -66,11 +66,13 @@ if '__name__' == '__main__':
     RANGO_MAXIMO = 20      #este será el angulo maximo al que se moveran los servos
     RANGO_MINIMO = 0        #rango minimo al que se mueven los servos
 
-
+    servo.mover_servo(0,50)
+    time.sleep(1)
+    servo.mover_servo(0,0)
     #movemos todos los servos, hasta su rango maximo
-    for i in range(0,NUMERO_SERVOS):
+    """for i in range(0,NUMERO_SERVOS):
         for j in range(RANGO_MINIMO, RANGO_MAXIMO):
             servo.mover_servo(i,j)
             time.sleep(0.1)
-
+    """
     print("se han terminado de mover los servos")
