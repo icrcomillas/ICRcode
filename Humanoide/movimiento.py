@@ -1,30 +1,6 @@
-def mover_servo(n_servo,pos):
-    #posicion la reciviremos en un rango de 0 a 4096
-    RANGO_MAXIMO = 4096
-    if pos > RANGO_MAXIMO:
-        print("no se puede mover ese rango, esta fuera del alcance")
-    elif pos< RANGO_MAXIMO:
-        driver.set_pwm(n_servo, 0, pos)
-    return
+import servo
+import acelerometro
 
-def acel_giro():
-    aceleracion = giro.get_accel_data() #leemos todas las aceleraciones del giroscopio
-
-    x = aceleracion['x']
-    y = aceleracion['y']
-    z = aceleracion['z']
-
-    return x, y,z       # los valores x , y , z son las aceleraciones en sus respectivos ejes
-
-def pos_giro():
-
-    inclinacion = get_giro_data()
-
-    x = inclinacion['x']
-    y = inclinacion['y']
-    z = inclinacion['z']
-
-    return x, y ,z
 
 def kinect_2d(x,y): #x e y son las coordenadas del punto al que nos queremos mover en coordenadas cartesianas
                     #la funcion nos devolvera los angulos de los servos de la pierna, EN GRADOS
@@ -68,7 +44,7 @@ from sympy import var,nsolve, sin , asin, sqrt
 
 if '__name__' == '__main__':
 
-    """
+
     import time
     import mpu6050
     import Adafruit_PCA9685
@@ -93,18 +69,17 @@ if '__name__' == '__main__':
     #movemos todos los servos, hasta su rango maximo
     for i in range(1,NUMERO_SERVOS):
         for j in range(RANGO_MINIMO, RANGO_MAXIMO):
-            mover_servo(i,j)
+            servo.mover_servo(i,j)
             time.sleep(0.1)
 
     print("se han terminado de mover los servos")
     print("se van a recibir los datos del giroscopio")
 
-    acelx, acely, acelz = acel_giro()
-    posx, posy, posz = pos_giro()
+    acelx, acely, acelz = acelerometro.acel_giro()
+    posx, posy, posz = acelerometro.pos_giro()
 
     print("las aceleraciones son "+string(acelx)+ " en x "+string(acely)+" en y "+string(acelz)+" en z"
 
     print("las posiciones son "+string(posx)+ " en x "+string(posy)+" en y "+string(posz)+" en z"
-"""
 z= kinect_2d(2,3)
 print(z)
