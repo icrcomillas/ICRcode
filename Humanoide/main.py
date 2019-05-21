@@ -13,7 +13,7 @@ import math #para las operaciones matematicas
 direccion_driver = 0x40         #estos dos valores son orientativos, hay que cambiarlos
 direccion_giroscopio = 0x81
 #creamos el objeto driver
-driver = Adafruit_PCA9685.PCA9685(addres = direccion_driver)
+driver = Adafruit_PCA9685.PCA9685(address = direccion_driver)
 #creamos el objeto giroscopio
 giro = mpu6050(addres = direccion_giroscopio )
 #hay que esperar s = direiempre despues de mover un servo, para que se ponga en la posicion
