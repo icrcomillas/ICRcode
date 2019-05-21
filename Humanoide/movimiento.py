@@ -1,6 +1,3 @@
-if '__name__' == '__main__':
-
-
     import time
     import mpu6050
     import Adafruit_PCA9685
