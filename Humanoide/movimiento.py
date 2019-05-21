@@ -7,7 +7,7 @@ import servo
 
 
 #creamos el objeto driver
-driver = Adafruit_PCA9685.PCA9685(address = 0x40)
+driver = Adafruit_PCA9685.PCA9685()
 
 
 
