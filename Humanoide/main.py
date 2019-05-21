@@ -1,8 +1,7 @@
 #antes de empezar tenemos que conectarnos al driver del servo, y al giroscopio
 #la informacion de la libreria del driver esta aqui https://github.com/adafruit/Adafruit_Python_PCA9685
 #la informacion del giroscopio está aqui https://github.com/Tijndagamer/mpu6050
-#llamamos al fichero de funciones
-import funciones
+
 #importamos la libreria del driver
 import Adafruit_PCA9685
 #importamos la libreria del giroscopio
