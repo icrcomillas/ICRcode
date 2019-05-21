@@ -1,5 +1,4 @@
 import time
-import mpu6050
 import Adafruit_PCA9685
 import servo
 
