@@ -1,5 +1,6 @@
 from configuracion import robot
 import time
+import Adafruit_PCA9685
 
 driver = Adafruit_PCA9685.PCA9685(address = robot.direccion_driver1)
 

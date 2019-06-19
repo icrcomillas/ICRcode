@@ -1,5 +1,4 @@
 import time
-import Adafruit_PCA9685
 import servo
 from configuracion import robot
 
