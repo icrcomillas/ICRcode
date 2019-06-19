@@ -27,6 +27,7 @@ if __name__ == '__main__':
     print("se ha entrado en el modo debug")
     while True:
         servo = input("que servo quieres mover")
+        servo = float(servo)
         angulo = input("¿a que angulo lo quieres mover?")
         angulo = float(angulo) #aqui se convierte el numero de entrada a un tipo float, si no da error
         mover_servo(servo,angulo)
