@@ -33,7 +33,7 @@ if __name__ == '__main__':
     print("se van a mover los servos")
     #movemos todos los servos, hasta su rango maximo
     for i in range(0,robot.numero_servos-1):
-        for j in range(robot.rango_minimo, robot.rango_maximo):
+        for j in range(robot.angulo_minimo, robot.angulo_maximo):
             #print("se ha movido el servo "+str(i)+" a la posicion "+ str(j))
             servo.mover_servo(i,j)
             time.sleep(0.1)

@@ -3,7 +3,7 @@ en el se ponen todos los parametros que importan del robot, como por ejemplo ran
 Se puede llamar desde cualquier parte del codigo"""
 
 class robot:
-    rango_maximo = 200
+    rango_maximo = 600
     rango_minimo = 150
     numero_servos = 5
     direccion_driver1 = 0x40 #esta es la direccion default, si hiciera falta cambiarla, se hace en fisico
