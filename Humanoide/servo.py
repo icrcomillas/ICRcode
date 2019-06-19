@@ -19,7 +19,7 @@ def mover_servo(n_servo,angulo):
 
         pulso = calcular_pulso(angulo)
         pulso = int(pulso)
-        driver.set_pwm(n_servo, 0, 600)
+        driver.set_pwm(n_servo, 0, pulso)
         print("se ha movido el servo "+str(n_servo)+" a la posicion "+str(angulo))
     return
 
@@ -27,8 +27,8 @@ if __name__ == '__main__':
     print("se ha entrado en el modo debug")
     while True:
         servo = input("que servo quieres mover")
-        servo = int(servo)
+        servo = int(servo)#aqui se convierte el numero de entrada a un tipo entero, si no da error
         angulo = input("¿a que angulo lo quieres mover?")
-        angulo = float(angulo) #aqui se convierte el numero de entrada a un tipo float, si no da error
+        angulo = int(angulo) #aqui se convierte el numero de entrada a un tipo entero, si no da error
         mover_servo(servo,angulo)
         time.sleep(0.1)
