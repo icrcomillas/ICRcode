@@ -1,5 +1,7 @@
 from configuracion import robot
-import time 
+import time
+
+driver = Adafruit_PCA9685.PCA9685(address = robot.direccion_driver1)
 
 def calcular_pulso(ang):
     #definimos la funcion lineal para calcular el pulso
