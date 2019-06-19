@@ -13,9 +13,9 @@ def calcular_pulso(ang):
 def mover_servo(n_servo,angulo):
     #posicion la reciviremos en un rango de 0 a 4096
 
-    if angulo > robot.angulo_maximo or angulo < robot.angulo_minimo:
+    if angulo >= robot.angulo_maximo or angulo <= robot.angulo_minimo:
         print("no se puede mover ese rango, esta fuera del alcance")
-    elif angulo< robot.angulo_maximo and angulo > robot.angulo_minimo:
+    elif angulo <= robot.angulo_maximo and angulo >= robot.angulo_minimo:
 
         pulso = calcular_pulso(angulo)
         driver.set_pwm(n_servo, 0, pulso)
