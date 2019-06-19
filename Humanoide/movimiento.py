@@ -26,7 +26,7 @@ def defensa():
 
 if __name__ == '__main__':
     #creamos el objeto driver
-    driver = Adafruit_PCA9685.PCA9685(addres = robot.direccion_driver1)
+    driver = Adafruit_PCA9685.PCA9685(address = robot.direccion_driver1)
     print("se ha entrado en el modo debug")
     #esperamos dos segundos
     time.sleep(2)
