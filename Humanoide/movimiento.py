@@ -1,31 +1,41 @@
 import time
 import Adafruit_PCA9685
 import servo
+from configuracion import robot
 
 
-#direccion_driver = 0x60         #estos dos valores son orientativos, hay que cambiarlos
+def andar_delante():
+    #codigo de la funcion para andar hacia delante
+    print("hola mundo")
+def andar_detras():
+    #codigo para andar hacia detras
+    print("hola mundo")
+def girar():
+    #codigo para girar
+    print("hola mundo")
+def ataque():
+    #codigo de ataque
+    print("hola mundo")
+def defensa():
+    #codigo de defensa
+    print("hola mundo")
 
 
-#creamos el objeto driver
-driver = Adafruit_PCA9685.PCA9685()
 
 
 
-print("se ha entrado en el modo debug")
-#esperamos dos segundos
-time.sleep(2)
+if __name__ == '__main__':
+    #creamos el objeto driver
+    driver = Adafruit_PCA9685.PCA9685(addres = robot.direccion_driver1)
+    print("se ha entrado en el modo debug")
+    #esperamos dos segundos
+    time.sleep(2)
+    print("se van a mover los servos")
+    #movemos todos los servos, hasta su rango maximo
+    for i in range(0,robot.numero_servos-1):
+        for j in range(robot.rango_minimo, robot.rango_maximo):
+            #print("se ha movido el servo "+str(i)+" a la posicion "+ str(j))
+            servo.mover_servo(i,j)
+            time.sleep(0.1)
 
-NUMERO_SERVOS = 2       #este será el numero de servos que tendremos en nuestro robot
-RANGO_MAXIMO = 20      #este será el angulo maximo al que se moveran los servos
-RANGO_MINIMO = 0        #rango minimo al que se mueven los servos
-
-driver.set_pwm(0, 0, 0)
-time.sleep(1)
-driver.set_pwm(0, 0,90)
-#movemos todos los servos, hasta su rango maximo
-"""for i in range(0,NUMERO_SERVOS):
-    for j in range(RANGO_MINIMO, RANGO_MAXIMO):
-        servo.mover_servo(i,j)
-        time.sleep(0.1)
-"""
-print("se han terminado de mover los servos")
+    print("se han terminado de mover los servos")

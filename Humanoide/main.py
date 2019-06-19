@@ -6,15 +6,23 @@
 import Adafruit_PCA9685
 #importamos la libreria del giroscopio
 import mpu6050
-import time
-import math #para las operaciones matematicas
 
-#incializamos variables necesarias en nuestro codigo
-direccion_driver = 0x40         #estos dos valores son orientativos, hay que cambiarlos
-direccion_giroscopio = 0x81
-#creamos el objeto driver
-driver = Adafruit_PCA9685.PCA9685(address = direccion_driver)
-#creamos el objeto giroscopio
-giro = mpu6050(addres = direccion_giroscopio )
-#hay que esperar s = direiempre despues de mover un servo, para que se ponga en la posicion
-time.sleep(1)
+import time
+#importamos las diferentes funciones de nuestro codigo
+from configuracion import robot
+
+if __name__ == '__main__':
+    #inicializamos variables necesarias en nuestro codigo
+    print("se ha entrado en el modo automatico del robot")
+
+    #creamos el objeto driver
+    driver = Adafruit_PCA9685.PCA9685(address = robot.direccion_driver)
+    #creamos el objeto giroscopio
+    giro = mpu6050(address = robot.direccion_giroscopio )
+
+    print("se han inicializado todos los equipos sin problema")
+
+
+
+
+    time.sleep(1)

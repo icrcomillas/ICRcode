@@ -19,7 +19,7 @@ def pos_giro():
 
     return x, y ,z
 
-if '__name__' == '__main__':
+if __name__ == '__main__':
     #declaramos el objeto giroscopio
     direccion_giroscopio = 0x81  #estos valores son orientativos, hay que cambiarlos
     #creamos el objeto giroscopio
@@ -28,4 +28,3 @@ if '__name__' == '__main__':
 
     continuar = True
     while continuar == True:
-        

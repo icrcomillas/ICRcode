@@ -1,8 +1,28 @@
-def mover_servo(n_servo,pos):
+from configuracion import robot
+import time 
+
+def calcular_pulso(ang):
+    #definimos la funcion lineal para calcular el pulso
+    pulso = 2.77*ang + 150
+    return pulso
+
+
+def mover_servo(n_servo,angulo):
     #posicion la reciviremos en un rango de 0 a 4096
-    RANGO_MAXIMO = 4096
-    if pos > RANGO_MAXIMO:
+
+    if angulo > robot.angulo_maximo or angulo < robot.angulo_minimo:
         print("no se puede mover ese rango, esta fuera del alcance")
-    elif pos< RANGO_MAXIMO:
-        driver.set_pwm(n_servo, 0, pos)
+    elif angulo< robot.angulo_maximo and angulo > robot.angulo_minimo:
+
+        pulso = calcular_pulso(angulo)
+        driver.set_pwm(n_servo, 0, pulso)
+        print("se ha movido el servo "+str(n_servo)+" a la posicion "+str(angulo))
     return
+
+if __name__ == '__main__':
+    print("se ha entrado en el modo debug")
+    while True:
+        servo = input("que servo quieres mover")
+        angulo = input("¿a que angulo lo quieres mover?")
+        mover_servo(servo,angulo)
+        time.sleep(0.1)
