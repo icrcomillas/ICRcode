@@ -19,7 +19,7 @@ def mover_servo(n_servo,angulo):
 
         pulso = calcular_pulso(angulo)
         pulso = float(pulso)
-        driver.set_pwm(n_servo, 0, pulso)
+        driver.set_pwm(n_servo, 0, 600)
         print("se ha movido el servo "+str(n_servo)+" a la posicion "+str(angulo))
     return
 
