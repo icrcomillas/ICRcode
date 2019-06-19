@@ -18,7 +18,7 @@ def mover_servo(n_servo,angulo):
     elif angulo <= robot.angulo_maximo and angulo >= robot.angulo_minimo:
 
         pulso = calcular_pulso(angulo)
-        pulso = float(pulso)
+        pulso = int(pulso,2)
         driver.set_pwm(n_servo, 0, 600)
         print("se ha movido el servo "+str(n_servo)+" a la posicion "+str(angulo))
     return
