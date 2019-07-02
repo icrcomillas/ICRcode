@@ -33,5 +33,5 @@ if __name__ == '__main__':
         servo = int(servo)#aqui se convierte el numero de entrada a un tipo entero, si no da error
         angulo = input("¿a que angulo lo quieres mover?")
         angulo = int(angulo) #aqui se convierte el numero de entrada a un tipo entero, si no da error
-        mover_servo(servo,angulo)
+        mover_servo_prueba(servo,angulo)
         time.sleep(0.1)
