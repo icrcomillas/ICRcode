@@ -11,16 +11,19 @@ def calcular_pulso(ang):
 
 
 def mover_servo(n_servo,angulo):
-    #posicion la reciviremos en un rango de 0 a 4096
+
 
     if angulo > robot.angulo_maximo or angulo < robot.angulo_minimo:
         print("no se puede mover ese rango, esta fuera del alcance")
     elif angulo <= robot.angulo_maximo and angulo >= robot.angulo_minimo:
-
         pulso = calcular_pulso(angulo)
         pulso = int(pulso)
         driver.set_pwm(n_servo, 0, pulso)
         print("se ha movido el servo "+str(n_servo)+" a la posicion "+str(angulo))
+    return
+def mover_servo_prueba(n_servo,pulso):
+    driver.set_pwm(n_servo, 0, pulso)
+    print("se ha movido el servo "+str(n_servo)+" a la posicion "+str(pulso))
     return
 
 if __name__ == '__main__':
@@ -30,5 +33,5 @@ if __name__ == '__main__':
         servo = int(servo)#aqui se convierte el numero de entrada a un tipo entero, si no da error
         angulo = input("¿a que angulo lo quieres mover?")
         angulo = int(angulo) #aqui se convierte el numero de entrada a un tipo entero, si no da error
-        mover_servo(servo,angulo)
+        mover_servo_prueba(servo,angulo)
         time.sleep(0.1)
