@@ -23,7 +23,7 @@ def mover_servo(n_servo,angulo):
     return
 def mover_servo_prueba(n_servo,pulso):
     driver.set_pwm(n_servo, 0, pulso)
-    print("se ha movido el servo "+str(n_servo)+" al pulso "+str(pulso))
+    print("se ha movido el servo "+str(n_servo)+" a la posicion "+str(pulso))
     return
 
 if __name__ == '__main__':
