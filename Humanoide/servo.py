@@ -6,7 +6,7 @@ driver = Adafruit_PCA9685.PCA9685(address = robot.direccion_driver1)
 
 def calcular_pulso(ang):
     #definimos la funcion lineal para calcular el pulso
-    pulso = 2.77*ang + 150
+    pulso = 10.38*ang + 230
     return pulso
 
 
@@ -23,7 +23,7 @@ def mover_servo(n_servo,angulo):
     return
 def mover_servo_prueba(n_servo,pulso):
     driver.set_pwm(n_servo, 0, pulso)
-    print("se ha movido el servo "+str(n_servo)+" a la posicion "+str(pulso))
+    print("se ha movido el servo "+str(n_servo)+" al pulso "+str(pulso))
     return
 
 if __name__ == '__main__':
@@ -33,5 +33,5 @@ if __name__ == '__main__':
         servo = int(servo)#aqui se convierte el numero de entrada a un tipo entero, si no da error
         angulo = input("¿a que angulo lo quieres mover?")
         angulo = int(angulo) #aqui se convierte el numero de entrada a un tipo entero, si no da error
-        mover_servo_prueba(servo,angulo)
+        mover_servo(servo,angulo)
         time.sleep(0.1)
