@@ -13,7 +13,7 @@ def acel_giro():
 
 def pos_giro():
 
-    inclinacion = get_giro_data()
+    inclinacion = giro.get_giro_data()
 
     x = inclinacion['x']
     y = inclinacion['y']
