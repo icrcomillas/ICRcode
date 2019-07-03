@@ -1,4 +1,6 @@
 from configuracion import robot
+import mpu6050
+
 def acel_giro():
     aceleracion = giro.get_accel_data() #leemos todas las aceleraciones del giroscopio
 
