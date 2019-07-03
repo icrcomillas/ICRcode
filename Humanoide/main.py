@@ -5,7 +5,7 @@
 #importamos la libreria del driver
 import Adafruit_PCA9685
 #importamos la libreria del giroscopio
-import mpu6050
+from mpu6050 import mpu6050
 
 import time
 #importamos las diferentes funciones de nuestro codigo
