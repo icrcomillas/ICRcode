@@ -1,4 +1,4 @@
-
+from configuracion import robot
 def acel_giro():
     aceleracion = giro.get_accel_data() #leemos todas las aceleraciones del giroscopio
 
@@ -21,10 +21,12 @@ def pos_giro():
 
 if __name__ == '__main__':
     #declaramos el objeto giroscopio
-    direccion_giroscopio = 0x81  #estos valores son orientativos, hay que cambiarlos
+
     #creamos el objeto giroscopio
-    giro = mpu6050(addres = direccion_giroscopio)
+    giro = mpu6050(addres = robot.direccion_giroscopio)
     print("se va a leer la informacion del giroscopio durante 5 segundos")
 
-    continuar = True
-    while continuar == True:
+
+    while True:
+        acel_x,acel_y.ç,acel_z = acel_giro()
+        print("las aceleraciones son:" +str(acel_x)+str(acel_y)+str(acel_z))

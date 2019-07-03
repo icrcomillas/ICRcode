@@ -8,6 +8,6 @@ class robot:
     numero_servos = 5
     direccion_driver1 = 0x40 #esta es la direccion default, si hiciera falta cambiarla, se hace en fisico
     direccion_driver2 = 0x50
-    direccion_giroscopio = 0x60 #este valor hay que cambiarlo
+    direccion_giroscopio = 0x68 #este valor hay que cambiarlo
     angulo_maximo = 180
     angulo_minimo = 0
