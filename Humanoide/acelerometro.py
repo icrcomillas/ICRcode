@@ -25,7 +25,7 @@ if __name__ == '__main__':
     #declaramos el objeto giroscopio
 
     #creamos el objeto giroscopio
-    giro = mpu6050(addres = robot.direccion_giroscopio)
+    giro = mpu6050(robot.direccion_giroscopio)
     print("se va a leer la informacion del giroscopio durante 5 segundos")
 
 
