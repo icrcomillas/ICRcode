@@ -31,4 +31,6 @@ if __name__ == '__main__':
 
     while True:
         acel_x,acel_y,acel_z = pos_giro()
-        print("las aceleraciones son: " +str(acel_x)+" "+str(acel_y)+" "+str(acel_z))
+        print(pos_giro())
+
+        #print("las aceleraciones son: " +str(acel_x)+" "+str(acel_y)+" "+str(acel_z))
