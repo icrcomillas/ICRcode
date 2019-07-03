@@ -18,7 +18,7 @@ if __name__ == '__main__':
     #creamos el objeto driver
     driver = Adafruit_PCA9685.PCA9685(address = robot.direccion_driver)
     #creamos el objeto giroscopio
-    giro = mpu6050(address = robot.direccion_giroscopio )
+    giro = mpu6050(robot.direccion_giroscopio )
 
     print("se han inicializado todos los equipos sin problema")
 
