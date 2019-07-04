@@ -20,6 +20,15 @@ if __name__ == '__main__':
     #creamos el objeto giroscopio
     giro = mpu6050(robot.direccion_giroscopio )
 
+    respuesta = input("¿quiere calibrar el giroscopio? (s/n)")
+    if respuesta == "s":
+        print("coloque el ")
+        time.sleep(1)
+        giro.zero_mean_calibration()
+    else:
+        print("no se va a calibrar el dispositivo")
+
+
     print("se han inicializado todos los equipos sin problema")
 
 
