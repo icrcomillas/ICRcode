@@ -1,19 +1,32 @@
-import conexion
-from DefinirEstados import  definirEstado
-from FuncionalidadEstados import ejecucionEstados
+from GestorLecturaIR import GestorLecturaIR
+from GestorEntorno import GestorEntorno
+import logica
+import time
 
 def setup():
-	pass	
-def loop():
-	while True:
-		#Leer entrada
-		s1,s2 = conexion.read()
+	GPIO.setmode(GPIO.BOARD)
+	pass
 
-		#Evalua en que estado se localiza
-		estado=definirEstado(s1,s2)
+def loop(gestorEntorno):
+	while True:
+		estado=gestorEntorno.getEstado()
 		#Implementa los estados
-		ejecucionEstados(estado)
+"""
+	*esperaInicio
+	*leerIR
+	*leerDistancia
+	*cambiarVelocidad
+	*cambiarCarril
+"""		
+		if estado == "leerIR" :
+			
+			time.sleep(5)
+			estado=cambiarVelocidad
+		#actualizo el estado
+		gestorEntorno.setEstado(estado)
+
 
 #Ejecutar las funciones
 setup()
-loop()
+gestorEntorno=GestorEntorno()
+loop(gestorEntorno)
