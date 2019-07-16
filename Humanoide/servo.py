@@ -2,6 +2,8 @@ from configuracion import robot
 import time
 import Adafruit_PCA9685
 
+
+#el objeto driver lo creo para
 driver = Adafruit_PCA9685.PCA9685(address = robot.direccion_driver1)
 
 def calcular_pulso(ang):
@@ -28,6 +30,8 @@ def mover_servo_prueba(n_servo,pulso):
 
 if __name__ == '__main__':
     print("se ha entrado en el modo debug")
+
+
     while True:
         servo = input("que servo quieres mover")
         servo = int(servo)#aqui se convierte el numero de entrada a un tipo entero, si no da error
