@@ -6,18 +6,23 @@ import import Adafruit_PCA9685
 from mpu6050 import mpu6050
 
 class robot:
-    def __init__(self,direccion_driver1, direccion_driver2,direccion_giroscopio):
+    def __init__(self):
+
+        #variables de la direccion de los driver y el giroscopio
+        self.direccion_driver1 = 0x40
+        self.direccion_driver2 = 0x50
+        self.direccion_giroscopio = 0x68
+
+        #variables propias del robot
+        self.numero_servos = 20
+        self.angulo_maximo = 180
+        self.angulo_minimo = 0
+        self.numero_servos_driver = 13 #este es el numero de servos por driver, empezando desde el 0
+
         #se inicializan los objetos de los drivers, y del giroscopio
         driver1 = PCA9685(addres = direccion_driver1)
         driver2 = PCA9685(addres = direccion_driver1)
         giroscopio = mpu6050(direccion_giroscopio)
-
-        self.rango_maximo = 600
-        self.rango_minimo = 150
-        self.numero_servos = 20
-        self.angulo_maximo = 180
-        self.angulo_minimo = 0
-        self.numero_servos_driver = 13 #este es el numero de servos por dirver, empezando desde el 0
 
         """
         self.direccion_driver1 = direccion_driver1  #esta es la direccion default (0x40), si hiciera falta cambiarla, se hace en fisico
