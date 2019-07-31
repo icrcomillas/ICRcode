@@ -20,9 +20,9 @@ class robot:
         self.numero_servos_driver = 13 #este es el numero de servos por driver, empezando desde el 0
 
         #se inicializan los objetos de los drivers, y del giroscopio
-        driver1 = PCA9685(addres = direccion_driver1)
-        driver2 = PCA9685(addres = direccion_driver1)
-        giroscopio = mpu6050(direccion_giroscopio)
+        self.driver1 = PCA9685(addres = self.direccion_driver1)
+        self.driver2 = PCA9685(addres = self.direccion_driver1)
+        self.giroscopio = mpu6050(self.direccion_giroscopio)
 
         """
         self.direccion_driver1 = direccion_driver1  #esta es la direccion default (0x40), si hiciera falta cambiarla, se hace en fisico
@@ -44,20 +44,20 @@ class robot:
                 pulso = int(pulso)
                 if servo < self.numero_servos_driver:
                     #en este caso el servo esta en el driver 1
-                    driver1.set_pwm(servo,0,pulso)
+                    self.driver1.set_pwm(servo,0,pulso)
                 elif servo > self.numero_servos_driver:
                     #el servo esta en el driver 2
                     servo = servo - self.numero_servos_driver
-                    driver2.set_pwm(pulso)
+                    self.driver2.set_pwm(pulso)
         return
 
     def calibrar_giroscopio():
-        giroscopio.zero_mean_calibration()
+        self.giroscopio.zero_mean_calibration()
         print("se ha calibrado el giroscopio")
         return
 
    def acel_giro():
-       aceleracion = giroscopio.get_accel_data() #leemos todas las aceleraciones del giroscopio
+       aceleracion = self.giroscopio.get_accel_data() #leemos todas las aceleraciones del giroscopio
 
        x = aceleracion['x']
        y = aceleracion['y']
@@ -67,7 +67,7 @@ class robot:
 
    def pos_giro():
 
-       inclinacion = giroscopio.get_gyro_data()
+       inclinacion = self.giroscopio.get_gyro_data()
 
        x = inclinacion['x']
        y = inclinacion['y']
