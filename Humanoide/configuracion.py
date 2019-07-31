@@ -20,8 +20,8 @@ class robot:
         self.numero_servos_driver = 13 #este es el numero de servos por driver, empezando desde el 0
 
         #se inicializan los objetos de los drivers, y del giroscopio
-        self.driver1 = Adafruit_PCA9685.PCA9685(addres = self.direccion_driver1)
-        self.driver2 = Adafruit_PCA9685.PCA9685(addres = self.direccion_driver1)
+        self.driver1 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
+        self.driver2 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
         self.giroscopio = mpu6050(self.direccion_giroscopio)
 
         """
