@@ -2,7 +2,7 @@
 en el se ponen todos los parametros que importan del robot, como por ejemplo rango_maximo.
 Se puede llamar desde cualquier parte del codigo"""
 
-import import Adafruit_PCA9685
+import  Adafruit_PCA9685
 from mpu6050 import mpu6050
 
 class robot:
