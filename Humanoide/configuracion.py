@@ -2,7 +2,7 @@
 en el se ponen todos los parametros que importan del robot, como por ejemplo rango_maximo.
 Se puede llamar desde cualquier parte del codigo"""
 
-import  Adafruit_PCA9685
+import Adafruit_PCA9685
 from mpu6050 import mpu6050
 
 class robot:
@@ -20,8 +20,8 @@ class robot:
         self.numero_servos_driver = 13 #este es el numero de servos por driver, empezando desde el 0
 
         #se inicializan los objetos de los drivers, y del giroscopio
-        self.driver1 = PCA9685(addres = self.direccion_driver1)
-        self.driver2 = PCA9685(addres = self.direccion_driver1)
+        self.driver1 = Adafruit_PCA9685.PCA9685(addres = self.direccion_driver1)
+        self.driver2 = Adafruit_PCA9685.PCA9685(addres = self.direccion_driver1)
         self.giroscopio = mpu6050(self.direccion_giroscopio)
 
         """
