@@ -56,21 +56,21 @@ class robot:
         print("se ha calibrado el giroscopio")
         return
 
-   def acel_giro():
-       aceleracion = self.giroscopio.get_accel_data() #leemos todas las aceleraciones del giroscopio
+    def acel_giro():
+        aceleracion = self.giroscopio.get_accel_data() #leemos todas las aceleraciones del giroscopio
 
-       x = aceleracion['x']
-       y = aceleracion['y']
-       z = aceleracion['z']
+        x = aceleracion['x']
+        y = aceleracion['y']
+        z = aceleracion['z']
 
-       return x, y,z       # los valores x , y , z son las aceleraciones en sus respectivos ejes
+        return x, y,z       # los valores x , y , z son las aceleraciones en sus respectivos ejes
 
-   def pos_giro():
+    def pos_giro():
 
-       inclinacion = self.giroscopio.get_gyro_data()
+        inclinacion = self.giroscopio.get_gyro_data()
 
-       x = inclinacion['x']
-       y = inclinacion['y']
-       z = inclinacion['z']
+        x = inclinacion['x']
+        y = inclinacion['y']
+        z = inclinacion['z']
 
-       return x, y ,z
+        return x, y ,z
