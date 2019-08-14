@@ -3,7 +3,8 @@ en el se ponen todos los parametros que importan del robot, como por ejemplo ran
 Se puede llamar desde cualquier parte del codigo"""
 
 import Adafruit_PCA9685
-from mpu6050 import mpu6050
+#from mpu6050 import mpu6050
+import mpu6050
 
 class robot:
     def __init__(self):
