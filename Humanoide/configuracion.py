@@ -11,7 +11,8 @@ class robot:
         #variables de la direccion de los driver y el giroscopio
         self.direccion_driver1 = 0x40
         self.direccion_driver2 = 0x30
-        self.direccion_giroscopio = 0x68
+        #self.direccion_giroscopio = 0x68
+        self.direccion_giroscopio = 0x30
 
         #variables propias del robot
         self.numero_servos = 20
@@ -20,9 +21,9 @@ class robot:
         self.numero_servos_driver = 13 #este es el numero de servos por driver, empezando desde el 0
 
         #se inicializan los objetos de los drivers, y del giroscopio
-        self.driver1 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
+        #self.driver1 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
         #self.driver2 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
-        #self.giroscopio = mpu6050(self.direccion_giroscopio)
+        self.giroscopio = mpu6050(self.direccion_giroscopio)
 
         """
         self.direccion_driver1 = direccion_driver1  #esta es la direccion default (0x40), si hiciera falta cambiarla, se hace en fisico
