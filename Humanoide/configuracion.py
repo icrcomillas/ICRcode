@@ -2,22 +2,29 @@
 en el se ponen todos los parametros que importan del robot, como por ejemplo rango_maximo.
 Se puede llamar desde cualquier parte del codigo"""
 
-import import Adafruit_PCA9685
-from mpu6050 import mpu6050
+import Adafruit_PCA9685
+#from mpu6050 import mpu6050
+import mpu6050
 
 class robot:
-    def __init__(self,direccion_driver1, direccion_driver2,direccion_giroscopio):
-        #se inicializan los objetos de los drivers, y del giroscopio
-        driver1 = PCA9685(addres = direccion_driver1)
-        driver2 = PCA9685(addres = direccion_driver1)
-        giroscopio = mpu6050(direccion_giroscopio)
+    def __init__(self):
 
-        self.rango_maximo = 600
-        self.rango_minimo = 150
+        #variables de la direccion de los driver y el giroscopio
+        self.direccion_driver1 = 0x40
+        self.direccion_driver2 = 0x30
+        #self.direccion_giroscopio = 0x68
+        self.direccion_giroscopio = 0x30
+
+        #variables propias del robot
         self.numero_servos = 20
         self.angulo_maximo = 180
         self.angulo_minimo = 0
-        self.numero_servos_driver = 13 #este es el numero de servos por dirver, empezando desde el 0
+        self.numero_servos_driver = 13 #este es el numero de servos por driver, empezando desde el 0
+
+        #se inicializan los objetos de los drivers, y del giroscopio
+        #self.driver1 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
+        #self.driver2 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
+        self.giroscopio = mpu6050(self.direccion_giroscopio)
 
         """
         self.direccion_driver1 = direccion_driver1  #esta es la direccion default (0x40), si hiciera falta cambiarla, se hace en fisico
@@ -39,33 +46,33 @@ class robot:
                 pulso = int(pulso)
                 if servo < self.numero_servos_driver:
                     #en este caso el servo esta en el driver 1
-                    driver1.set_pwm(servo,0,pulso)
+                    self.driver1.set_pwm(servo,0,pulso)
                 elif servo > self.numero_servos_driver:
                     #el servo esta en el driver 2
                     servo = servo - self.numero_servos_driver
-                    driver2.set_pwm(pulso)
+                    self.driver2.set_pwm(pulso)
         return
 
     def calibrar_giroscopio():
-        giroscopio.zero_mean_calibration()
+        self.giroscopio.zero_mean_calibration()
         print("se ha calibrado el giroscopio")
         return
 
-   def acel_giro():
-       aceleracion = giroscopio.get_accel_data() #leemos todas las aceleraciones del giroscopio
+    def acel_giro():
+        aceleracion = self.giroscopio.get_accel_data() #leemos todas las aceleraciones del giroscopio
 
-       x = aceleracion['x']
-       y = aceleracion['y']
-       z = aceleracion['z']
+        x = aceleracion['x']
+        y = aceleracion['y']
+        z = aceleracion['z']
 
-       return x, y,z       # los valores x , y , z son las aceleraciones en sus respectivos ejes
+        return x, y,z       # los valores x , y , z son las aceleraciones en sus respectivos ejes
 
-   def pos_giro():
+    def pos_giro():
 
-       inclinacion = giroscopio.get_gyro_data()
+        inclinacion = self.giroscopio.get_gyro_data()
 
-       x = inclinacion['x']
-       y = inclinacion['y']
-       z = inclinacion['z']
+        x = inclinacion['x']
+        y = inclinacion['y']
+        z = inclinacion['z']
 
-       return x, y ,z
+        return x, y ,z

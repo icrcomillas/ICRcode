@@ -2,8 +2,8 @@
 from tkinter import *
 from mpu6050 import mpu6050
 from configuracion import robot
-#creamos el objeto del driver y del giroscopio
-
+#creamos el objeto robot
+humanoide = robot(0x40,,0x68)
 #creamos la ventana
 
 ventana = Tk()
