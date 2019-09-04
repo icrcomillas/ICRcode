@@ -45,26 +45,26 @@ class GestorLecturaIR():
 		self.estado_anterior=[1,1,1,1,1,1,1,1]
 
 	def evaluar_sensor_IR(self):
-	"""
-		Cada vez que se ejcuta comprueba si ha habido un flanco de bajada y por lo tanto se puede tomar una medida
-	"""
+		"""
+			Cada vez que se ejcuta comprueba si ha habido un flanco de bajada y por lo tanto se puede tomar una medida
+		"""
 		for pin in pin_control_sensor:
 			#detectar si ha habido un flanco de bajada
-			if self.estado_anterior(pin)==1 && self.estado_anterior(pin)!=GPIO.input(pin):
-				tiempoTranscurrido=time() - timpo_inicio_medida #en segundos
+			if self.estado_anterior[pin]==1 and self.estado_anterior[pin] != GPIO.input[pin]:
+				tiempo_transcurrido=time() - timpo_inicio_medida #en segundos
 				#normalizar tiempo entre 0 y 100
 				tiempo_normalizado=(tiempo_transcurrido*100/TIEMPO_MAX)*100
-				self.sensor_out(pin)=tiempo_normalizado
+				self.sensor_out[pin]=tiempo_normalizado
 
 			#actualizar valores de estado_anterior
-			self.estado_anterior(pin)=GPIO.input(pin)
+			self.estado_anterior[pin]=GPIO.input[pin]
 
 
 	def leer_sensor_IR(self):
-	"""
-		Se ejecuta hasta que se termina de leer los 8 IR
+		"""
+			Se ejecuta hasta que se termina de leer los 8 IR
 
-	"""
+		"""
 		while -1 in self.sensor_out:
 			self.evaluar_sensor_IR()
 
