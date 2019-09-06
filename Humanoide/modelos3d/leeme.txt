@@ -1,0 +1,2 @@
+estos son los ficheros 3d del robot plenza.
+cada fichero stl, va seguido del numero de copias que hay que hacer de dicho fichero (2), implica dos copias de una pieza
