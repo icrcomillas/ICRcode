@@ -1,0 +1,11 @@
+Placa controladora x1
+Modelos 3d
+Servos x20 (depende del diseño)
+Modulo radio nrf24l01 x2
+Placa arduino x1
+Giroscopio mpu6050 x1
+Bateria
+Tornillos x?
+
+
+Se iran añadiendo elementos a a lo largo del desarrollo del proyecto
