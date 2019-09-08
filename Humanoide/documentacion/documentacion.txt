@@ -1,6 +1,6 @@
+﻿
 
-
-Software
+SOFTWARE
 
 Instalaciones
 
@@ -36,4 +36,12 @@ El driver que hemos cogido no trabaja con el puerto sda_0 ni scl_0, si no que la
 
 Función salida pwm
 
-El driver escogido da un pulso se entre 450, que es su mínimo, mientras que 2100 parece ser un límite seguro para que los servos no se sobrecarguen. Por lo tanto, hay que hacer una función que permita recibir un ángulo deseado, y después pasarlo a un pulso pwm. El rango del pulso hay que comprobarlo experimentalmente. 
+El driver escogido da un pulso se entre 450, que es su mínimo, mientras que 2100 parece ser un límite seguro para que los servos no se sobrecarguen. Por lo tanto, hay que hacer una función que permita recibir un ángulo deseado, y después pasarlo a un pulso pwm. El rango del pulso hay que comprobarlo experimentalmente.
+
+COMUNICACIÓN	
+Para comunicarse con robot, se va a utilizar wifi.
+Para ello la polaca se va a poner como punto de acceso wifi, de forma que el ordenador que la controle tendrá que conectarse a dicho wifi
+Usuario: humanoide
+Contraseña: humanoide2018
+El método de comunicación inicial será a través de socket, librería que viene implementada en Python. En posteriores fases del proyecto se creará un servidor web en el que posiblemente se colocará una página web realizada en html o en css.
+
