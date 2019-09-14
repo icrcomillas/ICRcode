@@ -5,6 +5,8 @@ Se puede llamar desde cualquier parte del codigo"""
 import Adafruit_PCA9685
 #from mpu6050 import mpu6050
 import mpu6050
+#modulo para la comunicacion
+import socket
 
 class robot:
     def __init__(self):
@@ -26,11 +28,46 @@ class robot:
         #self.driver2 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
         self.giroscopio = mpu6050(self.direccion_giroscopio)
 
+
+
         """
         self.direccion_driver1 = direccion_driver1  #esta es la direccion default (0x40), si hiciera falta cambiarla, se hace en fisico
         self.direccion_driver2 = direccion_driver2
         self.direccion_giroscopio = direccion_giroscopio
         """
+    def conexion(self):
+        try:
+            #crea el objeto servidor, de tipo socket
+            self.servidor = socket.socket()
+            #hace que el socket sea visible desde fuera de la maquina
+            self.servidor.bind(self.servidor.getsockname())
+            #define el socket como un servidor
+            self.servidor.listen(5)
+            respuesta = true
+        except:
+            respuesta = false
+
+        return respuesta
+
+    def aceptar(self):
+            #acepta conexiones nuevas de usuarios
+            (cliente,addres) = self.server.acept()
+
+        return cliente,addres
+
+    def recivir_mensaje(cliente):
+        mensaje = cliente.receive()
+
+
+        return mensaje
+
+
+    def enviar_informacion(self,mensaje):
+        self.servidor()
+
+        print("se ha enviado el siguiente mensaje: "+ mensaje)
+        return
+
     def calcular_pulso(ang):
         #definimos la funcion lineal para calcular el pulso
         pulso = 9.166*ang + 450

@@ -1,6 +1,6 @@
-﻿
 
-SOFTWARE
+
+Software
 
 Instalaciones
 
@@ -16,7 +16,7 @@ Hay que instalar la librería de github puesto que es mas facil clonar el reposi
 
 Direcciones
 
-Como vamos a usar dos aparatos diferentes conectados al puerto I2c de nuestra placa, vamos a necesitar saber que dirección se asigna a cada “cacharro”, en principio es bastante facil, simplemente ers un comando de terminal (pero hay que hacerlo)
+Como vamos a usar dos aparatos diferentes conectados al puerto I2c de nuestra placa, vamos a necesitar saber que dirección se asigna a cada uno
 
 Antes de comprobar en que dirección se encuentra el driver hay que activar el protocolo i2c en la placa ya que por defecto viene desactivada.
 
@@ -38,10 +38,7 @@ Función salida pwm
 
 El driver escogido da un pulso se entre 450, que es su mínimo, mientras que 2100 parece ser un límite seguro para que los servos no se sobrecarguen. Por lo tanto, hay que hacer una función que permita recibir un ángulo deseado, y después pasarlo a un pulso pwm. El rango del pulso hay que comprobarlo experimentalmente.
 
-COMUNICACIÓN	
-Para comunicarse con robot, se va a utilizar wifi.
-Para ello la polaca se va a poner como punto de acceso wifi, de forma que el ordenador que la controle tendrá que conectarse a dicho wifi
-Usuario: humanoide
-Contraseña: humanoide2018
-El método de comunicación inicial será a través de socket, librería que viene implementada en Python. En posteriores fases del proyecto se creará un servidor web en el que posiblemente se colocará una página web realizada en html o en css.
 
+Comunicación
+
+la comunicacion con el robot se va a realizar por medio de sockets, la documentacion a dicha liberia se puede encontrar en el siguiente enlace: https://docs.python.org/3/library/socket.html
