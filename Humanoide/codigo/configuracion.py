@@ -57,13 +57,15 @@ class robot:
 
     def recivir_mensaje(cliente):
         mensaje = cliente.receive()
-
+        #hay que decodificar el mensaje recivido
+        mensaje = mensaje.decode()
 
         return mensaje
 
 
     def enviar_informacion(self,mensaje):
-        self.servidor()
+
+        self.servidor.send(mensaje.encode())
 
         print("se ha enviado el siguiente mensaje: "+ mensaje)
         return
