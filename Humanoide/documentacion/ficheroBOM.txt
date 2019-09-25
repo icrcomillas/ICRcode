@@ -7,5 +7,5 @@ Bateria x2 9V con capacidad suficiente para alimentar los servos y la placa
 
 EN PROCESO Regulador de 9V a 5V qeu soporte más de 2A -> definir junto con la bateria
 ?? Tornillos x?
-
+Driver servos x2 Adafruit_PCA9685
 Se iran añadiendo elementos a a lo largo del desarrollo del proyecto
