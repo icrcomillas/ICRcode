@@ -13,9 +13,8 @@ class robot:
 
         #variables de la direccion de los driver y el giroscopio
         self.direccion_driver1 = 0x40
-        self.direccion_driver2 = 0x30
-        #self.direccion_giroscopio = 0x68
-        self.direccion_giroscopio = 0x30
+        self.direccion_driver2 = 0x70
+        self.direccion_giroscopio = 0x68
 
         #variables propias del robot
         self.numero_servos = 20
