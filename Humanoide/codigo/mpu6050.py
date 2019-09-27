@@ -5,6 +5,9 @@ import time
 class mpu6050:
     def __init__(self, address, bus=1):
         self.bus = smbus.SMBus(bus)
+        "esta parte del codigo son cambios nuestros"
+        self.address = address
+        "hasta aqui"
     # Wake up the MPU-6050 since it starts in sleep mode
         self.bus.write_byte_data(self.address, self.PWR_MGMT_1, 0x00)
         # Software Calibration to zero-mean.
