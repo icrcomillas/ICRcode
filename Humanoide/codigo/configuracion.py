@@ -49,8 +49,9 @@ class robot:
             return respuesta
 
     def aceptar(self):
+
             #acepta conexiones nuevas de usuarios
-            (cliente,addres) = self.server.acept()
+        (cliente,addres) = self.server.acept()
 
         return cliente,addres
 
