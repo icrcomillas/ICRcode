@@ -24,7 +24,7 @@ class robot:
         #se inicializan los objetos de los drivers, y del giroscopio
         #self.driver1 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
         #self.driver2 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
-        self.giroscopio = mpu6050(address= self.direccion_giroscopio)
+        self.giroscopio = mpu6050(self.direccion_giroscopio)
 
 
 
