@@ -45,8 +45,8 @@ class robot:
             respuesta = true
         except:
             respuesta = false
-
-        return respuesta
+        finally:
+            return respuesta
 
     def aceptar(self):
             #acepta conexiones nuevas de usuarios
