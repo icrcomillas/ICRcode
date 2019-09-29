@@ -1,5 +1,4 @@
-"""este fichero se va a utilizar como fichero de configuracion para todo el robot
-en el se ponen todos los parametros que importan del robot, como por ejemplo rango_maximo.
+"""este fichero se va a utilizar como fichero de configuracion para todo el robot.
 Se puede llamar desde cualquier parte del codigo"""
 
 import Adafruit_PCA9685
@@ -24,7 +23,7 @@ class robot:
         #se inicializan los objetos de los drivers, y del giroscopio
         self.driver1 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
         self.driver2 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
-        self.giroscopio = mpu6050(int(self.direccion_giroscopio))
+        self.giroscopio = mpu6050(self.direccion_giroscopio)
 
 
 
