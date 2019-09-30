@@ -90,7 +90,7 @@ class robot:
                     self.driver2.set_pwm(pulso)
         return
 
-    def calibrar_giroscopio():
+    def calibrar_giroscopio(self):
         self.giroscopio.zero_mean_calibration()
         print("se ha calibrado el giroscopio")
         return
