@@ -68,7 +68,7 @@ class robot:
         print("se ha enviado el siguiente mensaje: "+ mensaje)
         return
 
-    def calcular_pulso(ang):
+    def calcular_pulso(self,ang):
         #definimos la funcion lineal para calcular el pulso
         pulso = 9.166*ang + 450
         return pulso
