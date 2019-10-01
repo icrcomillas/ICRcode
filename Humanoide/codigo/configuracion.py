@@ -79,7 +79,7 @@ class robot:
             if angulo > self.angulo_maximo or angulo < self.angulo_minimo:
                 print("no se puede mover a ese angulo")
             else:
-                pulso = calcular_pulso(angulo)
+                pulso = self.calcular_pulso(angulo)
                 pulso = int(pulso)
                 if servo < self.numero_servos_driver:
                     #en este caso el servo esta en el driver 1
