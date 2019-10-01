@@ -12,7 +12,7 @@ if __name__ == '__main__':
     #creamos el objeto robot
 
     robot = robot()
-    respeusta = input("¿estamos en la feria de asociaciones? (s/n)")
+    respuesta = input("¿estamos en la feria de asociaciones? (s/n)")
     if respuesta == "s":
          #solo se va a utilizar el driver 1
         print("se ha entrado en el modo automatico del robot")
