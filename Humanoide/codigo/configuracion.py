@@ -18,7 +18,9 @@ class robot:
         self.numero_servos = 20
         self.angulo_maximo = 180
         self.angulo_minimo = 0
-        self.numero_servos_driver = 13 #este es el numero de servos por driver, empezando desde el 0
+        self.numero_servos_driver = 16 #este es el numero de servos por driver, empezando desde el 0
+        self.lista_servos_d1 = [] #aqui se ponen los pines de los servos que se encuentren en el lado derecho del driver 1
+        self.lista_servos_d2 = [] #aqui se ponen los pines de los servos que se encuentren en el lado derecho del driver 2
 
         #se inicializan los objetos de los drivers, y del giroscopio
         self.driver1 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
@@ -79,15 +81,24 @@ class robot:
             if angulo > self.angulo_maximo or angulo < self.angulo_minimo:
                 print("no se puede mover a ese angulo")
             else:
-                pulso = self.calcular_pulso(angulo)
-                pulso = int(pulso)
+
                 if servo < self.numero_servos_driver:
                     #en este caso el servo esta en el driver 1
-                    self.driver1.set_pwm(servo,0,pulso)
+                    if servo in self.lista_servos_d1:
+                        pulso = self.calcular_pulso(angulo)
+                        pulso = int(pulso)
+                        self.driver1.set_pwm(servo,0,pulso)
+                    else:
+                        pulso = self.calcular_pulso(self.angulo_maximo - angulo )
+                        pulso = int(pulso)
+                        self.driver1.set_pwm(servo,0,pulso)
                 elif servo > self.numero_servos_driver:
                     #el servo esta en el driver 2
                     servo = servo - self.numero_servos_driver
-                    self.driver2.set_pwm(pulso)
+                    if servo in self.lista_servos_d2:
+                        pulso = self.calcular_pulso(angulo)
+                        pulso = int(pulso)
+                        self.driver1.set_pwm(servo,0,pulso)
         return
 
     def calibrar_giroscopio(self):
