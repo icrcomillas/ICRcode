@@ -5,6 +5,8 @@ import Adafruit_PCA9685
 from mpu6050 import mpu6050
 #modulo para la comunicacion
 import socket
+#se utiliza la libreria json para obtener la informacion de cada servo de forma fiable e individualizada
+import json
 
 class robot:
     def __init__(self):
@@ -16,24 +18,18 @@ class robot:
 
         #variables propias del robot
         self.numero_servos = 20
-        self.angulo_maximo = 180
-        self.angulo_minimo = 0
         self.numero_servos_driver = 16 #este es el numero de servos por driver, empezando desde el 0
-        self.lista_servos_d1 = [] #aqui se ponen los pines de los servos que se encuentren en el lado derecho del driver 1
-        self.lista_servos_d2 = [] #aqui se ponen los pines de los servos que se encuentren en el lado derecho del driver 2
 
         #se inicializan los objetos de los drivers, y del giroscopio
         self.driver1 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
         self.driver2 = Adafruit_PCA9685.PCA9685(address = self.direccion_driver1)
         self.giroscopio = mpu6050(self.direccion_giroscopio)
 
+        #se abre el fichero json y se carga en una variable
+        with open("configuracion.json") as fichero:
+            self.datos_servos = json.load(fichero)
 
 
-        """
-        self.direccion_driver1 = direccion_driver1  #esta es la direccion default (0x40), si hiciera falta cambiarla, se hace en fisico
-        self.direccion_driver2 = direccion_driver2
-        self.direccion_giroscopio = direccion_giroscopio
-        """
     def conexion(self):
         try:
             #crea el objeto servidor, de tipo socket
@@ -70,36 +66,36 @@ class robot:
         print("se ha enviado el siguiente mensaje: "+ mensaje)
         return
 
+    def mover_servo(self,servo, angulo):#ESTA FUNCION SE ENCUENTRA EN PRUEBAS
+        if servo > self.numero_servos:
+            print("elija un servo que este conectado")
+        else:
+            if angulo > self.datos_servo[str(servo)]['ang_max'] or angulo < self.datos_servo[str(servo)]['ang_min']:
+                print("no se puede mover a ese angulo")
+            else:
+
+                if self.datos_servo[str(servo)]['driver'] == 1:
+                    #en este caso el servo esta en el driver 1
+
+                    pulso = self.calcular_pulso(angulo)
+                    pulso = int(pulso)
+                    pin = self.datos_servo[str(servo)]['pin']
+                    self.driver1.set_pwm(pin,0,pulso)
+
+                if self.datos_servo[str(servo)]['driver'] == 2:
+                    #en este caso el servo esta en el driver 2
+
+                    pulso = self.calcular_pulso(angulo)
+                    pulso = int(pulso)
+                    pin = self.datos_servo[str(servo)]['pin']
+                    self.driver2.set_pwm(pin,0,pulso)
+        return
+
     def calcular_pulso(self,ang):
         #definimos la funcion lineal para calcular el pulso
         pulso = 9.166*ang + 450
         return pulso
-    def mover_servo(self,servo, angulo):
-        if servo > self.numero_servos:
-            print("elija un servo que este conectado")
-        else:
-            if angulo > self.angulo_maximo or angulo < self.angulo_minimo:
-                print("no se puede mover a ese angulo")
-            else:
 
-                if servo < self.numero_servos_driver:
-                    #en este caso el servo esta en el driver 1
-                    if servo in self.lista_servos_d1:
-                        pulso = self.calcular_pulso(angulo)
-                        pulso = int(pulso)
-                        self.driver1.set_pwm(servo,0,pulso)
-                    else:
-                        pulso = self.calcular_pulso(self.angulo_maximo - angulo )
-                        pulso = int(pulso)
-                        self.driver1.set_pwm(servo,0,pulso)
-                elif servo > self.numero_servos_driver:
-                    #el servo esta en el driver 2
-                    servo = servo - self.numero_servos_driver
-                    if servo in self.lista_servos_d2:
-                        pulso = self.calcular_pulso(angulo)
-                        pulso = int(pulso)
-                        self.driver1.set_pwm(servo,0,pulso)
-        return
 
     def calibrar_giroscopio(self):
         self.giroscopio.zero_mean_calibration()

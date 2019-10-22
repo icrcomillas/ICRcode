@@ -1,0 +1,11 @@
+{
+  "1":{
+
+      "driver": 1,
+      "ang_max": 180,
+      "ang_min": 0 ,
+      "lugar": "pie derecho" ,
+      "pin": 1
+  }
+
+}
