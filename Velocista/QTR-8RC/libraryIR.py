@@ -48,6 +48,7 @@ class MrBit_QTR_8RC:
  
         self.wp = wp
         self.wp.wiringPiSetup()
+        #hola
  
         self.LEDON_PIN = 29
         self.SENSOR_PINS = [7,11,13,15,12,16,18,22]
