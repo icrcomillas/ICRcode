@@ -1,11 +1,13 @@
 ﻿ADQUIRIDA Raspberry pi zero wx1
 ??Modelos 3d
-?? Servos x20 (depende del diseño) -> necesitamos un modelo especifico, de todas formas comprar los servos se les sale de presupuesto al departamento de elcetronica.
-seguramente se utilicen los servos sg90 de la marca futaba
-EN PROCESO Giroscopio mpu6050 x1
+
+
+Giroscopio mpu6050 x1
 Bateria x2 9V con capacidad suficiente para alimentar los servos y la placa
 
-EN PROCESO Regulador de 9V a 5V que soporte más de 2A -> definir junto con la bateria
-?? Tornillos x?
+PENDIENTE Regulador 7,4V a 5V Regulador Step-Down 5V/3.2A (D36V28F5) enlace para la compra https://tienda.bricogeek.com/convertidores-de-voltaje/1335-regulador-step-down-5v32a-d36v28f5.html
 Driver servos x2 Adafruit_PCA9685
+PENDIENTE Servos x30 futaba s3003
+PENDIENTE bateria
+PENDIENTE cargador bateria
 Se iran añadiendo elementos a a lo largo del desarrollo del proyecto
