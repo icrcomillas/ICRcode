@@ -6,7 +6,7 @@
       "ang_min": 0 ,
       "lugar": "pie derecho" ,
       "pin": 2
-  }
+  },
   "1":{
 
       "driver": 1,
@@ -14,7 +14,7 @@
       "ang_min": 0 ,
       "lugar": "pie derecho" ,
       "pin": 2
-  }
+  },
   "2":{
 
       "driver": 1,
@@ -22,7 +22,7 @@
       "ang_min": 0 ,
       "lugar": "pie derecho" ,
       "pin": 2
-  }
+  },
   "3":{
 
       "driver": 1,
@@ -30,7 +30,7 @@
       "ang_min": 0 ,
       "lugar": "pie derecho" ,
       "pin": 2
-  }
+  },
   "4":{
 
       "driver": 1,
@@ -38,7 +38,7 @@
       "ang_min": 0 ,
       "lugar": "pie derecho" ,
       "pin": 2
-  }
+  },
   "5":{
 
       "driver": 1,
@@ -46,7 +46,7 @@
       "ang_min": 0 ,
       "lugar": "pie derecho" ,
       "pin": 2
-  }
+  },
   "6":{
 
       "driver": 1,
@@ -54,7 +54,7 @@
       "ang_min": 0 ,
       "lugar": "pie derecho" ,
       "pin": 2
-  }
+  },
   "7":{
 
       "driver": 1,
@@ -62,7 +62,7 @@
       "ang_min": 0 ,
       "lugar": "pie derecho" ,
       "pin": 2
-  }
+  },
   "8":{
 
       "driver": 1,
@@ -70,7 +70,7 @@
       "ang_min": 0 ,
       "lugar": "pie derecho" ,
       "pin": 2
-  }
+  },
   "9":{
 
       "driver": 1,
@@ -78,7 +78,7 @@
       "ang_min": 0 ,
       "lugar": "pie derecho" ,
       "pin": 2
-  }
+  },
   "10":{
 
       "driver": 1,
@@ -87,6 +87,4 @@
       "lugar": "pie derecho" ,
       "pin": 2
   }
-
-
 }
