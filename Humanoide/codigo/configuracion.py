@@ -27,7 +27,7 @@ class robot:
 
         #se abre el fichero json y se carga en una variable
         with open("configuracion.json") as fichero:
-            self.datos_servos = json.load(fichero)
+            self.datos_servo = json.load(fichero)
 
 
     def conexion(self):
