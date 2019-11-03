@@ -48,6 +48,8 @@ pin5 = arr.array('i', [])
 pin6 = arr.array('i', [])
 pin7 = arr.array('i', [])
 pin8 = arr.array('i', [])
+tiemposPin = arr.array('f', [])
+sensor_out=[-1, -1, -1, -1, -1, -1, -1, -1]
 
 "guarda el tiempo en el que se ha activado el sensor"
 tiempo_inicio_medida=time.time()
@@ -56,10 +58,9 @@ tiempo_inicio_medida=time.time()
 for pin in pin_control_sensor:
     GPIO.setup(pin,GPIO.IN)
 
-"Número de lecturas"
-n2=30
-"estudio de la descarga"
-for j in range(n2):
+"Estudio de la descarga"
+
+while sensor_out!=[0, 0, 0, 0, 0, 0, 0, 0]:
     (tiempo_transcurrido, sensor_out)=GestorLecturaIR().leer_sensor_IR()
     tiempos.append(tiempo_transcurrido*1000)
     pin1.append(sensor_out[0])
@@ -70,18 +71,19 @@ for j in range(n2):
     pin6.append(sensor_out[5])
     pin7.append(sensor_out[6])
     pin8.append(sensor_out[7])
+
 valores = [pin1, pin2, pin3, pin4, pin5, pin6, pin7, pin8]
 
-print("Pin1: \n")
-for i in range(n2):
+"""print("Pin1: \n")
+for i in range(len(tiempos)):
 	print("t=", tiempos[i], ": out: ", valores[0][i],"\n")
 
 print("\nPin2: \n")
-for i in range(n2):
+for i in range(len(tiempos)):
 	print("t=", tiempos[i], ": out: ", valores[1][i],"\n")
 
 print("\nPin3: \n")
-for i in range(n2):
+for i in range(len(tiempos)):
 	print("t=", tiempos[i], ": out: ", valores[2][i],"\n")
 
 print("\nPin4: \n")
@@ -89,20 +91,33 @@ for i in range(n2):
 	print("t=", tiempos[i], ": out: ", valores[3][i],"\n")
 
 print("\nPin5: \n")
-for i in range(n2):
+for i in range(len(tiempos)):
 	print("t=", tiempos[i], ": out: ", valores[4][i],"\n")
 
 print("\nPin6: \n")
-for i in range(n2):
+for i in range(len(tiempos)):
 	print("t=", tiempos[i], ": out: ", valores[5][i],"\n")
 
 print("\nPin7: \n")
-for i in range(n2):
+for i in range(len(tiempos)):
 	print("t=", tiempos[i], ": out: ", valores[6][i],"\n")
 
 print("\nPin8: \n")
-for i in range(n2):
+for i in range(len(tiempos)):
 	print("t=", tiempos[i], ": out: ", valores[7][i],"\n")
+"""
+
+for i in range(8):
+	for j in range(len(tiempos)):
+		if valores[i][j]==0 and j!=0:
+			tiemposPin.append((tiempos[j]+tiempos[j-1])/2)
+			break
+
+for i in range(8):
+	print(tiemposPin[i])
+
+
+
 
 """
 
