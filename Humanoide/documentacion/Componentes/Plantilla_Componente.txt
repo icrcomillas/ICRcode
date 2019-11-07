@@ -1,0 +1,54 @@
+
+
+***INFORME DE ELECCIÓN DEL COMPONENTE***
+
+	+versión 1.0 :fecha de presentación
+	+versión 1.1 :fecha de presentación
+	+Autor/autores(poner el correo, nombre y/o usuario de GitHub)
+
++Especificar sobre que componente trata el informe. 
++Hacer una breve introducción para identificar en que consiste el sensor.
+
+
+	**REQUISITOS DEL COMPONETE:
+		+Inicialmente se debe analizar el problema a resolver. 
+		+¿Que limitaciones existen(velocidad mínima, distancia a la que se debe detectar un obstáculo,...)?
+		+¿Que se espera que sea capaz de realizar el componente(capacidad de detección de una sensor, par que puede dar el motor,...)?
+
+
+	*OPCIÓN 1:
+		-Empresa:
+			+Especificar que empresa es la que lo distribuye. Es importante especificar esto, ya que si se quiere comprar a través del Departamento de Electrónica hay que tenerlo en cuenta. Vosotros no os tenéis que preocupar de que empresa es, simplemente indicarlo!!
+			+Si hay varias empresas que lo distribuyen especificarlo también.
+		-Link o Referencia:
+			+Link o Referencia necesaria para comprar el sensor.
+		-Precio:
+			+¡¡Ojo, de una unidad!!
+		-Número de componentes necesarios: 
+			+Hacer un pequeño análisis de cuantos componentes se sugiere utilizar para cumplir los requisitos del componente.
+
+
+	*OPCIÓN 2:
+		-Empresa:
+			
+		-Link o Referencia:
+			
+		-Precio:
+			
+		-Número de componentes necesarios: 
+
++El número de opciones no está limitado, aunque no es necesario poner más de 4-3 ya que con poner los que se creen que son las mejores opciones.
+
++Atención!! Si se encuentra un componente que a su vez necesita otro (como un sensor que necesita un conversor AC/DC) es muy importante que lo especifiquéis dentro de la misma opción.
+
+
+
+	**ANALISIS FINAL:
+		+Comparar las opciones.
+		+Especificar puntos fuertes de cada una.
+		+Aunque os centréis en las especificaciones técnicos, considerar también aspectos como el precio o la durabilidad.
+		+Concluir con la opción que sugerís y por qué.
+
+
++Importante!! Si hay un campo que creéis que no va a aportar para el caso de vuestro componente o simplemente no tenéis tiempo para hacerlo, no lo rellenéis por rellenar. No hay prisa por tener un documento completo desde el día 1 pero si a medio-largo plazo es importante que se complete.
++Necesitamos generar documentación útil que sirva como referencia para futuros desarrollos dentro de la asociación. Además, nos sirve como reflejo del trabajo que estamos realizando y a la hora de buscar patrocinadores esto es imprescindible.
