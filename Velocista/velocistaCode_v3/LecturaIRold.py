@@ -95,3 +95,4 @@ sensor.descarga()
 salida = sensor.tiemposPin
 
 #PRUEBA RASPBERRY GITHUB
+#prueba 2
