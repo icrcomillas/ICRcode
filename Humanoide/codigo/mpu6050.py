@@ -3,13 +3,6 @@ import time
 
 #esta libreria esta copiada del siguiente enlace de github,https://github.com/Tijndagamer/mpu6050/pull/19/files
 
-"""This program handles the communication over I2C
-between a Raspberry Pi and a MPU-6050 Gyroscope / Accelerometer combo.
-Made by: MrTijn/Tijndagamer
-Released under the MIT License
-Copyright (c) 2015, 2016, 2017 MrTijn/Tijndagamer
-"""
-
 class mpu6050:
 
     # Global Variables
