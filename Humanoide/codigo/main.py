@@ -38,6 +38,7 @@ if __name__ == '__main__':
             robot.mover_servo(2,90)
             robot.mover_servo(3,90)
             time.sleep(1)
+       
 
     else:
         respuesta = input("¿quiere calibrar el giroscopio? (s/n)")
