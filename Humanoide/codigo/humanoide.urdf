@@ -1,0 +1,101 @@
+<robot name="humanoide">
+  <link name="bod" />
+  <link name="hombro.der" />
+  <link name="brazo.der" />
+  <link name="mano.der" />
+  <link name="hombro.izq" />
+  <link name="brazo.izq" />
+  <link name="mano.izq" />
+  <link name="pierna.d1" />
+  <link name="pierna.d2" />
+  <link name="pierna.d3" />
+  <link name="pierna.d4" />
+  <link name="pie.der" />
+  <link name="pierna.i1" />
+  <link name="pierna.i2" />
+  <link name="pierna.i3" />
+  <link name="pierna.i4" />
+  <link name="pie.izq" />
+
+  <joint name="arm_roll.d" type="continuous">
+    <parent link="bod"/>
+    <child link="hombro.der"/>
+  </joint>
+
+  <joint name="arm_pitch.d" type="continuous">
+    <parent link="hombro.der"/>
+    <child link="brazo.der"/>
+  </joint>
+
+  <joint name="wrist.d" type="continuous">
+    <parent link="brazo.der"/>
+    <child link="mano.der"/>
+  </joint>
+  
+  <joint name="arm_roll.i" type="continuous">
+    <parent link="bod"/>
+    <child link="hombro.izq"/>
+  </joint>
+
+  <joint name="arm_pitch.i" type="continuous">
+    <parent link="hombro.izq"/>
+    <child link="brazo.izq"/>
+  </joint>
+
+  <joint name="wrist.i" type="continuous">
+    <parent link="brazo.izq"/>
+    <child link="mano.izq"/>
+  </joint>
+  
+  
+  <joint name="hip_roll.d" type="continuous">
+    <parent link="bod"/>
+    <child link="pierna.d1"/>
+  </joint>
+
+  <joint name="leg_side.d" type="continuous">
+    <parent link="pierna.d1"/>
+    <child link="pierna.d2"/>
+  </joint>
+
+  <joint name="leg_forwards.d" type="continuous">
+    <parent link="pierna.d2"/>
+    <child link="pierna.d3"/>
+  </joint>
+  
+  <joint name="ankle_forwards.d" type="continuous">
+    <parent link="pierna.d3"/>
+    <child link="pierna.d4"/>
+  </joint>
+  
+  <joint name="ankle_side.d" type="continuous">
+    <parent link="pierna.d4"/>
+    <child link="pie.der"/>
+  </joint>
+  
+  <joint name="hip_roll.i" type="continuous">
+    <parent link="bod"/>
+    <child link="pierna.i1"/>
+  </joint>
+
+  <joint name="leg_side.i" type="continuous">
+    <parent link="pierna.i1"/>
+    <child link="pierna.i2"/>
+  </joint>
+
+  <joint name="leg_forwards.i" type="continuous">
+    <parent link="pierna.i2"/>
+    <child link="pierna.i3"/>
+  </joint>
+  
+  <joint name="ankle_forwards.i" type="continuous">
+    <parent link="pierna.i3"/>
+    <child link="pierna.i4"/>
+  </joint>
+  
+  <joint name="ankle_side.i" type="continuous">
+    <parent link="pierna.i4"/>
+    <child link="pie.izq"/>
+  </joint>
+  
+</robot>
