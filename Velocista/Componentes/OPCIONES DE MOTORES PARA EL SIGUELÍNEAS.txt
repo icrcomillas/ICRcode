@@ -1,0 +1,13 @@
+OPCIONES DE MOTORES PARA EL SIGUELÍNEAS
+
+Motor reductor 300 RPM: http://www.superrobotica.com/S330010.htm
+
+Motores Pololu hasta 6000 RPM: https://www.pololu.com/category/60/micro-metal-gearmotors
+
+Motor Hilitand hasta 12000 RPM: https://www.amazon.es/el%C3%A9ctrico-micromotor-velocidad-775-herramienta/dp/B07GWZTZGV?SubscriptionId=AKIAICMDRH5R3RJXTBMA&tag=inventos-21&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B07GWZTZGV&keywords=motor%20peque%C3%B1o#detail_bullets_id
+
+
+Motor Delaman 100W hasta 12000 RPM: https://www.amazon.es/Motor-Micro-DC-El%C3%A9ctrico-Velocidad/dp/B07LCNLB1B?SubscriptionId=AKIAJDHVGJC456KAAGLQ&tag=penalba-21&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B07LCNLB1B
+
+
+Estos son los mejores motores que he encontrado en internet. Faltaría ver cuál es el peso del siguelíneas para ver si el motor tiene suficiente potencia, aunque no creo que haya problema. No recomendaría el primero de todos, ya que sin duda es el peor en relación RPM/precio, aunque lo he añadido por si necesitábamos motores más relajados.
