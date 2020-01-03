@@ -1,12 +1,6 @@
 
 import pybullet as p
 import numpy as np
-import keras.backend.tensorflow_backend as backend
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Activation, Flatten
-from keras.optimizers import Adam
-from keras.callbacks import TensorBoard
-import tensorflow as tf
 from collections import deque
 import time
 import random
@@ -19,39 +13,44 @@ from utils import plotLearning
 NUMERO_EPISODIOS = 20_000
 RECOMPENSA_ITERACION = 1 #recompensa que se da por cumplir cada iteración
 MARGEN_CAIDA = 10 #altura a la que se considera que ha caido el robot
-ID_ROOT = 10#id del link utilizado para coger la velocidad total del objeto
-POSICION_INICIAL = [0,0,8]
-ORIENTACION_INICIAL=[45,0,0,45]
-PENALIZACION = 1
+ID_ROOT = 1 #id del link utilizado para coger la velocidad total del objeto
+POSICION_INICIAL = [0,0,2]
+ORIENTACION_INICIAL=[0,0,0,45]
+PENALIZACION = 100
 
 FUERZA_MAXIMA =500              #FUERZA MÁXIMA QUE SE APLICA EN CADA UNION
 INCREMENTO_UNION = 0.5          #CUANTO SE SUMO RESTA CADA UNION EN CADA ITERACION
-NUMERO_SERVOS = 15
+NUMERO_SERVOS = 33
 
 #clase del entorno de simulacion
 class entorno():
-    DIMENSION_OBSERVACION = 51
+    DIMENSION_OBSERVACION = 105
     DIMENSION_ACCION= 3
     def __init__(self):
-        self.entorno = p.connect(p.GUI)     
-        #pongo gravedad
-    
+        #self.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
+        self.entorno = p.connect(p.GUI)
+         #cargo el plano
+        self.plano = p.loadURDF("plane.urdf")
         p.setGravity(0,0,-9.8)
         p.setRealTimeSimulation(1)
-        #cargo el plano
-        self.plano = p.loadURDF("plane.urdf")
-        #cargo el fichero del robot
-        self.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
-        
         #se nombra una variable de iteración para ver cuantos segundos lleva el robot de pie, y así premiarlo
         self.iteracion = 0
+        
         return
     def cargarRobot(self,posicion_inicial,orientacion_inicial):
-        self.robot = p.loadURDF("humanoide.urdf",posicion_inicial,orientacion_inicial)
+             
+        #pongo gravedad
+    
+        
+       
+        #cargo el fichero del robot
+       
+        self.robot = p.loadURDF("humanoid.urdf", posicion_inicial, orientacion_inicial)
+        print(p.getNumJoints(self.robot))
         return
     def reset(self):
         p.resetSimulation()
-        p.setGravity(0,0,-10)
+        p.setGravity(0,0,-9.8)
         p.setRealTimeSimulation(1)
         self.plano = p.loadURDF("plane.urdf")   
         #se carga el robot de nuevo
@@ -62,7 +61,7 @@ class entorno():
     def step(self,accion,servo):
         self.iteracion = self.iteracion +1
         self.accion(accion,servo)
-        p.stepSimulation()
+        #p.stepSimulation()
         #hay que crear el reward
         #vemos el estado del entorno despues de eejcutar la accion
         estado_actual= self.estado()
@@ -79,7 +78,7 @@ class entorno():
     def accion(self,accion, servo):
         estado = self.estado()
         indice = servo-1
-        posicion = 0
+       
         #print(accion)
         
         if accion == 0:
@@ -91,7 +90,7 @@ class entorno():
         
         
         p.setJointMotorControl2(self.robot, jointIndex = servo,controlMode = p.POSITION_CONTROL,targetPosition = posicion,force =FUERZA_MAXIMA)
-        p.stepSimulation()
+        
         return
     def reward(self,estado):
         if estado[49] == 1:#se ha caido el robot, el indice hay que cambiarlo
@@ -109,7 +108,7 @@ class entorno():
 
         for i in range(p.getNumJoints(self.robot)):
             
-            #recibo los datos de cadauni, posicion y velocidad
+            #recibo los datos de cada uno, posicion y velocidad
             velocidad[i], posicion[i],fuerzas, torque[i] = p.getJointState(self.robot,i)
             
         #para conseguir la velocidad del centro de masa, considero como centro de masa el "link" del pecho
@@ -131,8 +130,8 @@ class entorno():
 
 if __name__ == '__main__':
     env = entorno()
-
-    
+    env.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
+  
     fichero = "grafica_rendimiento.png"
     num_games = 500
     load_checkpoint = False
@@ -147,7 +146,7 @@ if __name__ == '__main__':
 
     scores, eps_history = [], []
     n_steps = 0
-
+    env.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
     for i in range(num_games):
         done = False
         observation = env.reset()
@@ -156,9 +155,10 @@ if __name__ == '__main__':
             for servo in range(NUMERO_SERVOS):      #vamos a hacer que se itere por cada servo de forma independiente
                 action = agent.choose_action(observation)
                 reward, observation_, done = env.step(action,servo)
+                print(observation)
                 n_steps += 1
                 score += reward
-                print("se ha llegado al punto 1")
+                print("se ha llegado punto 1")
                 if not load_checkpoint:
                     agent.store_transition(observation, action,reward, observation_, int(done))
                     agent.learn()
