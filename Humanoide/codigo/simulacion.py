@@ -12,9 +12,9 @@ from utils import plotLearning
 # Environment settings
 NUMERO_EPISODIOS = 20_000
 RECOMPENSA_ITERACION = 1 #recompensa que se da por cumplir cada iteración
-MARGEN_CAIDA = 10 #altura a la que se considera que ha caido el robot
+MARGEN_CAIDA = 1 #altura a la que se considera que ha caido el robot
 ID_ROOT = 1 #id del link utilizado para coger la velocidad total del objeto
-POSICION_INICIAL = [0,0,2]
+POSICION_INICIAL = [0,0,1.5]
 ORIENTACION_INICIAL=[0,0,0,45]
 PENALIZACION = 100
 
@@ -65,11 +65,11 @@ class entorno():
         #hay que crear el reward
         #vemos el estado del entorno despues de eejcutar la accion
         estado_actual= self.estado()
-        estado_actual[50] = servo
+        estado_actual[104] = servo
       
 
         score = self.reward(estado_actual)
-        if estado_actual[49] ==1:
+        if estado_actual[103] ==1:
             flag = True
         else:
             flag = False  #booleano utilizado para establecer si se ha llegado al final del proceso o no
@@ -93,7 +93,7 @@ class entorno():
         
         return
     def reward(self,estado):
-        if estado[49] == 1:#se ha caido el robot, el indice hay que cambiarlo
+        if estado[103] == 1:#se ha caido el robot, el indice hay que cambiarlo
             score = -200
         else:
             score = self.iteracion*RECOMPENSA_ITERACION - sum(estado[0:self.num_uniones])*PENALIZACION -sum(estado[self.num_uniones:2*self.num_uniones])*PENALIZACION #resta el torque y las velocidades al reward
@@ -131,9 +131,9 @@ class entorno():
 if __name__ == '__main__':
     env = entorno()
     env.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
-  
+
     fichero = "grafica_rendimiento.png"
-    num_games = 500
+    num_games = 500000000
     load_checkpoint = False
     best_score = -21
     agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0001,
@@ -181,3 +181,4 @@ if __name__ == '__main__':
 
     x = [i+1 for i in range(num_games)]
     plot_learning_curve(x, scores, eps_history, fichero)
+    
