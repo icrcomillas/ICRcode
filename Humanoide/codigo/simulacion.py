@@ -9,22 +9,26 @@ import numpy as np
 from dqn_keras import Agent
 from utils import plotLearning
 
+
+
 # Environment settings
-NUMERO_EPISODIOS = 20_000
-RECOMPENSA_ITERACION = 1 #recompensa que se da por cumplir cada iteración
+NUMERO_EPISODIOS = 2
+RECOMPENSA_ITERACION = 10 #recompensa que se da por cumplir cada iteración
 MARGEN_CAIDA = 1 #altura a la que se considera que ha caido el robot
 ID_ROOT = 1 #id del link utilizado para coger la velocidad total del objeto
 POSICION_INICIAL = [0,0,1.5]
 ORIENTACION_INICIAL=[0,0,0,45]
 PENALIZACION = 100
-
+NOMBRE_FICHERO_EVAL = 'datos\q_eval.h5',      #ficheros en los que se guardan los modelos de la red neuronal
+NOMBRE_FICHERO_TARGET='datos\q_next.h5'
+FICHERO = "grafica_rendimiento.png"     #fichero que guarda el rendimiento de la red neuronal
 FUERZA_MAXIMA =500              #FUERZA MÁXIMA QUE SE APLICA EN CADA UNION
 INCREMENTO_UNION = 0.5          #CUANTO SE SUMO RESTA CADA UNION EN CADA ITERACION
-NUMERO_SERVOS = 33
+
 
 #clase del entorno de simulacion
 class entorno():
-    DIMENSION_OBSERVACION = 105
+    DIMENSION_OBSERVACION = 104
     DIMENSION_ACCION= 3
     def __init__(self):
         #self.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
@@ -46,8 +50,8 @@ class entorno():
         #cargo el fichero del robot
        
         self.robot = p.loadURDF("humanoid.urdf", posicion_inicial, orientacion_inicial)
-        print(p.getNumJoints(self.robot))
-        return
+        numero_servos = p.getNumJoints(self.robot)
+        return numero_servos
     def reset(self):
         p.resetSimulation()
         p.setGravity(0,0,-9.8)
@@ -62,14 +66,14 @@ class entorno():
         self.iteracion = self.iteracion +1
         self.accion(accion,servo)
         #p.stepSimulation()
-        #hay que crear el reward
-        #vemos el estado del entorno despues de eejcutar la accion
+        
+        #vemos el estado del entorno despues de ejecutar la accion
         estado_actual= self.estado()
-        estado_actual[104] = servo
+        estado_actual[103] = servo
       
 
         score = self.reward(estado_actual)
-        if estado_actual[103] ==1:
+        if estado_actual[102] ==1:
             flag = True
         else:
             flag = False  #booleano utilizado para establecer si se ha llegado al final del proceso o no
@@ -93,10 +97,10 @@ class entorno():
         
         return
     def reward(self,estado):
-        if estado[103] == 1:#se ha caido el robot, el indice hay que cambiarlo
+        if estado[102] == 1:#se ha caido el robot, el indice hay que cambiarlo
             score = -200
         else:
-            score = self.iteracion*RECOMPENSA_ITERACION - sum(estado[0:self.num_uniones])*PENALIZACION -sum(estado[self.num_uniones:2*self.num_uniones])*PENALIZACION #resta el torque y las velocidades al reward
+            score =  self.iteracion*RECOMPENSA_ITERACION - sum(estado[0:self.num_uniones])*PENALIZACION -sum(estado[self.num_uniones:2*self.num_uniones])*PENALIZACION #resta el torque y las velocidades al reward
         
         return score
     def estado(self):
@@ -113,29 +117,43 @@ class entorno():
             
         #para conseguir la velocidad del centro de masa, considero como centro de masa el "link" del pecho
         WorldPosition,WorldOrientation,localInertialFramePosition,localInertialFrameOrientation,LinkFramePosition,LinkFrameOrientation,velocidad_general,aceleracion = p.getLinkState(self.robot,2,ID_ROOT)
-        if WorldPosition[2] < MARGEN_CAIDA:
+        if WorldPosition[2] < MARGEN_CAIDA or WorldPosition[0] >5 or WorldPosition[0]<-5 or WorldPosition[1] >5 or WorldPosition[1]<-5 or WorldPosition[1] >5 or WorldPosition[1]<-5  :
             caido = 1
             
         else: 
             caido = 0
+        #permite saber la posiocion del cuerpo para posteriormente ajustar la camara
+        self.posicion = WorldPosition
         #ver si los dos pies estás paralelos (opcional)
         servo = 0
-        info_uniones = np.hstack((posicion,velocidad,torque,WorldOrientation,caido,servo))
+        info_uniones = np.hstack((posicion,velocidad,torque,WorldOrientation[0:3],caido,servo))
         info_uniones = np.around(info_uniones,1)
     
         return info_uniones
+    def CambiarCamara(self):#funcion que permite ajustar la camara de visualización
+        p.resetDebugVisualizerCamera(5,50,-35,self.posicion)
+        return
  
- 
+    def CerrarEntorno(self):
+        p.disconnect()
+
+        return
 
 
 if __name__ == '__main__':
     env = entorno()
-    env.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
+    numero_servos =env.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
 
-    fichero = "grafica_rendimiento.png"
-    num_games = 500000000
+    if os.path.isdir("datos"):
+        a = 1
+    else:
+        os.mkdir("datos")
     load_checkpoint = False
-    best_score = -21
+    for fichero in os.listdir("datos"):
+        if fichero == 'q_eval.h5' or fichero == 'q_target.h5':
+            load_checkpoint = True
+            print("se van a cargar los modelos de memoria")
+    best_score = 10000
     agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0001,
                   input_dims=(env.DIMENSION_OBSERVACION,), n_actions=env.DIMENSION_ACCION, mem_size=25000,
                   eps_min=0.02, batch_size=32, replace=1000, eps_dec=1e-5)
@@ -147,18 +165,21 @@ if __name__ == '__main__':
     scores, eps_history = [], []
     n_steps = 0
     env.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
-    for i in range(num_games):
+    
+    for i in range(NUMERO_EPISODIOS):
         done = False
         observation = env.reset()
         score = 0
+        
+        time.sleep(2)
         while not done:
-            for servo in range(NUMERO_SERVOS):      #vamos a hacer que se itere por cada servo de forma independiente
+            for servo in range(numero_servos):      #vamos a hacer que se itere por cada servo de forma independiente
                 action = agent.choose_action(observation)
                 reward, observation_, done = env.step(action,servo)
-                print(observation)
+                env.CambiarCamara()     #se cambia la camara para poder ver mejor el objeto
                 n_steps += 1
                 score += reward
-                print("se ha llegado punto 1")
+                
                 if not load_checkpoint:
                     agent.store_transition(observation, action,reward, observation_, int(done))
                     agent.learn()
@@ -178,7 +199,8 @@ if __name__ == '__main__':
             best_score = avg_score
 
         eps_history.append(agent.epsilon)
-
-    x = [i+1 for i in range(num_games)]
-    plot_learning_curve(x, scores, eps_history, fichero)
-    
+    env.CerrarEntorno()
+    x = [i+1 for i in range(NUMERO_EPISODIOS)]
+    #scores.pop(0)       #se borra el primer elemento ya que por razones desconocinas el programa introduce un elemento de más
+    plotLearning(x, scores, eps_history, FICHERO)
+         

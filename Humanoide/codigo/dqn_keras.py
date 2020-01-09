@@ -1,7 +1,9 @@
-from keras.layers import Dense, Activation, Flatten
+from keras.layers import Dense, Activation, Dropout
 from keras.models import Sequential, load_model
 from keras.optimizers import Adam
+
 import numpy as np
+
 
 class ReplayBuffer(object):
     def __init__(self, max_size, input_shape):
@@ -15,7 +17,7 @@ class ReplayBuffer(object):
         self.action_memory = np.zeros(self.mem_size, dtype=np.int32)
         self.reward_memory = np.zeros(self.mem_size, dtype=np.float32)
         self.terminal_memory = np.zeros(self.mem_size, dtype=np.uint8)
-        print("se ha pasado por el init")
+        
     def store_transition(self, state, action, reward, state_, done):
         index = self.mem_cntr % self.mem_size
         self.state_memory[index] = state
@@ -39,22 +41,25 @@ class ReplayBuffer(object):
 
 def build_dqn(lr, n_actions, input_dims, fc1_dims):
     model = Sequential()
-    model.add(Dense(51,input_shape = input_dims,activation='relu'))   #revisar si es necesario meter imput_shape o vale con definir las neuronas
+    model.add(Dense(*input_dims,input_shape = input_dims,activation='relu'))   #revisar si es necesario meter imput_shape o vale con definir las neuronas
+    doble = input_dims[0] *2
+    model.add(Dense(doble, activation='relu'))
+    model.add(Dense(60, activation='relu'))
     model.add(Dense(30, activation='relu'))
-    model.add(Dense(15, activation='relu'))
+    model.add(Dropout(0.2))
     model.add(Dense(10, activation='relu'))
     model.add(Dense(5, activation='relu'))
     model.add(Dense(n_actions, activation = 'softmax'))
 
     model.compile(optimizer=Adam(lr=lr), loss='mean_squared_error')
-
+    print(model.summary())
     return model
 
 class Agent(object):
     def __init__(self, alpha, gamma, n_actions, epsilon, batch_size, replace,
                  input_dims, eps_dec=0.996,  eps_min=0.01,
-                 mem_size=1000000, q_eval_fname='q_eval.h5',
-                 q_target_fname='q_next.h5'):
+                 mem_size=1000000, q_eval_fname="datos//q_eval.h5",
+                 q_target_fname="datos//q_next.h5"):
         self.action_space = [i for i in range(n_actions)]
         self.gamma = gamma
         self.epsilon = epsilon
