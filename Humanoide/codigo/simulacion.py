@@ -12,8 +12,8 @@ from utils import plotLearning
 
 
 # Environment settings
-NUMERO_EPISODIOS = 2
-RECOMPENSA_ITERACION = 10 #recompensa que se da por cumplir cada iteración
+NUMERO_EPISODIOS = 200000
+RECOMPENSA_ITERACION = 1 #recompensa que se da por cumplir cada iteración
 MARGEN_CAIDA = 1 #altura a la que se considera que ha caido el robot
 ID_ROOT = 1 #id del link utilizado para coger la velocidad total del objeto
 POSICION_INICIAL = [0,0,1.5]
@@ -23,16 +23,19 @@ NOMBRE_FICHERO_EVAL = 'datos\q_eval.h5',      #ficheros en los que se guardan lo
 NOMBRE_FICHERO_TARGET='datos\q_next.h5'
 FICHERO = "grafica_rendimiento.png"     #fichero que guarda el rendimiento de la red neuronal
 FUERZA_MAXIMA =500              #FUERZA MÁXIMA QUE SE APLICA EN CADA UNION
-INCREMENTO_UNION = 0.5          #CUANTO SE SUMO RESTA CADA UNION EN CADA ITERACION
+INCREMENTO_UNION = 0.1          #CUANTO SE SUMO RESTA CADA UNION EN CADA ITERACION
 
-
+GUI = True                      #para decidir si poner gui o no
 #clase del entorno de simulacion
 class entorno():
     DIMENSION_OBSERVACION = 104
     DIMENSION_ACCION= 3
     def __init__(self):
         #self.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
-        self.entorno = p.connect(p.GUI)
+        if GUI == True :
+            self.entorno = p.connect(p.GUI)
+        else:
+            self.entorno = p.connect(p.DIRECT)
          #cargo el plano
         self.plano = p.loadURDF("plane.urdf")
         p.setGravity(0,0,-9.8)
@@ -61,6 +64,7 @@ class entorno():
         self.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
         self.iteracion = 0
         estado = self.estado()
+        self.time = time.time()     #cogemos el tiempo cuando se resetea el entorno
         return estado
     def step(self,accion,servo):
         self.iteracion = self.iteracion +1
@@ -97,10 +101,11 @@ class entorno():
         
         return
     def reward(self,estado):
+        tiempo= (time.time() - self.time)               #tiempo que se ha estado dentro del mismo
         if estado[102] == 1:#se ha caido el robot, el indice hay que cambiarlo
-            score = -200
+            score = -200000
         else:
-            score =  self.iteracion*RECOMPENSA_ITERACION - sum(estado[0:self.num_uniones])*PENALIZACION -sum(estado[self.num_uniones:2*self.num_uniones])*PENALIZACION #resta el torque y las velocidades al reward
+            score =  tiempo*RECOMPENSA_ITERACION - sum(estado[0:self.num_uniones])*PENALIZACION -sum(estado[self.num_uniones:2*self.num_uniones])*PENALIZACION #resta el torque y las velocidades al reward
         
         return score
     def estado(self):
