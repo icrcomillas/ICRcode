@@ -184,8 +184,9 @@ if __name__ == '__main__':
                 env.CambiarCamara()     #se cambia la camara para poder ver mejor el objeto
                 n_steps += 1
                 score += reward
+                contador_episodios += 1
                 
-                if not load_checkpoint:
+                if not load_checkpoint or contador_episodios == 50:
                     agent.store_transition(observation, action,reward, observation_, int(done))
                     agent.learn()
             
