@@ -56,7 +56,8 @@ class entorno():
         numero_servos = p.getNumJoints(self.robot)
         return numero_servos
     def reset(self):
-        p.resetSimulation()
+        #p.removeBody(self.robot)
+        p.resetSimulation() 
         p.setGravity(0,0,-9.8)
         p.setRealTimeSimulation(1)
         self.plano = p.loadURDF("plane.urdf")   
@@ -148,6 +149,7 @@ class entorno():
 if __name__ == '__main__':
     env = entorno()
     numero_servos =env.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
+    contador_episodios = 0
 
     if os.path.isdir("datos"):
         a = 1
@@ -185,8 +187,10 @@ if __name__ == '__main__':
                 n_steps += 1
                 score += reward
                 contador_episodios += 1
-                
-                if not load_checkpoint or contador_episodios == 50:
+                if contador_episodios == 50:
+                    agent.save_models()
+                    print("se van a guardar los modelos en memoria")
+                if not load_checkpoint:
                     agent.store_transition(observation, action,reward, observation_, int(done))
                     agent.learn()
             
