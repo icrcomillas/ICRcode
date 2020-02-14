@@ -1,4 +1,4 @@
-''
+
 import pybullet as p
 import numpy as np
 from collections import deque
@@ -28,7 +28,7 @@ INCREMENTO_UNION = 0.1          #CUANTO SE SUMO RESTA CADA UNION EN CADA ITERACI
 GUI = True                      #para decidir si poner gui o no
 #clase del entorno de simulacion
 class entorno():
-    DIMENSION_OBSERVACION = 104
+    DIMENSION_OBSERVACION = 71
     DIMENSION_ACCION= 3
     def __init__(self):
         #self.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
@@ -74,11 +74,11 @@ class entorno():
         
         #vemos el estado del entorno despues de ejecutar la accion
         estado_actual= self.estado()
-        estado_actual[103] = servo
+        estado_actual[70] = servo
       
 
         score = self.reward(estado_actual)
-        if estado_actual[102] ==1:
+        if estado_actual[69] ==1:
             flag = True
         else:
             flag = False  #booleano utilizado para establecer si se ha llegado al final del proceso o no
@@ -103,7 +103,7 @@ class entorno():
         return
     def reward(self,estado):
         tiempo= (time.time() - self.time)               #tiempo que se ha estado dentro del mismo
-        if estado[102] == 1:#se ha caido el robot, el indice hay que cambiarlo
+        if estado[69] == 1:#se ha caido el robot, el indice hay que cambiarlo
             score = -200000
         else:
             score =  tiempo*RECOMPENSA_ITERACION - sum(estado[0:self.num_uniones])*PENALIZACION -sum(estado[self.num_uniones:2*self.num_uniones])*PENALIZACION #resta el torque y las velocidades al reward
@@ -113,13 +113,13 @@ class entorno():
         self.num_uniones = p.getNumJoints(self.robot)
         #creo el array para meter la informacion de velocidad y posicion de las uniones
         posicion = np.zeros((p.getNumJoints(self.robot)),dtype= float)
-        velocidad = np.zeros((p.getNumJoints(self.robot)),dtype= float)
+        
         torque = np.zeros((p.getNumJoints(self.robot)),dtype= float)#fuerza aplicada por cada union
 
         for i in range(p.getNumJoints(self.robot)):
             
             #recibo los datos de cada uno, posicion y velocidad
-            velocidad[i], posicion[i],fuerzas, torque[i] = p.getJointState(self.robot,i)
+            velocidad, posicion[i],fuerzas, torque[i] = p.getJointState(self.robot,i)
             
         #para conseguir la velocidad del centro de masa, considero como centro de masa el "link" del pecho
         WorldPosition,WorldOrientation,localInertialFramePosition,localInertialFrameOrientation,LinkFramePosition,LinkFrameOrientation,velocidad_general,aceleracion = p.getLinkState(self.robot,2,ID_ROOT)
@@ -132,7 +132,7 @@ class entorno():
         self.posicion = WorldPosition
         #ver si los dos pies estás paralelos (opcional)
         servo = 0
-        info_uniones = np.hstack((posicion,velocidad,torque,WorldOrientation[0:3],caido,servo))
+        info_uniones = np.hstack((posicion,torque,WorldOrientation[0:3],caido,servo))
         info_uniones = np.around(info_uniones,1)
     
         return info_uniones
