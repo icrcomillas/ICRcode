@@ -8,7 +8,7 @@ import socket
 #se utiliza la libreria json para obtener la informacion de cada servo de forma fiable e individualizada
 import json
 
-class robot:
+class humanoide:
     def __init__(self):
 
         #variables de la direccion de los driver y el giroscopio
@@ -28,44 +28,6 @@ class robot:
         #se abre el fichero json y se carga en una variable
         with open("configuracion.json") as fichero:
             self.datos_servo = json.load(fichero)
-
-
-    def conexion(self):
-        try:
-            #crea el objeto servidor, de tipo socket
-            self.servidor = socket.socket()
-            #hace que el socket sea visible desde fuera de la maquina
-            self.servidor.bind(self.servidor.getsockname())
-            #define el socket como un servidor
-            self.servidor.listen(5)
-            respuesta = true
-        except:
-            respuesta = false
-        finally:
-            return respuesta
-
-    def aceptar(self):
-
-            #acepta conexiones nuevas de usuarios
-        (cliente,addres) = self.server.acept()
-
-        return cliente,addres
-
-    def recivir_mensaje(cliente):
-        mensaje = cliente.receive()
-        #hay que decodificar el mensaje recivido
-        mensaje = mensaje.decode()
-
-        return mensaje
-
-
-    def enviar_informacion(self,mensaje):
-
-        self.servidor.send(mensaje.encode())
-
-        print("se ha enviado el siguiente mensaje: "+ mensaje)
-        return
-
     def mover_servo(self,servo, angulo):#ESTA FUNCION SE ENCUENTRA EN PRUEBAS
         if servo > self.numero_servos:
             print("elija un servo que este conectado")
@@ -102,7 +64,7 @@ class robot:
         print("se ha calibrado el giroscopio")
         return
 
-    def acel_giro():
+    def acel_giro(self):
         aceleracion = self.giroscopio.get_accel_data() #leemos todas las aceleraciones del giroscopio
 
         x = aceleracion['x']
@@ -111,7 +73,7 @@ class robot:
 
         return x, y,z       # los valores x , y , z son las aceleraciones en sus respectivos ejes
 
-    def pos_giro():
+    def pos_giro(self):
 
         inclinacion = self.giroscopio.get_gyro_data()
 
@@ -120,3 +82,75 @@ class robot:
         z = inclinacion['z']
 
         return x, y ,z
+class Conectable:
+    #clase que no tiene un cosntructor
+    #define el comportamiento que todo objeto de tipo conectable tiene que tener
+    def __init__(self, ip, puerto):
+        #crea el objeto servidor, de tipo socket
+        self.conexion= socket.socket()
+        self.ip = ip
+        self.puerto = puerto
+
+        return 
+
+    def RecibirMensaje(self):
+        mensaje = self.conexion.recv(self.puerto)
+        #hay que decodificar el mensaje recivido
+        mensaje = mensaje.decode()
+
+        return mensaje
+
+
+    def EnviarMensaje(self,mensaje):
+
+        self.conectado.send(mensaje.encode())
+
+        print("se ha enviado el siguiente mensaje: "+ mensaje)
+        return
+    def Conectar(self):
+        #se deja el método vacio para que luego sean los diferentes objetos los que lo machaquen
+        return
+
+    
+class Servidor(Conectable):
+    def __init__(self,ip,puerto):
+        super().__init__(ip,puerto)
+    def Conectar(self):
+        try:           
+            #hace que el socket sea visible desde fuera de la maquina
+            self.conexion.bind((self.ip,self.puerto))
+          
+            #define el socket como un servidor
+            self.conexion.listen(5)
+
+        except:
+            print("no se ha podido crear el servidor")
+            return False
+        finally:
+            
+            print("se ha creado el servidor")
+            return True
+
+    def Aceptar(self):
+
+            #acepta conexiones nuevas de usuarios
+        
+        self.cliente,addres = self.conexion.accept()
+        print("se ha conectado un cliente desde la direccion: ",addres)
+        super().EnviarMensaje("Conexion ok")
+
+        return self.cliente,addres
+    def CerrarConexion(self):
+        self.conexion.close()
+
+class Cliente(Conectable):
+    def __init__(self,ip,puerto):
+        super().__init__(ip,puerto)
+    def Conectar(self):
+        self.conexion.connect((self.ip,self.puerto))
+        return
+    def EnviarMensaje(self,mensaje):    #en el caso del cliente hay que hacer un override la funcion enviar mensaje, ya qye servidor elige un canal determinado y clietne lo envia por conexion
+        self.conexion.send(mensaje)
+        return
+
+
