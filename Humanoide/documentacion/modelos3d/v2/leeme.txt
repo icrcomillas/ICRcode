@@ -1,0 +1,1 @@
+Version 2 del humanoide, aquellos ficheros que contengan una p mayuscula al final (P), son aquellos que no se ha comprobado que son correctos
