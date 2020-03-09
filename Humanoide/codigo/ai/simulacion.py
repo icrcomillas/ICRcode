@@ -18,7 +18,7 @@ MARGEN_CAIDA = 1 #altura a la que se considera que ha caido el robot
 ID_ROOT = 1 #id del link utilizado para coger la velocidad total del objeto
 POSICION_INICIAL = [0,0,1.5]
 ORIENTACION_INICIAL=[0,0,0,45]
-PENALIZACION = 100
+PENALIZACION = 10
 NOMBRE_FICHERO_EVAL = 'datos\q_eval.h5',      #ficheros en los que se guardan los modelos de la red neuronal
 NOMBRE_FICHERO_TARGET='datos\q_next.h5'
 FICHERO = "grafica_rendimiento.png"     #fichero que guarda el rendimiento de la red neuronal
@@ -46,11 +46,7 @@ class entorno():
         self.indiceServo = entorno.DIMENSION_OBSERVACION -1 
         self.indiceCaido = entorno.DIMENSION_OBSERVACION -2
         return
-    def cargarRobot(self,posicion_inicial,orientacion_inicial):
-             
-        #pongo gravedad
-    
-        
+    def cargarRobot(self,posicion_inicial,orientacion_inicial):    
        
         #cargo el fichero del robot
        
@@ -182,23 +178,24 @@ if __name__ == '__main__':
     numero_servos =env.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
     contadorEpisodios = 0
 
+    best_score = 10000
+    agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0001,
+                  input_dims=(env.DIMENSION_OBSERVACION,), n_actions=env.DIMENSION_ACCION, mem_size=25000,batch_size=32, replace=1000, eps_dec=1e-5)
+                  
+
     if os.path.isdir("datos"):
         for fichero in os.listdir("datos"):
             if fichero == 'q_eval.h5' or fichero == 'q_target.h5':
                 load_checkpoint = True
+                agent.load_models()
                 print("se van a cargar los modelos de memoria")
         
     else:
         os.mkdir("datos")
     load_checkpoint = False
     
-    best_score = 10000
-    agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0001,
-                  input_dims=(env.DIMENSION_OBSERVACION,), n_actions=env.DIMENSION_ACCION, mem_size=25000,batch_size=32, replace=1000, eps_dec=1e-5)
-                  
 
-    if load_checkpoint:
-        agent.load_models()
+        
 
     scores, eps_history = [], []
     n_steps = 0
