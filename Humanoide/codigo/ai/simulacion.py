@@ -164,7 +164,6 @@ class entorno():
         info_uniones = np.hstack((arrayAceleracion,WorldOrientation[0:3],self.angulos,caido,servo))
         info_uniones = np.around(info_uniones,2)
         
-        print(info_uniones)
     
         return info_uniones
     def CambiarCamara(self):#funcion que permite ajustar la camara de visualización
