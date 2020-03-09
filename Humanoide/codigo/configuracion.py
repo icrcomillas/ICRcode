@@ -6,7 +6,23 @@ from mpu6050 import mpu6050
 #modulo para la comunicacion
 import socket
 #se utiliza la libreria json para obtener la informacion de cada servo de forma fiable e individualizada
-import json
+import jsonç#clase que define el comportamiento de todo robot
+
+
+class Robot():
+    def __init__(self):
+        return 
+    def moverDelante(self):
+        return 
+    def moverAtras(self):
+        return 
+    def cargarConfiguracion(self):
+        #se abre el fichero json y se carga en una variable
+        with open("configuracion.json") as fichero:
+            self.datos_servo = json.load(fichero)
+        return
+  
+
 
 class Humanoide(Robot):
     def __init__(self):
@@ -85,19 +101,5 @@ class Humanoide(Robot):
         
         return
 
-#clase que define el comportamiento de todo robot
-class Robot():
-    def __init__(self):
-        return 
-    def moverDelante(self):
-        return 
-    def moverAtras(self):
-        return 
-    def cargarConfiguracion(self):
-        #se abre el fichero json y se carga en una variable
-        with open("configuracion.json") as fichero:
-            self.datos_servo = json.load(fichero)
-        return
- 
 
 

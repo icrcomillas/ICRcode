@@ -1,4 +1,4 @@
-''
+
 import pybullet as p
 import numpy as np
 from collections import deque
@@ -22,13 +22,14 @@ PENALIZACION = 100
 NOMBRE_FICHERO_EVAL = 'datos\q_eval.h5',      #ficheros en los que se guardan los modelos de la red neuronal
 NOMBRE_FICHERO_TARGET='datos\q_next.h5'
 FICHERO = "grafica_rendimiento.png"     #fichero que guarda el rendimiento de la red neuronal
-FUERZA_MAXIMA =500              #FUERZA MÁXIMA QUE SE APLICA EN CADA UNION
-INCREMENTO_UNION = 0.1          #CUANTO SE SUMO RESTA CADA UNION EN CADA ITERACION
+FUERZA_MAXIMA =500              #fuerza máxima que se aplicada a cada union
+INCREMENTO_UNION = 0.1          #cuanto se suma o se resta a cada unión
 
 GUI = True                      #para decidir si poner gui o no
+
 #clase del entorno de simulacion
 class entorno():
-    DIMENSION_OBSERVACION = 104
+    DIMENSION_OBSERVACION = 41
     DIMENSION_ACCION= 3
     def __init__(self):
         #self.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
@@ -40,9 +41,10 @@ class entorno():
         self.plano = p.loadURDF("plane.urdf")
         p.setGravity(0,0,-9.8)
         p.setRealTimeSimulation(1)
-        #se nombra una variable de iteración para ver cuantos segundos lleva el robot de pie, y así premiarlo
-        self.iteracion = 0
-        
+
+        #indice del servo en el array de estados
+        self.indiceServo = entorno.DIMENSION_OBSERVACION -1 
+        self.indiceCaido = entorno.DIMENSION_OBSERVACION -2
         return
     def cargarRobot(self,posicion_inicial,orientacion_inicial):
              
@@ -53,10 +55,17 @@ class entorno():
         #cargo el fichero del robot
        
         self.robot = p.loadURDF("humanoid.urdf", posicion_inicial, orientacion_inicial)
-        numero_servos = p.getNumJoints(self.robot)
-        return numero_servos
+        self.numeroServos = p.getNumJoints(self.robot)
+        #array para guardar las posiciones de las uniones
+        self.angulos = np.zeros((self.numeroServos,),dtype = float)
+        
+        for jointIndex in range (p.getNumJoints(self.robot)):
+	        p.resetJointState(self.robot,jointIndex,self.angulos[jointIndex])
+
+        return self.numeroServos
+
     def reset(self):
-        #p.removeBody(self.robot)
+        #se resetea 
         p.resetSimulation() 
         p.setGravity(0,0,-9.8)
         p.setRealTimeSimulation(1)
@@ -66,36 +75,41 @@ class entorno():
         self.iteracion = 0
         estado = self.estado()
         self.time = time.time()     #cogemos el tiempo cuando se resetea el entorno
+        #se resetean todas las uniones
+        for jointIndex in range (p.getNumJoints(self.robot)):            
+	        p.resetJointState(self.robot,jointIndex,self. angulos[jointIndex])
         return estado
+
     def step(self,accion,servo):
         self.iteracion = self.iteracion +1
         self.accion(accion,servo)
         #p.stepSimulation()
         
         #vemos el estado del entorno despues de ejecutar la accion
-        estado_actual= self.estado()
-        estado_actual[103] = servo
-      
+        estadoActual= self.estado()
 
-        score = self.reward(estado_actual)
-        if estado_actual[102] ==1:
-            flag = True
-        else:
-            flag = False  #booleano utilizado para establecer si se ha llegado al final del proceso o no
+        #se carga el servo actual en el array de estado
+        estadoActual[self.indiceServo] = servo
 
-        return score,estado_actual,flag
+        score = self.reward(estadoActual)
+
+        #el ultimo return indica si se ha caido el robot o no (es el flag de la inteligencia artificial)
+        return score,estadoActual,estadoActual[self.indiceCaido]
     def accion(self,accion, servo):
         estado = self.estado()
-        indice = servo-1
+        #indice del angulo del servo seleccionado, en el array de posiciones
+        indice = servo
        
-        #print(accion)
+       
         
         if accion == 0:
-           posicion = estado[indice] + INCREMENTO_UNION         #mira la posicion el momento y la aumenta
+           posicion = self.angulos[indice] + INCREMENTO_UNION         #mira la posicion el momento y la aumenta
+           self.angulos[indice] = posicion                                    #guarda el nuevo angulo 
         elif accion == 2:
-            posicion = estado[indice]-INCREMENTO_UNION          #mira la posicion el momento y la diminuye
+            posicion = self.angulos[indice]-INCREMENTO_UNION          #mira la posicion el momento y la diminuye
+            self.angulos[indice] = posicion                                    #guarda el nuevo angulo 
         elif accion == 1:
-            posicion = estado[indice]
+            posicion = self.angulos[indice]                           #no se hace nada, se mantiene la posiciobn del servo
         
         
         p.setJointMotorControl2(self.robot, jointIndex = servo,controlMode = p.POSITION_CONTROL,targetPosition = posicion,force =FUERZA_MAXIMA)
@@ -103,37 +117,54 @@ class entorno():
         return
     def reward(self,estado):
         tiempo= (time.time() - self.time)               #tiempo que se ha estado dentro del mismo
-        if estado[102] == 1:#se ha caido el robot, el indice hay que cambiarlo
+        if estado[self.indiceCaido] == 1:#se ha caido el robot, el indice hay que cambiarlo
             score = -200000
         else:
-            score =  tiempo*RECOMPENSA_ITERACION - sum(estado[0:self.num_uniones])*PENALIZACION -sum(estado[self.num_uniones:2*self.num_uniones])*PENALIZACION #resta el torque y las velocidades al reward
+            score =  tiempo*RECOMPENSA_ITERACION - sum(estado[0:3])*PENALIZACION #resta la aceleracion
         
         return score
     def estado(self):
-        self.num_uniones = p.getNumJoints(self.robot)
+        
+
         #creo el array para meter la informacion de velocidad y posicion de las uniones
-        posicion = np.zeros((p.getNumJoints(self.robot)),dtype= float)
-        velocidad = np.zeros((p.getNumJoints(self.robot)),dtype= float)
-        torque = np.zeros((p.getNumJoints(self.robot)),dtype= float)#fuerza aplicada por cada union
+        posicion = np.zeros((self.numeroServos),dtype= float)
+        torque = np.zeros((self.numeroServos),dtype= float)
+        
+        arrayAceleracion = np.zeros((3),dtype = float)
 
         for i in range(p.getNumJoints(self.robot)):
             
             #recibo los datos de cada uno, posicion y velocidad
-            velocidad[i], posicion[i],fuerzas, torque[i] = p.getJointState(self.robot,i)
+            velocidad, posicion[i],fuerzas, torque[i] = p.getJointState(self.robot,i)
             
-        #para conseguir la velocidad del centro de masa, considero como centro de masa el "link" del pecho
-        WorldPosition,WorldOrientation,localInertialFramePosition,localInertialFrameOrientation,LinkFramePosition,LinkFrameOrientation,velocidad_general,aceleracion = p.getLinkState(self.robot,2,ID_ROOT)
+            
+            
+        #para conseguir la velocidad del centro de masa, considero como centro de masa el "link" del pecho        
+        WorldPosition = p.getLinkState(self.robot,2,ID_ROOT)[0]
+        WorldOrientation = p.getLinkState(self.robot,2,ID_ROOT)[1]
+        aceleracion = p.getLinkState(self.robot,2,ID_ROOT)[7]
+        
+        #logica para decidir si se ha caido o no el robot
         if WorldPosition[2] < MARGEN_CAIDA or WorldPosition[0] >5 or WorldPosition[0]<-5 or WorldPosition[1] >5 or WorldPosition[1]<-5 or WorldPosition[1] >5 or WorldPosition[1]<-5  :
             caido = 1
             
         else: 
             caido = 0
-        #permite saber la posiocion del cuerpo para posteriormente ajustar la camara
+
+        #posicion del cuerpo para posteriormente ajustar la camara
         self.posicion = WorldPosition
-        #ver si los dos pies estás paralelos (opcional)
+
+        #se introduce en todas las iteraciones un valor de servo a cero, para luego poder sobreescribirlo, es una forma de no tener que modificar dimensiones de arrays
         servo = 0
-        info_uniones = np.hstack((posicion,velocidad,torque,WorldOrientation[0:3],caido,servo))
-        info_uniones = np.around(info_uniones,1)
+
+        #se crea un array de aceleraciones, para luego poder pasar todas las aceleraciones a la vez a la ai
+        arrayAceleracion = [aceleracion[0], aceleracion[1],aceleracion[2]]
+
+        #se junta toda la informacion a enviar, aceleraciones, orientacion, angulo de los servos, si se ha caido o no, y el servo que se esta tratando
+        info_uniones = np.hstack((arrayAceleracion,WorldOrientation[0:3],self.angulos,caido,servo))
+        info_uniones = np.around(info_uniones,2)
+        
+        print(info_uniones)
     
         return info_uniones
     def CambiarCamara(self):#funcion que permite ajustar la camara de visualización
@@ -147,23 +178,24 @@ class entorno():
 
 
 if __name__ == '__main__':
+    #se crea el entorno a utilizar, y se carga el robot en el 
     env = entorno()
     numero_servos =env.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
-    contador_episodios = 0
+    contadorEpisodios = 0
 
     if os.path.isdir("datos"):
-        a = 1
+        for fichero in os.listdir("datos"):
+            if fichero == 'q_eval.h5' or fichero == 'q_target.h5':
+                load_checkpoint = True
+                print("se van a cargar los modelos de memoria")
+        
     else:
         os.mkdir("datos")
     load_checkpoint = False
-    for fichero in os.listdir("datos"):
-        if fichero == 'q_eval.h5' or fichero == 'q_target.h5':
-            load_checkpoint = True
-            print("se van a cargar los modelos de memoria")
+    
     best_score = 10000
     agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0001,
-                  input_dims=(env.DIMENSION_OBSERVACION,), n_actions=env.DIMENSION_ACCION, mem_size=25000,
-                  eps_min=0.02, batch_size=32, replace=1000, eps_dec=1e-5)
+                  input_dims=(env.DIMENSION_OBSERVACION,), n_actions=env.DIMENSION_ACCION, mem_size=25000,batch_size=32, replace=1000, eps_dec=1e-5)
                   
 
     if load_checkpoint:
@@ -179,6 +211,7 @@ if __name__ == '__main__':
         score = 0
         
         time.sleep(2)
+        contadorEpisodios += 1
         while not done:
             for servo in range(numero_servos):      #vamos a hacer que se itere por cada servo de forma independiente
                 action = agent.choose_action(observation)
@@ -186,10 +219,8 @@ if __name__ == '__main__':
                 env.CambiarCamara()     #se cambia la camara para poder ver mejor el objeto
                 n_steps += 1
                 score += reward
-                contador_episodios += 1
-                if contador_episodios == 50:
-                    agent.save_models()
-                    print("se van a guardar los modelos en memoria")
+                
+                
                 if not load_checkpoint:
                     agent.store_transition(observation, action,reward, observation_, int(done))
                     agent.learn()
@@ -197,7 +228,12 @@ if __name__ == '__main__':
                 observation = observation_
 
             scores.append(score)
-        
+            #se guarda el episodio
+        if contadorEpisodios == 3:
+            agent.save_models()
+            print("se van a guardar los modelos en memoria")
+            contadorEpisodios = 0
+
         avg_score = np.mean(scores[-100:])
         print('episode: ', i,'score: ', score,
              ' average score %.3f' % avg_score,
