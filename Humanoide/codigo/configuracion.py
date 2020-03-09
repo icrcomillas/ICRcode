@@ -6,9 +6,9 @@ from mpu6050 import mpu6050
 #modulo para la comunicacion
 import socket
 #se utiliza la libreria json para obtener la informacion de cada servo de forma fiable e individualizada
-import jsonç#clase que define el comportamiento de todo robot
+import json
 
-
+#clase que define el comportamiento de todo robot
 class Robot():
     def __init__(self):
         return 
