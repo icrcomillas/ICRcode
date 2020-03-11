@@ -1,13 +1,4 @@
-"""este fichero se va a utilizar como fichero de configuracion para todo el robot.
-Se puede llamar desde cualquier parte del codigo"""
-
-import Adafruit_PCA9685
-from mpu6050 import mpu6050 #modulo raspberry PI
-#modulo para la comunicacion
-import socket
-#se utiliza la libreria json para obtener la informacion de cada servo de forma fiable e individualizada
 import json
-
 #clase que define el comportamiento de todo robot
 class Robot():
     def __init__(self):
@@ -30,21 +21,23 @@ class Driver(): #clase para crear cada uno de los drivers. Cada driver tendra un
         return self.direccion
     def getNumServos(self):
         return self.num_servos
+    def __str__(self):
+        return "Direccion: "+str(self.direccion)+"\t NumeroServos: "+str(self.num_servos)
 
 
 class Humanoide(Robot):
     def __init__(self):
         self.insertar_valores_sevos()
         #variables propias del robot
-        self.numeroServos = self.driver1_info.num_servos + self.driver2_info.num_servos #Cambiado por divasson para que el numero de servos sea la suma del numero de servos de cada driver
+        self.numeroServos = 20
         self.numeroServosDriver = 16 #este es el numero de servos por driver, empezando desde el 0
 
         #se inicializan los objetos de los drivers, y del giroscopio
-        self.driver1 = Adafruit_PCA9685.PCA9685(address = self.driver1_info.direccion)
-        self.driver2 = Adafruit_PCA9685.PCA9685(address = self.driver2_info.direccion)
-        self.giroscopio = mpu6050(self.direccion_giroscopio)
+        #self.driver1 = Adafruit_PCA9685.PCA9685(address = self.driver1_info.direccion)
+        #self.driver2 = Adafruit_PCA9685.PCA9685(address = self.driver2_info.direccion)
+        #self.giroscopio = mpu6050(self.direccion_giroscopio)
 
-    def insertar_valores_sevos(self):#funcion para llamar a 'configuracion.json' y cargar de cada driver su direccion y numero de servos
+    def insertar_valores_sevos(self):
         with open('configuracion.json') as f:
             drivers_dict = json.load(f)
 
@@ -76,41 +69,9 @@ class Humanoide(Robot):
                     pin = self.datos_servo[str(servo)]['pin']
                     self.driver2.set_pwm(pin,0,pulso)
         return
-    def calcularPulso(self,ang):
-        #definimos la funcion lineal para calcular el pulso
-        pulso = 9.166*ang + 450
-        return pulso
 
-
-    def calibrarGiroscopio(self):
-        self.giroscopio.zero_mean_calibration()
-        print("se ha calibrado el giroscopio")
-        return
-
-    def getAcelGiro(self):
-        aceleracion = self.giroscopio.get_accel_data() #leemos todas las aceleraciones del giroscopio
-
-        x = aceleracion['x']
-        y = aceleracion['y']
-        z = aceleracion['z']
-
-        return x, y,z       # los valores x , y , z son las aceleraciones en sus respectivos ejes
-
-    def getPosGiro(self):
-
-        inclinacion = self.giroscopio.get_gyro_data()
-
-        x = inclinacion['x']
-        y = inclinacion['y']
-        z = inclinacion['z']
-
-        return x, y ,z
-    def __str__(self):#devuelve toda la informacion del objeto # En Python el toString() de java es __str__(self)
-        mensaje = + "\n numero de servos: "+ self.numerServos+ "\n numero de servos por driver: "+self.numeroServosDriver
-        return super.toString() + mensaje
-    def equilibrar(self):
-        
-        return
-
-
-
+if __name__=='__main__':
+    miHumanoide = Humanoide()
+    print(miHumanoide.driver1_info)
+    
+    print(miHumanoide.direccion_giroscopio)
