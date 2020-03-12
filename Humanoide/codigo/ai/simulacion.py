@@ -114,7 +114,7 @@ class entorno():
     def reward(self,estado):
         tiempo= (time.time() - self.time)               #tiempo que se ha estado dentro del mismo
         if estado[self.indiceCaido] == 1:#se ha caido el robot, el indice hay que cambiarlo
-            score = -200000
+            score = -20000
         else:
             score =  tiempo*RECOMPENSA_ITERACION - sum(estado[0:3])*PENALIZACION #resta la aceleracion
         
@@ -127,12 +127,12 @@ class entorno():
         torque = np.zeros((self.numeroServos),dtype= float)
         
         arrayAceleracion = np.zeros((3),dtype = float)
-
+        """
         for i in range(p.getNumJoints(self.robot)):
             
             #recibo los datos de cada uno, posicion y velocidad
             velocidad, posicion[i],fuerzas, torque[i] = p.getJointState(self.robot,i)
-            
+        """ 
             
             
         #para conseguir la velocidad del centro de masa, considero como centro de masa el "link" del pecho        
@@ -180,7 +180,7 @@ if __name__ == '__main__':
 
     best_score = 10000
     agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0001,
-                  input_dims=(env.DIMENSION_OBSERVACION,), n_actions=env.DIMENSION_ACCION, mem_size=25000,batch_size=32, replace=1000, eps_dec=1e-5)
+                  input_dims=(env.DIMENSION_OBSERVACION,), n_actions=env.DIMENSION_ACCION, mem_size=25000,batch_size=32, replace=1000, eps_dec=1e-6)
                   
 
     if os.path.isdir("datos"):
