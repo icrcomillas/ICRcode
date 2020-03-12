@@ -1,14 +1,13 @@
 {
-    "driver1":{
+    "driver1": {
         "direccion": "0x40",
-        "numeroServos":16
+        "numeroServos": 16
     },
-    "driver2":{
-    "direccion": "0x70",
-    "numeroServos":16
+    "driver2": {
+        "direccion": "0x70",
+        "numeroServos": 16
     },
-    "giroscopio":{
+    "giroscopio": {
         "direccion": "0x68"
     }
-
 }

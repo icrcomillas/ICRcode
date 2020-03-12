@@ -14,7 +14,7 @@ from utils import plotLearning
 # Environment settings
 NUMERO_EPISODIOS = 200000
 RECOMPENSA_ITERACION = 1 #recompensa que se da por cumplir cada iteración
-MARGEN_CAIDA = 1 #altura a la que se considera que ha caido el robot
+MARGEN_CAIDA = 0.5 #altura a la que se considera que ha caido el robot ###cambiado a 0.5
 ID_ROOT = 1 #id del link utilizado para coger la velocidad total del objeto
 POSICION_INICIAL = [0,0,1.5]
 ORIENTACION_INICIAL=[0,0,0,45]
