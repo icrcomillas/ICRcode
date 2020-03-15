@@ -27,7 +27,7 @@ class Driver(): #clase para crear cada uno de los drivers. Cada driver tendra un
 
 class Humanoide(Robot):
     def __init__(self):
-        self.insertar_valores_sevos()
+        self.insertDefault()
         #variables propias del robot
         self.numeroServos = 20
         self.numeroServosDriver = 16 #este es el numero de servos por driver, empezando desde el 0
@@ -37,7 +37,7 @@ class Humanoide(Robot):
         #self.driver2 = Adafruit_PCA9685.PCA9685(address = self.driver2_info.direccion)
         #self.giroscopio = mpu6050(self.direccion_giroscopio)
 
-    def insertar_valores_sevos(self):
+    def insertDefault(self):
         with open('configuracion.json') as f:
             drivers_dict = json.load(f)
 

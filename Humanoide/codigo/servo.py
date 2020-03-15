@@ -1,41 +1,37 @@
-from configuracion import robot
 import time
 import Adafruit_PCA9685
+import json
 
 
-#el objeto driver lo creo para
-driver = Adafruit_PCA9685.PCA9685(address = robot.direccion_driver1)
+class Servos(DireccionDriver1,DireccionDriver2,NumeroServos):
+    def __init__(self):
+        #se crean los dos drivers
+        self.driver1 = Adafruit_PCA9685.PCA9685(address = DireccionDriver1)
+        self.driver2 = Adafruit_PCA9685.PCA9685(address = DireccionDriver2)
+        #se lee el fichero en el que se almacena toda la informacion de los servos
+         with open('servos.json') as f:
+            self.datos = json.load(f)
 
-def calcular_pulso(ang):
+    def insertarValoresServos(self):#funcion para llamar a 'configuracion.json' y cargar de cada driver su direccion y numero de servos
+        for servo in range(0, NumeroServos):
+            moverServo(servo,self.datos[str(servo)]['default'])
+
+    def calcularPulso(ang):
     #definimos la funcion lineal para calcular el pulso
     pulso = 9.166*ang + 450
     return pulso
 
+    def moverServo(n_servo,angulo):
 
-def mover_servo(n_servo,angulo):
-
-
-    if angulo > robot.angulo_maximo or angulo < robot.angulo_minimo:
-        print("no se puede mover ese rango, esta fuera del alcance")
-    elif angulo <= robot.angulo_maximo and angulo >= robot.angulo_minimo:
-        pulso = calcular_pulso(angulo)
-        pulso = int(pulso)
-        driver.set_pwm(n_servo, 0, pulso)
-        print("se ha movido el servo "+str(n_servo)+" a la posicion "+str(angulo))
-    return
-def mover_servo_prueba(n_servo,pulso):
-    driver.set_pwm(n_servo, 0, pulso)
-    print("se ha movido el servo "+str(n_servo)+" a la posicion "+str(pulso))
-    return
-
-if __name__ == '__main__':
-    print("se ha entrado en el modo debug")
-
-
-    while True:
-        servo = input("que servo quieres mover")
-        servo = int(servo)#aqui se convierte el numero de entrada a un tipo entero, si no da error
-        angulo = input("¿a que angulo lo quieres mover?")
-        angulo = int(angulo) #aqui se convierte el numero de entrada a un tipo entero, si no da error
-        mover_servo(servo,angulo)
-        time.sleep(0.1)
+    pulso = self.calcular_pulso(angulo)
+    pulso = int(pulso)
+    if angulo < datos[str(n_servo)]['ang_max'] and angulo > datos[str(n_servo)]['ang_min']:
+        if self.datos[str(n_servo)]['driver'] == 1:
+            driver1.set_pwm(self.datos[str(n_servo)]['pin'], 0, pulso)
+            return 1
+        elif self.datos[str(n_servo)]['driver'] == 2:
+            driver2.set_pwm(self.datos[str(n_servo)]['pin'],0,pulso)
+            return 2
+    else:
+        return 0
+    
