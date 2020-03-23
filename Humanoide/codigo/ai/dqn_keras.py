@@ -44,7 +44,7 @@ def build_dqn(lr, n_actions, input_dims, fc1_dims):
     model.add(Dense(*input_dims,input_shape = input_dims,activation='relu'))   #revisar si es necesario meter imput_shape o vale con definir las neuronas
     doble = input_dims[0] *2
     model.add(Dense(doble, activation='relu'))
-    model.add(Dense(60, activation='relu'))
+    model.add(Dense(30, activation='relu'))
     model.add(Dense(30, activation='relu'))
     model.add(Dropout(0.2))
     model.add(Dense(10, activation='relu'))
