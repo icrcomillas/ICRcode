@@ -116,7 +116,7 @@ class entorno():
         if estado[self.indiceCaido] == 1:#se ha caido el robot, el indice hay que cambiarlo
             score = -20000
         else:
-            score =  tiempo*RECOMPENSA_ITERACION - sum(estado[0:3])*PENALIZACION #resta la aceleracion
+            score =  tiempo^2*RECOMPENSA_ITERACION - sum(estado[0:3])*PENALIZACION #resta la aceleracion
         
         return score
     def estado(self):
