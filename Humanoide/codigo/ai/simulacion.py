@@ -116,7 +116,7 @@ class entorno():
         if estado[self.indiceCaido] == 1:#se ha caido el robot, el indice hay que cambiarlo
             score = -20000
         else:
-            score =  tiempo^2*RECOMPENSA_ITERACION - sum(estado[0:3])*PENALIZACION #resta la aceleracion
+            score =  tiempo*tiempo*RECOMPENSA_ITERACION - sum(estado[0:3])*PENALIZACION #resta la aceleracion
         
         return score
     def estado(self):
@@ -179,7 +179,7 @@ if __name__ == '__main__':
     contadorEpisodios = 0
 
     best_score = 10000
-    agent = Agent(gamma=0.99, epsilon=1.0, alpha=0.0001,
+    agent = Agent(gamma=0.99, epsilon=0.2, alpha=0.0001,
                   input_dims=(env.DIMENSION_OBSERVACION,), n_actions=env.DIMENSION_ACCION, mem_size=25000,batch_size=32, replace=1000, eps_dec=1e-5)
                   
 
