@@ -16,7 +16,7 @@ NUMERO_EPISODIOS = 200000
 RECOMPENSA_ITERACION = 1 #recompensa que se da por cumplir cada iteración
 MARGEN_CAIDA = 0.5 #altura a la que se considera que ha caido el robot ###cambiado a 0.5
 ID_ROOT = 1 #id del link utilizado para coger la velocidad total del objeto
-POSICION_INICIAL = [0,0,1.5]
+POSICION_INICIAL = [0,0,0.5]
 ORIENTACION_INICIAL=[0,0,0,45]
 PENALIZACION = 10
 NOMBRE_FICHERO_EVAL = 'datos\q_eval.h5',      #ficheros en los que se guardan los modelos de la red neuronal
@@ -40,7 +40,9 @@ class entorno():
          #cargo el plano
         self.plano = p.loadURDF("plane.urdf")
         p.setGravity(0,0,-9.8)
-        p.setRealTimeSimulation(1)
+        p.setRealTimeSimulation(0)
+        #se añade un slider para determinar la probabilidad de que reciba un golpe
+        self.probabilidad = p.addUserDebugParameter("Probabilidad de fuerza",0,1,0.5)
 
         #indice del servo en el array de estados
         self.indiceServo = entorno.DIMENSION_OBSERVACION -1 
@@ -50,7 +52,7 @@ class entorno():
        
         #cargo el fichero del robot
        
-        self.robot = p.loadURDF("humanoid.urdf", [0,0,1.5], [0,0,0,45])
+        self.robot = p.loadURDF("humanoid.urdf", [0,0,1.3], [0,0,0,45])
         self.numeroServos = p.getNumJoints(self.robot)
         #array para guardar las posiciones de las uniones
         self.angulos = np.zeros((self.numeroServos,),dtype = float)
@@ -64,7 +66,7 @@ class entorno():
         #se resetea 
         p.resetSimulation() 
         p.setGravity(0,0,-9.8)
-        p.setRealTimeSimulation(1)
+        p.setRealTimeSimulation(0)
         self.plano = p.loadURDF("plane.urdf")   
         #se carga el robot de nuevo
         self.cargarRobot(POSICION_INICIAL,ORIENTACION_INICIAL)
@@ -79,7 +81,7 @@ class entorno():
     def step(self,accion,servo):
         self.iteracion = self.iteracion +1
         self.accion(accion,servo)
-        #p.stepSimulation()
+        p.stepSimulation()
         
         #vemos el estado del entorno despues de ejecutar la accion
         estadoActual= self.estado()
@@ -88,7 +90,23 @@ class entorno():
         estadoActual[self.indiceServo] = servo
 
         score = self.reward(estadoActual)
+        #se aplica una fuerza aleatoria, en el caso de que el numero que sale sea mayor que 0,5
+     
 
+        #el ultimo return indica si se ha caido el robot o no (es el flag de la inteligencia artificial)
+        return score,estadoActual,estadoActual[self.indiceCaido]
+
+    def aplicarFuerzaExterna(self):
+        link = random.randint(0,self.numeroServos-1)
+        fuerzaAplicada = [random.randint(0,1000),random.randint(0,1000),random.randint(0,1000)]
+        punto = [random.random(),random.random(),random.random()]
+        if random.random() > p.readUserDebugParameter(self.probabilidad):
+            print("se va a aplicar puerza externa")
+            p.applyExternalForce(self.robot, link,fuerzaAplicada,punto,p.WORLD_FRAME)
+            #se va a dibujar una linea indicando el vector de fuerza
+            punto2 = [punto[0]+fuerzaAplicada[0],punto[1]+fuerzaAplicada[1],punto[2]+fuerzaAplicada[2]]
+            p.addUserDebugLine(punto,punto2,[1,0,0],1,0,5)
+        return
         #el ultimo return indica si se ha caido el robot o no (es el flag de la inteligencia artificial)
         return score,estadoActual,estadoActual[self.indiceCaido]
     def accion(self,accion, servo):
@@ -127,13 +145,6 @@ class entorno():
         torque = np.zeros((self.numeroServos),dtype= float)
         
         arrayAceleracion = np.zeros((3),dtype = float)
-        """
-        for i in range(p.getNumJoints(self.robot)):
-            
-            #recibo los datos de cada uno, posicion y velocidad
-            velocidad, posicion[i],fuerzas, torque[i] = p.getJointState(self.robot,i)
-        """ 
-            
             
         #para conseguir la velocidad del centro de masa, considero como centro de masa el "link" del pecho        
         WorldPosition = p.getLinkState(self.robot,2,ID_ROOT)[0]
@@ -206,9 +217,10 @@ if __name__ == '__main__':
         observation = env.reset()
         score = 0
         
-        time.sleep(2)
+      
         contadorEpisodios += 1
         while not done:
+            env.aplicarFuerzaExterna()
             for servo in range(numero_servos):      #vamos a hacer que se itere por cada servo de forma independiente
                 action = agent.choose_action(observation)
                 reward, observation_, done = env.step(action,servo)
