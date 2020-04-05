@@ -108,7 +108,7 @@ class entorno():
             p.addUserDebugLine(punto,punto2,[1,0,0],1,0,5)
         return
         #el ultimo return indica si se ha caido el robot o no (es el flag de la inteligencia artificial)
-        return score,estadoActual,estadoActual[self.indiceCaido]
+        
     def accion(self,accion, servo):
         estado = self.estado()
         #indice del angulo del servo seleccionado, en el array de posiciones
@@ -134,7 +134,8 @@ class entorno():
         if estado[self.indiceCaido] == 1:#se ha caido el robot, el indice hay que cambiarlo
             score = -20000
         else:
-            score =  tiempo*tiempo*RECOMPENSA_ITERACION - sum(estado[0:3])*PENALIZACION #resta la aceleracion
+            #score =  tiempo*tiempo*RECOMPENSA_ITERACION - sum(estado[0:3])*PENALIZACION #resta la aceleracion
+            score =  self.iteracion*RECOMPENSA_ITERACION - sum(estado[0:3])*PENALIZACION #resta la aceleracion
         
         return score
     def estado(self):
