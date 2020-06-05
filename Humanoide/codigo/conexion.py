@@ -49,9 +49,11 @@ class Servidor(Conectable):
 
     def Aceptar(self):
 
-            #acepta conexiones nuevas de usuarios
-        
+        #acepta conexiones nuevas de usuarios
+        self.listen()
+        #deja el programa engancxhado hasta que encuentra a algun usuario que se quiera conectar
         self.cliente,addres = self.conexion.accept()
+        
         print("se ha conectado un cliente desde la direccion: ",addres)
         super().EnviarMensaje("Conexion ok")
 
@@ -68,3 +70,17 @@ class Cliente(Conectable):
     def EnviarMensaje(self,mensaje):    #en el caso del cliente hay que hacer un override la funcion enviar mensaje, ya qye servidor elige un canal determinado y clietne lo envia por conexion
         self.conexion.send(mensaje)
         return
+
+if __name__=='__main__':
+    respuesta = input("cliente o servidor")
+    if respuesta == "servidor":
+        print("modo servidor")
+        servidor = Servidor('192.168.1.40',65432)
+        servidor.conectar()
+        while True:
+            servidor.Aceptar()
+            servidor.RecibirMensaje()
+    elif respuesta == "cliente":
+        print("modo cliente")
+        cliente = Cliente()
+        cliente.conectar('192.168.1.40',65432)
