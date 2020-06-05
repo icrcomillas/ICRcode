@@ -10,7 +10,7 @@ class Conectable:
 
         return 
 
-    def RecibirMensaje(self):
+    def recibirMensaje(self):
         mensaje = self.conexion.recv(self.puerto)
         #hay que decodificar el mensaje recivido
         mensaje = mensaje.decode()
@@ -18,12 +18,12 @@ class Conectable:
         return mensaje
 
 
-    def EnviarMensaje(self,mensaje):
+    def enviarMensaje(self,mensaje):
         self.conectado.send(mensaje.encode())
 
         print("se ha enviado el siguiente mensaje: "+ mensaje)
         return
-    def Conectar(self):
+    def conectar(self):
         #se deja el método vacio para que luego sean los diferentes objetos los que lo machaquen
         return
 
@@ -31,7 +31,7 @@ class Conectable:
 class Servidor(Conectable):
     def __init__(self,ip,puerto):
         super().__init__(ip,puerto)
-    def Conectar(self):
+    def conectar(self):
         try:           
             #hace que el socket sea visible desde fuera de la maquina
             self.conexion.bind((self.ip,self.puerto))
@@ -47,7 +47,7 @@ class Servidor(Conectable):
             print("se ha creado el servidor")
             return True
 
-    def Aceptar(self):
+    def aceptar(self):
 
         #acepta conexiones nuevas de usuarios
         self.listen()
@@ -58,7 +58,7 @@ class Servidor(Conectable):
         super().EnviarMensaje("Conexion ok")
 
         return self.cliente,addres
-    def CerrarConexion(self):
+    def cerrarConexion(self):
         self.conexion.close()
 
 class Cliente(Conectable):
@@ -77,13 +77,13 @@ if __name__=='__main__':
         print("modo servidor")
         servidor = Servidor('192.168.1.40',65432)
         servidor.conectar()
-        servidor.Aceptar()
+        servidor.aceptar()
         while True:
-            servidor.RecibirMensaje()
+            servidor.recibirMensaje()
     elif respuesta == "cliente":
         print("modo cliente")
         cliente = Cliente()
         cliente.conectar('192.168.1.40',65432)
         while True:
             mensaje = input("que quieres enviar")
-            cliente.EnviarMensaje(mensaje)
+            cliente.enviarMensaje(mensaje)
