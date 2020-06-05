@@ -3,6 +3,36 @@ import time
 
 #esta libreria esta copiada del siguiente enlace de github,https://github.com/Tijndagamer/mpu6050/pull/19/files
 
+class Giroscopio(mpu6050):
+    def __init__(self,direccion):
+        #se inicializa el objeto mpu6050
+        mpu6050.__init__(direccion)
+        #se espera un tiempo a volver a calibrar el giroscopio
+        self.calibrarGiroscopio()
+    def calibrarGiroscopio(self):
+        self.giroscopio.zero_mean_calibration()
+        print("se ha calibrado el giroscopio")
+        return
+
+    def getAcelGiro(self):
+        aceleracion = self.giroscopio.get_accel_data() #leemos todas las aceleraciones del giroscopio
+
+        x = aceleracion['x']
+        y = aceleracion['y']
+        z = aceleracion['z']
+
+        return x, y,z       # los valores x , y , z son las aceleraciones en sus respectivos ejes
+
+    def getPosGiro(self):
+
+        inclinacion = self.giroscopio.get_gyro_data()
+
+        x = inclinacion['x']
+        y = inclinacion['y']
+        z = inclinacion['z']
+
+        return x, y ,z
+
 class mpu6050:
 
     # Global Variables
