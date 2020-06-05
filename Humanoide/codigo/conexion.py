@@ -56,7 +56,7 @@ class Servidor(Conectable):
         self.cliente,addres = self.conexion.accept()
         
         print("se ha conectado un cliente desde la direccion: ",addres)
-        super().enviarMensaje("Conexion ok")
+        #super().enviarMensaje("Conexion ok")
 
         return self.cliente,addres
     def cerrarConexion(self):
