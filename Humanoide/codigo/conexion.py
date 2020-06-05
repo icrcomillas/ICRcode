@@ -71,6 +71,8 @@ class Cliente(Conectable):
     def enviarMensaje(self,mensaje):    #en el caso del cliente hay que hacer un override la funcion enviar mensaje, ya qye servidor elige un canal determinado y clietne lo envia por conexion
         self.conexion.send(mensaje)
         return
+    def recibirMensaje(self):
+        return super().recibirMensaje()
 
 if __name__=='__main__':
     respuesta = input("cliente o servidor\n")
@@ -80,11 +82,14 @@ if __name__=='__main__':
         servidor.conectar()
         servidor.aceptar()
         while True:
-            servidor.recibirMensaje()
+            mensajeVuelta = servidor.recibirMensaje()
+            print(mensajeVuelta)
     elif respuesta == "cliente":
         print("modo cliente")
         cliente = Cliente('192.168.1.25',65432)
         cliente.conectar()
         while True:
+            mensajeVuelta = cliente.recibirMensaje()
+            print(mensajeVuelta)
             mensaje = input("que quieres enviar")
             cliente.enviarMensaje(mensaje)
