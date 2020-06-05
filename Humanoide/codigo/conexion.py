@@ -42,11 +42,12 @@ class Servidor(Conectable):
         except:
             print("no se ha podido crear el servidor")
             return False
+        """
         finally:
             
             print("se ha creado el servidor")
             return True
-
+        """
     def aceptar(self):
 
         #acepta conexiones nuevas de usuarios
@@ -75,7 +76,7 @@ if __name__=='__main__':
     respuesta = input("cliente o servidor\n")
     if respuesta == "servidor":
         print("modo servidor")
-        servidor = Servidor('192.168.1.40',65432)
+        servidor = Servidor('192.168.1.25',65432)
         servidor.conectar()
         servidor.aceptar()
         while True:
@@ -83,7 +84,7 @@ if __name__=='__main__':
     elif respuesta == "cliente":
         print("modo cliente")
         cliente = Cliente()
-        cliente.conectar('192.168.1.40',65432)
+        cliente.conectar('192.168.1.25',65432)
         while True:
             mensaje = input("que quieres enviar")
             cliente.enviarMensaje(mensaje)
