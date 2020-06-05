@@ -9,15 +9,6 @@ class Conectable:
         self.puerto = puerto
 
         return 
-
-    def recibirMensaje(self):
-        mensaje = self.conexion.recv(self.puerto)
-        #hay que decodificar el mensaje recivido
-        mensaje = mensaje.decode()
-
-        return mensaje
-
-
     def enviarMensaje(self,mensaje):
         self.conexion.send(mensaje.encode())
 
@@ -42,12 +33,7 @@ class Servidor(Conectable):
         except:
             print("no se ha podido crear el servidor")
             return False
-        """
-        finally:
-            
-            print("se ha creado el servidor")
-            return True
-        """
+     
     def aceptar(self):
 
         #acepta conexiones nuevas de usuarios
@@ -57,10 +43,15 @@ class Servidor(Conectable):
         
         print("se ha conectado un cliente desde la direccion: ",addres)
         #super().enviarMensaje("Conexion ok")
+        mensajeConfirmacion = "Conexion ok"
+        self.cliente.send(mensajeConfirmacion.encode())
 
         return self.cliente,addres
     def cerrarConexion(self):
         self.conexion.close()
+    def recibirMensaje(self):
+      
+        return self.cliente.recv(self.puerto).decode()          #en el caso del servidor envia los datos y recibe de cada objeto independientemente
 
 class Cliente(Conectable):
     def __init__(self,ip,puerto):
@@ -72,7 +63,7 @@ class Cliente(Conectable):
         self.conexion.send(mensaje)
         return
     def recibirMensaje(self):
-        return super().recibirMensaje()
+        return self.conexion.recv(self.puerto).decode()         #en el caso del cliente se recibe el objeto que se conecta 
 
 if __name__=='__main__':
     respuesta = input("cliente o servidor\n")
