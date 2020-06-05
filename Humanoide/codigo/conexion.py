@@ -19,7 +19,7 @@ class Conectable:
 
 
     def enviarMensaje(self,mensaje):
-        self.conectado.send(mensaje.encode())
+        self.conexion.send(mensaje.encode())
 
         print("se ha enviado el siguiente mensaje: "+ mensaje)
         return
