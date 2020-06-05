@@ -1,4 +1,4 @@
-   
+import socket
 class Conectable:
     #clase que no tiene un cosntructor
     #define el comportamiento que todo objeto de tipo conectable tiene que tener
@@ -72,7 +72,7 @@ class Cliente(Conectable):
         return
 
 if __name__=='__main__':
-    respuesta = input("cliente o servidor")
+    respuesta = input("cliente o servidor\n")
     if respuesta == "servidor":
         print("modo servidor")
         servidor = Servidor('192.168.1.40',65432)
