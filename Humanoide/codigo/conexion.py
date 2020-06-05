@@ -56,7 +56,7 @@ class Servidor(Conectable):
         self.cliente,addres = self.conexion.accept()
         
         print("se ha conectado un cliente desde la direccion: ",addres)
-        super().EnviarMensaje("Conexion ok")
+        super().enviarMensaje("Conexion ok")
 
         return self.cliente,addres
     def cerrarConexion(self):
@@ -83,8 +83,8 @@ if __name__=='__main__':
             servidor.recibirMensaje()
     elif respuesta == "cliente":
         print("modo cliente")
-        cliente = Cliente()
-        cliente.conectar('192.168.1.25',65432)
+        cliente = Cliente('192.168.1.25',65432)
+        cliente.conectar()
         while True:
             mensaje = input("que quieres enviar")
             cliente.enviarMensaje(mensaje)
