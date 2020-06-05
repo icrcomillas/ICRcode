@@ -50,11 +50,11 @@ class Servidor(Conectable):
         self.cliente.send(mensajeConfirmacion.encode())
 
         return self.cliente,addres
-    def cerrarConexion(self):
-        self.conexion.close()
     def recibirMensaje(self):
-      
-        return self.cliente.recv(1024).decode()          #en el caso del servidor envia los datos y recibe de cada objeto independientemente
+        mensaje = self.cliente.recv(1024).decode()          #en el caso del servidor envia los datos y recibe de cada objeto independientemente
+        if mensaje == "cerrar":
+            super.cerrarConexion()
+        return mensaje
 
 class Cliente(Conectable):
     def __init__(self,ip,puerto):
@@ -74,7 +74,10 @@ class Cliente(Conectable):
         return
     def recibirMensaje(self):
         return self.conexion.recv(1024).decode()         #en el caso del cliente se recibe el objeto que se conecta 
-
+    def cerrarConexion(self):
+        self.enviarMensaje("cerrar")
+        super().cerrarConexion()
+        return 
 if __name__=='__main__':
     respuesta = input("cliente o servidor\n")
     if respuesta == "servidor":
@@ -90,7 +93,7 @@ if __name__=='__main__':
         cliente = Cliente('192.168.1.25',65432)
         cliente.conectar()
         while True:
-            mensaje = input("que quieres enviar, o cerrar")
+            mensaje = input("que quieres enviar, o cerrar\n")
             if mensaje == "cerrar":
                 cliente.cerrarConexion()
             else:
