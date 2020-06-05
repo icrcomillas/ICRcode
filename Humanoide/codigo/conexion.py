@@ -77,10 +77,13 @@ if __name__=='__main__':
         print("modo servidor")
         servidor = Servidor('192.168.1.40',65432)
         servidor.conectar()
+        servidor.Aceptar()
         while True:
-            servidor.Aceptar()
             servidor.RecibirMensaje()
     elif respuesta == "cliente":
         print("modo cliente")
         cliente = Cliente()
         cliente.conectar('192.168.1.40',65432)
+        while True:
+            mensaje = input("que quieres enviar")
+            cliente.EnviarMensaje(mensaje)
