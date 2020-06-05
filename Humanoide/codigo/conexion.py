@@ -50,7 +50,7 @@ class Servidor(Conectable):
     def aceptar(self):
 
         #acepta conexiones nuevas de usuarios
-        self.listen()
+        self.conexion.listen()
         #deja el programa engancxhado hasta que encuentra a algun usuario que se quiera conectar
         self.cliente,addres = self.conexion.accept()
         
@@ -64,10 +64,10 @@ class Servidor(Conectable):
 class Cliente(Conectable):
     def __init__(self,ip,puerto):
         super().__init__(ip,puerto)
-    def Conectar(self):
+    def conectar(self):
         self.conexion.connect((self.ip,self.puerto))
         return
-    def EnviarMensaje(self,mensaje):    #en el caso del cliente hay que hacer un override la funcion enviar mensaje, ya qye servidor elige un canal determinado y clietne lo envia por conexion
+    def enviarMensaje(self,mensaje):    #en el caso del cliente hay que hacer un override la funcion enviar mensaje, ya qye servidor elige un canal determinado y clietne lo envia por conexion
         self.conexion.send(mensaje)
         return
 
