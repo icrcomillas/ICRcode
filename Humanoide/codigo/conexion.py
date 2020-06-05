@@ -42,7 +42,7 @@ class Servidor(Conectable):
         self.cliente,addres = self.conexion.accept()
         
         print("se ha conectado un cliente desde la direccion: ",addres)
-        #super().enviarMensaje("Conexion ok")
+      
         mensajeConfirmacion = "Conexion ok"
         self.cliente.send(mensajeConfirmacion.encode())
 
@@ -58,9 +58,16 @@ class Cliente(Conectable):
         super().__init__(ip,puerto)
     def conectar(self):
         self.conexion.connect((self.ip,self.puerto))
+        while True:
+            mensajeVuelta = cliente.recibirMensaje()        #espera a recibir un mensaje de confirmacion
+            if mensajeVuelta == "Conexion ok":
+                print("Conexion realizada de forma correcta")
+            else:
+                print("Conexion fallida")
+            break
         return
     def enviarMensaje(self,mensaje):    #en el caso del cliente hay que hacer un override la funcion enviar mensaje, ya qye servidor elige un canal determinado y clietne lo envia por conexion
-        self.conexion.send(mensaje)
+        self.conexion.send(mensaje.encode())
         return
     def recibirMensaje(self):
         return self.conexion.recv(self.puerto).decode()         #en el caso del cliente se recibe el objeto que se conecta 
@@ -80,7 +87,5 @@ if __name__=='__main__':
         cliente = Cliente('192.168.1.25',65432)
         cliente.conectar()
         while True:
-            mensajeVuelta = cliente.recibirMensaje()
-            print(mensajeVuelta)
             mensaje = input("que quieres enviar")
             cliente.enviarMensaje(mensaje)
