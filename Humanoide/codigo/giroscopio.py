@@ -291,7 +291,7 @@ class Giroscopio(mpu6050):
         return x, y ,z
 
 if __name__ == "__main__":
-    giroscopio = Giroscopio(0x68)
+    giroscopio = Giroscopio(self,0x68,1)
     while True:             #rutina para comprobar que funciona correctamente
         print(giroscopio.get_temp())
         accel_data = giroscopio.getAcelGiro()
