@@ -263,7 +263,7 @@ class mpu6050():
 class Giroscopio(mpu6050):
     def __init__(self,direccion):
         #se inicializa el objeto mpu6050
-        mpu6050.__init__(direccion)
+        mpu6050.__init__(self,direccion)
         #se espera un tiempo a volver a calibrar el giroscopio
         self.calibrarGiroscopio()
     def calibrarGiroscopio(self):
@@ -291,7 +291,7 @@ class Giroscopio(mpu6050):
         return x, y ,z
 
 if __name__ == "__main__":
-    giroscopio = Giroscopio(self,0x68,1)
+    giroscopio = Giroscopio(0x68)
     while True:             #rutina para comprobar que funciona correctamente
         print(giroscopio.get_temp())
         accel_data = giroscopio.getAcelGiro()
