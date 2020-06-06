@@ -261,7 +261,7 @@ class mpu6050():
         print(''.join('{:02.4f}  '.format(n) for n in self.mean_calibrations))
 
 class Giroscopio(mpu6050):
-    def __init__(self,direccion,1):
+    def __init__(self,direccion):
         #se inicializa el objeto mpu6050
         mpu6050.__init__(self,direccion)
         #se espera un tiempo a volver a calibrar el giroscopio
