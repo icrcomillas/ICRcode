@@ -265,7 +265,7 @@ class Giroscopio(mpu6050):
         #se inicializa el objeto mpu6050
         mpu6050.__init__(self,direccion)
         #se espera un tiempo a volver a calibrar el giroscopio
-        super.zero_mean_calibration()
+        self.zero_mean_calibration()
     def calibrarGiroscopio(self):
         self.giroscopio.zero_mean_calibration()
         print("se ha calibrado el giroscopio")
