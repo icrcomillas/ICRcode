@@ -1,0 +1,246 @@
+<?xml version="0.0" ?>
+<robot name="humanoideRaul">
+	<link name= "pieDerecho">
+		<visual>
+			<origin xyz="0.0 -1 -10" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/pieDer.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 -1 -10" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/pieDer.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<link name="pieIzquierdo">
+		<visual>
+			<origin xyz="0.0 1 -10" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/pieIzq.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 1 -10" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/pieIzq.stl" scale="1.0"/>
+			</geometry>
+		</collision>		
+	</link>
+	<link name="tobilloDerecho">
+		<visual>
+			<origin xyz="0.0 -1 -8" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/tobilloDer.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 -1 -8" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/tobilloDer.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="tobilloIzquierdo">
+		<visual>
+			<origin xyz="0.0 1 -8" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/tobilloIzq.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 1 -8" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/tobilloIzq.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="tibiaDerecha">
+		<visual>
+			<origin xyz="0.0 -1 -6" rpy="0.0 0.0 0.0"/>		
+			<geometry>
+				<mesh filename="mesh/tibiaDer.stl" scale="1.0"/>
+			</geometry>	
+		</visual>
+		<collision>
+			<origin xyz="0.0 -1 -6" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/tibiaDer.stl" scale="1.0"/>
+			</geometry>
+		</collision>		
+	</link>
+	<link name="tibiaIzquierda">
+		<visual>
+			<origin xyz="0.0 1 -6" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/tibiaIzq.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 1 -6" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/tibiaIzq.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+		
+	</link>
+	<link name="musloDerecho">
+		<visual>
+			<origin xyz="0.0 -1 -4" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/musloDer.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 -1 -4" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/musloDer.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="musloIzquierdo">
+		<visual>
+			<origin xyz="0.0 1 -4" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/musloIzq.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 1 -4" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/musloIzq.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="caderaDerecha">
+		<visual>
+			<origin xyz="0.0 -1 -2" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/caderaDer.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 -1 -2" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/caderaDer.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="caderaIzquierda">
+		<visual>
+			<origin xyz="0.0 -1 -2" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/caderaIzq.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 -1 -2" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/caderaIzq.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="base_link">
+		<visual>
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/torso.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/torso.stl" scale="1.0"/>
+			</geometry>
+		</collision>	
+	</link>
+	<link name="hombroDerecho">
+		<visual>
+			<origin xyz="0.0 -1 0.0" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/hombroDer.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 -1 0.0" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/hombroDer.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="hombroIzquierdo">
+		<visual>
+			<origin xyz="0.0 1 0.0" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/hombroIzq.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 1 0.0" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/hombroIzq.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="bicepsDerecho">
+		<visual>
+			<origin xyz="0.0 -1 -0.5" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/bicepsDer.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 -1 -0.5" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/bicepsDer.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="bicepsIzquierdo">
+		<visual>
+			<origin xyz="0.0 1 -0.5" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/bicepsIzq.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 1 -0.5" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/bicepsIzq.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="brazoDerecho">
+		<visual>
+			<origin xyz="0.0 -1 -1" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/brazoDer.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 -1 -1" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/brazoDer.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="brazoIzquierdo">
+		<visual>
+			<origin xyz="0.0 1 -1" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/brazoIzq.stl" scale="1.0"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0.0 1 -1" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="mesh/brazoIzq.stl" scale="1.0"/>
+			</geometry>
+		</collision>
+	</link>
+
+
+	
+</robot>
