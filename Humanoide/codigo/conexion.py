@@ -1,7 +1,8 @@
 import socket
 import json
 import rospy
-from std_msg.msg import Int8
+from std_msg.msg import Int8MultiArray
+from std_msg.msg import String
 
 class Conectable:
     #clase que no tiene un cosntructor
@@ -16,7 +17,7 @@ class Conectable:
     def enviarMensaje(self,mensaje):
         self.conexion.send(mensaje.encode())
 
-        print("se ha enviado el siguiente mensaje: "+ mensaje)
+        rospy.loginfo(mensaje+"%"+rospy.get_time())
         return
     def conectar(self):
         #se deja el método vacio para que luego sean los diferentes objetos los que lo machaquen
@@ -56,12 +57,14 @@ class Servidor(Conectable):
         return self.cliente,addres
     def recibirMensaje(self):
         mensaje = self.cliente.recv(1024).decode()          #en el caso del servidor envia los datos y recibe de cada objeto independientemente
+        mensaje[0] = int(mensaje)//1000
+        mensaje[1] = int(mensaje)%1000
         if mensaje == "cerrar":
             super.cerrarConexion()
         return mensaje
     def servidor(self):                     #esta va a ser la funcion que llama ros para poder ejecutar toda la rutina de comunicacion
-        publisher = rospy.Publisher('recibidos',Int8)   #se establece el topic en el que se va a publicar
-        rospy.init_node('Conexion', anonymous=True)     #se inicializa el nodo
+        publisher = rospy.Publisher('recibidos',Int8MultiArray)   #se establece el topic en el que se va a publicar
+        receiver = rospy.Subscriber('enviados',String,self.enviarMensaje)
         rate = rospy.Rate(10)               # 10hz
         conectado = False                   # se le asigna inicialmente el valor a falso, de forma que entre en el bucle
         while not rospy.is_shutdown():      #queda implementar condicion para comprobar si el cliente sigue conectado
@@ -71,7 +74,8 @@ class Servidor(Conectable):
             else:                           #en el caso de que ya tenga un cliente conectado
                 mensaje = self.recibirMensaje()
                 rospy.loginfo(mensaje+"%"+rospy.get_time())
-                publisher.publish(mensaje)  #se publica el mensaje en el topic
+                arrayPublicado = Int8MultiArray(data=mensaje)       #se construye el mensaje para poder publicarlo
+                publisher.publish(arrayPublicado)  #se publica el mensaje en el topic
                 rate.sleep()
 
 class Cliente(Conectable):
@@ -97,6 +101,8 @@ class Cliente(Conectable):
         super().cerrarConexion()
         return 
 if __name__=='__main__':
+    #se incializa el nodo
+    rospy.init_node("Conexion")
     #se crea el objeto para la conexion
     with open('servos.json') as ficheroConfiguracion:       #se carga la direccion ip y el puerto de conexion de un fichero json
             datos = json.load(ficheroConfiguracion)
