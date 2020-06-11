@@ -1,7 +1,7 @@
-
 import Adafruit_PCA9685
 import json
-
+import rospy
+from std_msg.msg import Int8MultiArray
 
 
 class Servos():
@@ -10,12 +10,12 @@ class Servos():
         self.driver1 = Adafruit_PCA9685.PCA9685(address = DireccionDriver1)
         self.driver2 = Adafruit_PCA9685.PCA9685(address = DireccionDriver2)
         #se lee el fichero en el que se almacena toda la informacion de los servos
-        with open('servos.json') as f:
-            self.datos = json.load(f)
+        with open('servos.json') as fichero:
+            self.datos = json.load(fichero)
         self.insertarValoresServos(NumeroServos)
 
     def insertarValoresServos(self,NumeroServos):#funcion para llamar a 'configuracion.json' y cargar de cada driver su direccion y numero de servos
-        for servo in range(0, NumeroServos):
+        for servo in range(0, NumeroServos):     # se pone a los servos un valor por defecto
             moverServo(servo,self.datos[str(servo)]['default'])
 
     def calcularPulso(self,ang):
@@ -52,3 +52,14 @@ class Servos():
         pulso = 9.166*ang + 450
         return pulso
         #clase referida al equilibrio del robot
+    def inicializar(self):
+        receptor = rospy.Subcriber("angulos",Int8MultiArray,actualizarValoresServos)    #se crea el suscriptor del topic
+        rospy.spin()      
+    def actualizarValoresServos(self,arrayAngulos):  
+        for i in arrayAngulos.size():
+            self.moverServo(i,arrayAngulos[i])
+if __name__ == '__main__':
+    rospy.init_node("Servos",anonymous=True)    #se inicializa el nodo
+    servos = Servos()                           #se crea el objeto servos, de forma que se instancia la clase y arranca el modulo
+    servos.inicializar()
+    
