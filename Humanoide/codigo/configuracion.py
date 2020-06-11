@@ -10,21 +10,7 @@ import socket
 #se utiliza la libreria json para obtener la informacion de cada servo de forma fiable e individualizada
 import json
 
-#clase que define el comportamiento de todo robot
-class Robot():
-    def __init__(self):
-        return 
-    def moverDelante(self):
-        return 
-    def moverAtras(self):
-        return 
-class Humanoide(Robot):
 
-   
-    def __init__(self):
-       #se inicializa el objeto y se crea el objeto para el movimento
-       servos = Servos(DIRECCION_DRIVER1, DIRECCION_DRIVER2,NUMERO_SERVOS)
-    
 
 
 

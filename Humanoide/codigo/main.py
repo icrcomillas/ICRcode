@@ -1,12 +1,26 @@
 #antes de empezar tenemos que conectarnos al driver del servo, y al giroscopio
 #la informacion de la libreria del driver esta aqui https://github.com/adafruit/Adafruit_Python_PCA9685
 #la informacion del giroscopio está aqui https://github.com/Tijndagamer/mpu6050
-
-from configuracion import robot
 import time
+import rospy
 #importamos las diferentes funciones de nuestro codigo
-
-
+ 
+ 
+#clase que define el comportamiento de todo robot
+class Robot():
+    def __init__(self):
+        return 
+    def moverDelante(self):
+        return 
+    def moverAtras(self):
+        return 
+class Humanoide(Robot):
+  
+    def __init__(self):
+       #se inicializa el objeto y se crea el objeto para el movimento
+       servos = Servos(DIRECCION_DRIVER1, DIRECCION_DRIVER2,NUMERO_SERVOS)
+    def listener():
+    def llamadaComunicacion():
 
 if __name__ == '__main__':
     #creamos el objeto robot
