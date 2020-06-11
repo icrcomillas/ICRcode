@@ -1,4 +1,8 @@
 import socket
+import json
+import rospy
+from std_msg.msg import Int8
+
 class Conectable:
     #clase que no tiene un cosntructor
     #define el comportamiento que todo objeto de tipo conectable tiene que tener
@@ -41,7 +45,7 @@ class Servidor(Conectable):
 
         #acepta conexiones nuevas de usuarios
         self.conexion.listen()
-        #deja el programa engancxhado hasta que encuentra a algun usuario que se quiera conectar
+        #deja el programa enganchado hasta que encuentra a algun usuario que se quiera conectar
         self.cliente,addres = self.conexion.accept()
         
         print("se ha conectado un cliente desde la direccion: ",addres)
@@ -55,6 +59,20 @@ class Servidor(Conectable):
         if mensaje == "cerrar":
             super.cerrarConexion()
         return mensaje
+    def servidor(self):                     #esta va a ser la funcion que llama ros para poder ejecutar toda la rutina de comunicacion
+        publisher = rospy.Publisher('recibidos',Int8)   #se establece el topic en el que se va a publicar
+        rospy.init_node('Conexion', anonymous=True)     #se inicializa el nodo
+        rate = rospy.Rate(10)               # 10hz
+        conectado = False                   # se le asigna inicialmente el valor a falso, de forma que entre en el bucle
+        while not rospy.is_shutdown():      #queda implementar condicion para comprobar si el cliente sigue conectado
+            if conectado == False:
+                self.aceptar()              #en el caso de que no se tenga conectado ningun cliente, el servidor trata de aceptar a otro 
+                conectado = True
+            else:                           #en el caso de que ya tenga un cliente conectado
+                mensaje = self.recibirMensaje()
+                rospy.loginfo(mensaje+"%"+rospy.get_time())
+                publisher.publish(mensaje)  #se publica el mensaje en el topic
+                rate.sleep()
 
 class Cliente(Conectable):
     def __init__(self,ip,puerto):
@@ -62,7 +80,7 @@ class Cliente(Conectable):
     def conectar(self):
         self.conexion.connect((self.ip,self.puerto))
         while True:
-            mensajeVuelta = cliente.recibirMensaje()        #espera a recibir un mensaje de confirmacion
+            mensajeVuelta = self.conexion.recibirMensaje()        #espera a recibir un mensaje de confirmacion
             if mensajeVuelta == "Conexion ok":
                 print("Conexion realizada de forma correcta")
             else:
@@ -79,22 +97,11 @@ class Cliente(Conectable):
         super().cerrarConexion()
         return 
 if __name__=='__main__':
-    respuesta = input("cliente o servidor\n")
-    if respuesta == "servidor":
-        print("modo servidor")
-        servidor = Servidor('192.168.1.25',65432)
-        servidor.conectar()
-        servidor.aceptar()
-        while True:
-            mensajeVuelta = servidor.recibirMensaje()
-            print(mensajeVuelta)
-    elif respuesta == "cliente":
-        print("modo cliente")
-        cliente = Cliente('192.168.1.25',65432)
-        cliente.conectar()
-        while True:
-            mensaje = input("que quieres enviar, o cerrar\n")
-            if mensaje == "cerrar":
-                cliente.cerrarConexion()
-            else:
-                cliente.enviarMensaje(mensaje)
+    #se crea el objeto para la conexion
+    with open('servos.json') as ficheroConfiguracion:       #se carga la direccion ip y el puerto de conexion de un fichero json
+            datos = json.load(ficheroConfiguracion)
+    conexion = Cliente(datos["direccionIp"]["Ip"],datos["direccionIp"]["puerto"])
+    try:
+        conexion.servidor()
+    except rospy.ROSInterruptException:
+        rospy.loginfo("se ha producido un error a la hora de conectarse con el ordenador")

@@ -9,5 +9,9 @@
     },
     "giroscopio": {
         "direccion": "0x68"
+    },
+    "direccionIp":{
+        "Ip": "192.168.1.25",
+        "puerto": 65432
     }
 }
