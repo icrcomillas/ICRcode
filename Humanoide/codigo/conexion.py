@@ -51,7 +51,7 @@ class Servidor(Conectable):
         
         print("se ha conectado un cliente desde la direccion: ",addres)
       
-        mensajeConfirmacion = "Conexion ok"
+        mensajeConfirmacion = "Conexion ok"             #se envia un mensaje de confirmación de que todo a funcionado correctamente
         self.cliente.send(mensajeConfirmacion.encode())
 
         return self.cliente,addres
@@ -108,6 +108,6 @@ if __name__=='__main__':
             datos = json.load(ficheroConfiguracion)
     conexion = Cliente(datos["direccionIp"]["Ip"],datos["direccionIp"]["puerto"])
     try:
-        conexion.servidor()
+        conexion.servidor()                                  #se entra en el bucle
     except rospy.ROSInterruptException:
         rospy.loginfo("se ha producido un error a la hora de conectarse con el ordenador")
