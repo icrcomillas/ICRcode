@@ -73,9 +73,10 @@ class Servidor(Conectable):
                 conectado = True
             else:                           #en el caso de que ya tenga un cliente conectado
                 mensaje = self.recibirMensaje()
-                rospy.loginfo(mensaje+"%"+rospy.get_time())
-                arrayPublicado = Int8MultiArray(data=mensaje)       #se construye el mensaje para poder publicarlo
-                publisher.publish(arrayPublicado)  #se publica el mensaje en el topic
+                if mensaje != None:
+                    rospy.loginfo(mensaje+"%"+rospy.get_time())
+                    arrayPublicado = Int8MultiArray(data=mensaje)       #se construye el mensaje para poder publicarlo
+                    publisher.publish(arrayPublicado)  #se publica el mensaje en el topic
                 rate.sleep()
 
 class Cliente(Conectable):
