@@ -1,8 +1,7 @@
 from movimiento import Servos
 from equilibrio import Equilibrio
 import rospy
-from msg import mensajeRaul
-from ros.msg import teleop
+from std_msgs/Int8.msg import int
 
 class Control():        #clase encargada de controlar todo lo referido al movimiento del robot
     def __init__(self):
@@ -10,6 +9,8 @@ class Control():        #clase encargada de controlar todo lo referido al movimi
         DIRECCION_DRIVER1 = 0X70        #A REVISAR, BUSCAR FORMA DE CARGARLOS DESDE JSON
         DIRECCION_DRIVER2 = 0X68
         NUMERO_SERVOS = 20
+
+        listener()
      
     def equilibrar(self):
         #hay que equilibrar tanto en la direccion alante atras, izquierda derecha
@@ -22,4 +23,12 @@ class Control():        #clase encargada de controlar todo lo referido al movimi
     def servoAngTransform(self,direccion)
         #funcion encargada de transformar la prediccion en un angulo del los servos
 
+    def callback(data):
 
+    
+    def listener():
+        rospy.init_node('listener', anonymous=True)
+
+        rospy.Subscriber("recibidos", int, callback)
+        # spin() simply keeps python from exiting until this node is stopped
+        rospy.spin()
