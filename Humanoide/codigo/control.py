@@ -29,8 +29,8 @@ class Control():        #clase encargada de controlar todo lo referido al movimi
         if data[0] < 10:    #Si la instruccion es de movimineto, del diccionario sacamos los angulos pertinentes
             self.instruccion_servos = self.posibles_movimientos[data[0]]
         else:
-            # Como queremos mover un solo servo, de las unidades y decenas sacamos cual y en la segunda posicion de data tenemos el angulo
-            self.instruccion_servos[(data[0]%100)-1] = data[1]
+            # Como queremos mover un solo servo, restamos 10 y sacamos cual y en la segunda posicion de data tenemos el angulo
+            self.instruccion_servos[(data[0]-10)] = data[1]
         arrayPublicado = Int8MultiArray(self.instruccion_servos)    #Preparacion para mandar el array
         self.publisher.publish(arrayPublicado)   #publicamos el array
         
