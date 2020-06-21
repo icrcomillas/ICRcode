@@ -1,6 +1,7 @@
 import smbus
 import time
-
+import rospy
+from msg import msgGiro
 #esta libreria esta copiada del siguiente enlace de github,https://github.com/Tijndagamer/mpu6050/pull/19/files
 class mpu6050():
 
@@ -289,16 +290,24 @@ class Giroscopio(mpu6050):
         z = inclinacion['z']
 
         return x, y ,z
-
+    def launcher(self):
+        rate = rospy.Rate(10)
+        publisher = rospy.Publisher("giroscopio",msgGiro)   #queda definir el tipo de mensaje
+        msg = msgGiro()     #se crea el objeto del mensaje
+        rospy.loginfo("Giroscopio Publisher set")
+        self.calibrarGiroscopio()
+        rospy.loginfo("giroscopio calibrado")
+        while not rospy.is_shutdown():  #entra en el bucle mientras ros esté encendido
+            msg.x = self.getPosGiro()[0]     #se cargan los diferentes valores del giroscopio
+            msg.y = self.getPosGiro()[1]
+            msg.z = self.getPosGiro()[2]
+            msg.acelx = self.getAcelGiro()[0]
+            msg.acely = self.getAcelGiro()[1]
+            msg.acelz = self.getAcelGiro()[2]
+            publisher.publish(msg)  #se publica el mensaje
+            rate.sleep()        #se para el hilo el tiempo determinado
 if __name__ == "__main__":
+    #cuando ros llame al nodo tiene que inicializarse el nodo y comenzar a publicar
     giroscopio = Giroscopio(0x68)
-    while True:             #rutina para comprobar que funciona correctamente
-        print(giroscopio.get_temp())
-        accel_data = giroscopio.getAcelGiro()
-        print(accel_data)
-        print(accel_data)
-        print(accel_data)
-        gyro_data = giroscopio.getPosGiro()
-        print(gyro_data)
-        print(gyro_data)
-        print(gyro_data)
+    rospy.init_node("Giroscopio",anonumous= True) 
+    giroscopio.launcher() 
