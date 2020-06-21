@@ -36,7 +36,7 @@ class Control():        #clase encargada de controlar todo lo referido al movimi
         
     def listener(self):
         rospy.Subscriber("recibidos", Int8MultiArray, self.callback)
-        rospy.loginfo("Subscribers set")
+        rospy.loginfo("Control Subscribers set")
 
         self.publisher = rospy.Publisher("angulos",Int8MultiArray)
 
