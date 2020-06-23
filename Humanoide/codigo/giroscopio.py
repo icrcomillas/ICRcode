@@ -236,7 +236,8 @@ class mpu6050():
             accel = self.get_accel_data(g=True)
             gyro  = self.get_gyro_data()
             if (i % 25 == 0):
-                print ('.', end= '', flush=True)
+                #print ('.', end= '', flush=True) comentado por incompatibilidades de python2 y python 3, esta linea es de python3
+                print ('.', flush=True)
             ax += accel['x']
             ay += accel['y']
             az += accel['z']
