@@ -259,7 +259,8 @@ class mpu6050():
         self.mean_calibrations = [ax,ay,az,gx,gy,gz]
         print ("\n** Calibration Complete **")
 
-        print ('** offsets: ',end='')
+        #print ('** offsets: ',end='')  comentado por incompatibilidades de python2 y python 3, esta linea es de python3
+        print ('** offsets: ')
         print(''.join('{:02.4f}  '.format(n) for n in self.mean_calibrations))
 
 class Giroscopio(mpu6050):
