@@ -299,7 +299,7 @@ class Giroscopio(mpu6050):
         rospy.loginfo("Giroscopio Publisher set")
         self.calibrarGiroscopio()
         rospy.loginfo("giroscopio calibrado")
-        while not rospy.is_shutdown():  #entra en el bucle mientras ros esté encendido
+        while not rospy.is_shutdown():  #entra en el bucle mientras ros este encendido
             msg.x = self.getPosGiro()[0]     #se cargan los diferentes valores del giroscopio
             msg.y = self.getPosGiro()[1]
             msg.z = self.getPosGiro()[2]
