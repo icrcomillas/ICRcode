@@ -13,6 +13,7 @@ make -j 8
 sudo make altinstall
 cd ..
 sudo apt install python3-pip
+pip install --upgrade "pip < 21.0"
 pip3 install numpy scipy matplotlib ipython pandas sumpy nose
 pip3 install libiio
 pip3 install pyadi-iio[jesd]
