@@ -40,10 +40,5 @@ def setPortadoraRecepcion(frecuencia):
     placaPluto.rx_lo(frecuencia)
 def setPortadoraTransmision(frecuencia):
     placaPluto.tx_lo(frecuencia)
-<<<<<<< HEAD
-def setGanancia(ganancia)
-    placaPluto.rx_hardwaregain_chan0(ganancia)
-=======
 def setGanancia(ganancia):
     placaPluto.rx_hardwaregain_chan0(ganancia)
->>>>>>> cd828389ba71d33b5b0b02abb09c98637daa927c
