@@ -41,4 +41,10 @@ def setPortadoraRecepcion(frecuencia):
 def setPortadoraTransmision(frecuencia):
     placaPluto.tx_lo(frecuencia)
 def setGananciaRecepcion(ganancia):
+    if getControladorGanancia() == "manual"
     placaPluto.rx_hardwaregain_chan0(ganancia)
+def setControladorGanancia(modo):
+    if modo == "slow_attack" or modo == "fast_attack" or modo == "manual"
+        placaPluto.gain_control_mode_chan0(modo)
+def getControladorGanancia()
+    return placaPluto.gain_control_mode_chan0
