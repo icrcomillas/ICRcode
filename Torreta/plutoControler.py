@@ -13,18 +13,14 @@ with open('Torreta\configuracion.json') as json_file:
 
 if ficheroJson['test']:
     #en el caso de que nos encontremos en modo de test
-    grafica = graficas()
-    computador = operacion()
+    
 
     samplerate, data = wavfile.read('Torreta\prueba.wav')
-    #se crea el vector de tiempos
-    vector_tiempo = np.linspace(0,len(data)/samplerate,len(data))
-    
-   
+
     #se realiza el calculo del espectro de la señal
     
-    
-    grafica.mostrarGrafica(vector_frecuencia,np.abs(fft_data),'Espectro')
+    fft_data, vector_frecuencia = operaciones.calcularEspectro(data,samplerate)
+    graficas.mostrarGrafica(vector_frecuencia,np.abs(fft_data),'Espectro')
     #se realiza el diezmado de la señal
 else:
     placaPluto = adi.Pluto(ficheroJson['direccionIp'])
@@ -41,10 +37,10 @@ def setPortadoraRecepcion(frecuencia):
 def setPortadoraTransmision(frecuencia):
     placaPluto.tx_lo(frecuencia)
 def setGananciaRecepcion(ganancia):
-    if getControladorGanancia() == "manual"
+    if getControladorGanancia() == "manual":
         placaPluto.rx_hardwaregain_chan0(ganancia)
 def setControladorGanancia(modo):
-    if modo == "slow_attack" or modo == "fast_attack" or modo == "manual"
+    if modo == "slow_attack" or modo == "fast_attack" or modo == "manual":
         placaPluto.gain_control_mode_chan0(modo)
-def getControladorGanancia()
+def getControladorGanancia():
     return placaPluto.gain_control_mode_chan0
