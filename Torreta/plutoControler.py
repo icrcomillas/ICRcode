@@ -1,8 +1,7 @@
 import json
 import numpy as np
 from scipy.io import wavfile
-from scipy.fft import fft, fftfreq
-from operaciones import graficas
+from operaciones import graficas, operacion
 import adi 
 
 
@@ -15,6 +14,7 @@ with open('Torreta\configuracion.json') as json_file:
 if ficheroJson['test']:
     #en el caso de que nos encontremos en modo de test
     grafica = graficas()
+    computador = operacion()
 
     samplerate, data = wavfile.read('Torreta\prueba.wav')
     #se crea el vector de tiempos
@@ -22,8 +22,7 @@ if ficheroJson['test']:
     
    
     #se realiza el calculo del espectro de la señal
-    fft_data = fft(data)
-    vector_frecuencia = fftfreq(len(data),1/samplerate)
+    
     
     grafica.mostrarGrafica(vector_frecuencia,np.abs(fft_data),'Espectro')
     #se realiza el diezmado de la señal
@@ -41,5 +40,10 @@ def setPortadoraRecepcion(frecuencia):
     placaPluto.rx_lo(frecuencia)
 def setPortadoraTransmision(frecuencia):
     placaPluto.tx_lo(frecuencia)
+<<<<<<< HEAD
 def setGanancia(ganancia)
     placaPluto.rx_hardwaregain_chan0(ganancia)
+=======
+def setGanancia(ganancia):
+    placaPluto.rx_hardwaregain_chan0(ganancia)
+>>>>>>> cd828389ba71d33b5b0b02abb09c98637daa927c
