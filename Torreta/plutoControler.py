@@ -25,6 +25,10 @@ if ficheroJson['test']:
 else:
     placaPluto = adi.Pluto(ficheroJson['direccionIp'])
     inicializarPlaca()
+    datos  = np.empty()
+    while(1):
+        datosNuevos = placaPluto.rx()
+        np.append(datos,[datosNuevos])
 
 
 def inicializarPlaca():
