@@ -79,6 +79,7 @@ def getControladorGanancia():
 def manejo():
     global data
     while(1):
+        pass
         
 
 with open('Torreta\configuracion.json') as json_file:
