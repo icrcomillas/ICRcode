@@ -2,7 +2,9 @@
     "direccionIp":"192.168.1.1",
     "test": true,
     "c_rx_default":2000000000,
-    "c_tr_default":2000000000
+    "c_tr_default":2000000000,
+    "muestras_analizar":5000,
+    "samplerate":9600
 
 
 }

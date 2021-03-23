@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.fft import fft, fftfreq
+import json
 
-class graficas():
+
+class Graficas():
     def __init__(self):
         super().__init__()
         
@@ -13,15 +14,8 @@ class graficas():
         ax.plot(datosx,datosy)
         ax.set_title(titulo)
         plt.show()
-class operacion():
-    def __init__(self):
-        super().__init__()
-    @staticmethod
-    def calcularEspectro(self, data,samplerate):
-        fft_data = fft(data)
-        vector_frecuencia = fftfreq(len(data),1/samplerate)
-        return fft_data, vector_frecuencia
-class sistema():
+
+class Sistema():
     def __init__(self):
         super().__init__()
     @staticmethod
