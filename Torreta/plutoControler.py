@@ -1,13 +1,16 @@
 import json
 import numpy as np
 from scipy.io import wavfile
-from operaciones import Graficas,Sistema
+from operaciones import Sistema
 import threading
 from scipy.fft import fft, fftfreq
+import matplotlib.pyplot as plt
 
 
 global data 
+
 data = np.empty((0,1))
+
 
 class Operacion():
     def __init__(self):
@@ -20,22 +23,40 @@ class Operacion():
 
     def runEspectro(self):
         global data
+        global fft
         while(1):
             if len(data) > self.MUESTRAS_ANALIZAR:
                 datos_analizar = data[0:self.MUESTRAS_ANALIZAR]
                 data = data[self.MUESTRAS_ANALIZAR:]
-                espectro, vector_frecuencia = self.calcularEspectro(datos_analizar,self.SAMPLERATE)
-                print("Hla")
-            
-                
-                
-        
+                fft = self.calcularEspectro(datos_analizar,self.SAMPLERATE)
+  
     def calcularEspectro(self, data,samplerate):
         fft_data = fft(data)
         vector_frecuencia = fftfreq(len(data),1/samplerate)
-        return fft_data, vector_frecuencia
+        return np.array(fft_data, vector_frecuencia)
 
-
+class Graficas():
+    def __init__(self):
+        super().__init__()
+       
+        self.primera_vez = True
+    @staticmethod
+    def mostrarGrafica(self,datosx,datosy,titulo):
+        global fft
+        if self.primera_vez == True:
+            self.primera_vez = False
+            plt.style.use('ggplot')
+            plt.ion()
+            self.fig = plt.figure(figsize=(13,6))
+            self.ax = self.fig.addsubplot(111)
+            self.line, = self.ax.plot(datosx,datosy)
+            plt.title(titulo)
+            plt.show()
+        else:
+            self.line.set_data(datosx,datosy)
+        plt.pause(0.01)
+            
+       
 
 def inicializarPlaca():
     #se ponen los valores por defecto a la placa, para poder recibir una señal 
@@ -58,7 +79,7 @@ def getControladorGanancia():
 def manejo():
     global data
     while(1):
-        print(data.shape)
+        
 
 with open('Torreta\configuracion.json') as json_file:
     ficheroJson = json.load(json_file)
@@ -69,10 +90,11 @@ if __name__== '__main__':
         #en el caso de que nos encontremos en modo de test
         
 
-        samplerate, data = wavfile.read('Torreta\prueba15min.wav')
+        samplerate, data = wavfile.read('Torreta\prueba.wav')
+        """
         if data.shape[1] != 0:
             data = data[:,0]
-        
+        """
         
         #se crean los hilos para el analisis de los datos
         operacion = Operacion()
