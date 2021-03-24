@@ -40,9 +40,8 @@ class Graficas():
         super().__init__()
        
         self.primera_vez = True
-    @staticmethod
+
     def mostrarGrafica(self,datosx,datosy,titulo):
-        global fft
         if self.primera_vez == True:
             self.primera_vez = False
             plt.style.use('ggplot')
@@ -55,7 +54,10 @@ class Graficas():
         else:
             self.line.set_data(datosx,datosy)
         plt.pause(0.01)
-            
+
+    def runGraficas(self):
+        global fft
+        self.mostrarGrafica(fft[:,0], fft[:,1], "Frecuencias")       
        
 
 def inicializarPlaca():
@@ -99,13 +101,15 @@ if __name__== '__main__':
         
         #se crean los hilos para el analisis de los datos
         operacion = Operacion()
+        graficas = Graficas()
         hiloControl = threading.Thread(target=manejo, daemon=True)
         hiloFft = threading.Thread(target=operacion.runEspectro, daemon=True)
-        
+        hiloGraficas = threading.Thread(target=graficas.runGraficas, daemon=True)
         #se arrancan los hilos
 
         hiloFft.start()
         hiloControl.start()
+        hiloGraficas.start()
         while(hiloControl.isAlive() and hiloFft.isAlive()):
            #logica de control de la aplicación
            pass
