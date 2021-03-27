@@ -4,11 +4,12 @@ from scipy.io import wavfile
 from operaciones import Sistema
 import threading
 from scipy.fft import fft, fftfreq
-import matplotlib.pyplot as plt
+from pyqtgraph.Qt import QtCore, QtGui
+import pyqtgraph as pg
 
 
 global data 
-
+global fft_calculada
 data = np.empty((0,1))
 
 
@@ -23,17 +24,16 @@ class Operacion():
 
     def runEspectro(self):
         global data
-        global fft
+        global fft_calculada
         while(1):
             if len(data) > self.MUESTRAS_ANALIZAR:
                 datos_analizar = data[0:self.MUESTRAS_ANALIZAR]
                 data = data[self.MUESTRAS_ANALIZAR:]
-                fft = self.calcularEspectro(datos_analizar,self.SAMPLERATE)
-  
+                fft_calculada = self.calcularEspectro(datos_analizar,self.SAMPLERATE)
     def calcularEspectro(self, data,samplerate):
         fft_data = fft(data)
         vector_frecuencia = fftfreq(len(data),1/samplerate)
-        return np.array(fft_data, vector_frecuencia)
+        return np.column_stack((fft_data, vector_frecuencia))
 
 class Graficas():
     def __init__(self):
@@ -41,23 +41,25 @@ class Graficas():
        
         self.primera_vez = True
 
-    def mostrarGrafica(self,datosx,datosy,titulo):
-        if self.primera_vez == True:
-            self.primera_vez = False
-            plt.style.use('ggplot')
-            plt.ion()
-            self.fig = plt.figure(figsize=(13,6))
-            self.ax = self.fig.addsubplot(111)
-            self.line, = self.ax.plot(datosx,datosy)
-            plt.title(titulo)
-            plt.show()
-        else:
-            self.line.set_data(datosx,datosy)
-        plt.pause(0.01)
+    def mostrarGrafica(self):
+        global fft_calculada
+        
+       
+        self.curve.setData(np.abs(fft_calculada[:,0]))                     # set the curve with this data
+        self.curve.setPos(0,0)                   # set x position in the graph to 0
+        self.p.setXRange(np.abs(fft_calculada[0,1]),np.abs(fft_calculada[4999,1]))
+        QtGui.QApplication.processEvents()
+        
 
     def runGraficas(self):
-        global fft
-        self.mostrarGrafica(fft[:,0], fft[:,1], "Frecuencias")       
+        app = QtGui.QApplication([])      
+
+        self.win = pg.GraphicsWindow(title="Analisis espectral") # creates a window
+        self.p = self.win.addPlot(title="Fft")  # creates empty space for the plot in the window
+        self.curve = self.p.plot() 
+        while True:
+           self.mostrarGrafica()   
+            
        
 
 def inicializarPlaca():
@@ -93,7 +95,7 @@ if __name__== '__main__':
         #en el caso de que nos encontremos en modo de test
         
 
-        samplerate, data = wavfile.read('Torreta\prueba.wav')
+        samplerate, data = wavfile.read('Torreta\prueba15min.wav')
         """
         if data.shape[1] != 0:
             data = data[:,0]
@@ -113,6 +115,7 @@ if __name__== '__main__':
         while(hiloControl.isAlive() and hiloFft.isAlive()):
            #logica de control de la aplicación
            pass
+        pg.QtGui.QApplication.exec_() # you MUST put this at the end
         print("Hilos terminados")
     else:
         import adi 
