@@ -48,7 +48,6 @@ class Graficas():
        
         self.curve.setData(np.abs(fft_calculada[:,0]))                     # set the curve with this data
         self.curve.setPos(-(len(fft_calculada[:,1])/2),0)                   # set x position in the graph to 0
-        #self.p.setXRange(-samplerate/2,4800)
         QtGui.QApplication.processEvents()
         
 
