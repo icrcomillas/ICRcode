@@ -3,7 +3,7 @@ import numpy as np
 from scipy.io import wavfile
 from operaciones import Sistema
 import threading
-from scipy.fft import fft, fftfreq
+from scipy.fft import fft, fftfreq, fftshift
 from pyqtgraph.Qt import QtCore, QtGui
 import pyqtgraph as pg
 
@@ -30,9 +30,10 @@ class Operacion():
                 datos_analizar = data[0:self.MUESTRAS_ANALIZAR]
                 data = data[self.MUESTRAS_ANALIZAR:]
                 fft_calculada = self.calcularEspectro(datos_analizar,self.SAMPLERATE)
-    def calcularEspectro(self, data,samplerate):
-        fft_data = fft(data)
-        vector_frecuencia = fftfreq(len(data),1/samplerate)
+    def calcularEspectro(self, datos,samplerate):
+        fft_data = fft(datos)/len(datos)
+        fft_data = fftshift(fft_data)
+        vector_frecuencia = np.linspace(-0.5,0.5,len(datos))*samplerate
         return np.column_stack((fft_data, vector_frecuencia))
 
 class Graficas():
@@ -46,8 +47,8 @@ class Graficas():
         
        
         self.curve.setData(np.abs(fft_calculada[:,0]))                     # set the curve with this data
-        self.curve.setPos(0,0)                   # set x position in the graph to 0
-        self.p.setXRange(np.abs(fft_calculada[0,1]),np.abs(fft_calculada[4999,1]))
+        self.curve.setPos(-(len(fft_calculada[:,1])/2),0)                   # set x position in the graph to 0
+        #self.p.setXRange(-samplerate/2,4800)
         QtGui.QApplication.processEvents()
         
 
@@ -95,7 +96,7 @@ if __name__== '__main__':
         #en el caso de que nos encontremos en modo de test
         
 
-        samplerate, data = wavfile.read('Torreta\prueba15min.wav')
+        samplerate, data = wavfile.read('Torreta\prueba.wav')
         """
         if data.shape[1] != 0:
             data = data[:,0]
