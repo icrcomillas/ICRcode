@@ -21,6 +21,7 @@ class Operacion():
             ficheroJson = json.load(json_file)
         self.MUESTRAS_ANALIZAR = ficheroJson['muestras_analizar']
         self.SAMPLERATE = ficheroJson['samplerate']
+        self.F_THRESHOLD = ficheroJson['f_threshold']
 
     def runEspectro(self):
         global data
@@ -35,6 +36,17 @@ class Operacion():
         fft_data = fftshift(fft_data)
         vector_frecuencia = np.linspace(-0.5,0.5,len(datos))*samplerate
         return np.column_stack((fft_data, vector_frecuencia))
+
+    def analizarEspectro(self, f_target, f_threshold, f_carrier, samplerate):
+
+        f = f_target - f_carrier # frecuencia buscada 
+        delta_f = samplerate / (len(datos) - 1) # intervalo entre frec. 
+        pos = (f - samplerate) / delta_f # posicion del valor de la frecuencia buscado
+
+        if fft_calculada[pos, 0] >= f_threshold:
+            return True
+        else:
+            return False
 
 class Graficas():
     def __init__(self):
@@ -58,9 +70,7 @@ class Graficas():
         self.p = self.win.addPlot(title="Fft")  # creates empty space for the plot in the window
         self.curve = self.p.plot() 
         while True:
-           self.mostrarGrafica()   
-            
-       
+           self.mostrarGrafica()          
 
 def inicializarPlaca():
     #se ponen los valores por defecto a la placa, para poder recibir una señal 
