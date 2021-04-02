@@ -2,8 +2,9 @@ sudo apt update
 sudo apt upgrade
 Y
 sudo apt install python3-pip
+sudo apt install cmake
 Y
-sudo apt instasll python3.7
+sudo apt install python3.7
 Y
 python3.7 -m pip install pip
 Y
