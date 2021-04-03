@@ -10,6 +10,7 @@ import pyqtgraph as pg
 
 global data 
 global fft_calculada
+
 data = np.empty((0,1))
 
 
@@ -33,9 +34,10 @@ class Operacion():
                 fft_calculada = self.calcularEspectro(datos_analizar,self.SAMPLERATE)
     def calcularEspectro(self, datos,samplerate):
         fft_data = fft(datos)/len(datos)
-        fft_data = fftshift(fft_data)
+        fft_data = fftshift(np.abs(fft_data))
+        fft_data_db = 20*np.log10(fft_data)
         vector_frecuencia = np.linspace(-0.5,0.5,len(datos))*samplerate
-        return np.column_stack((fft_data, vector_frecuencia))
+        return np.column_stack((fft_data, vector_frecuencia,fft_data_db))
 
     def analizarEspectro(self, f_target, f_threshold, f_carrier, samplerate):
 
@@ -80,6 +82,7 @@ def inicializarPlaca():
 
 def setSampleRate(samplerate):
     placaPluto.sample_rate = samplerate
+    placaPluto.rx_rf_bandwidth  = samplerate
 def setPortadoraRecepcion(frecuencia):
     placaPluto.rx_lo=frecuencia
 def setPortadoraTransmision(frecuencia):
