@@ -129,10 +129,14 @@ if __name__== '__main__':
         print("Hilos terminados")
     else:
         import adi 
-
+	
+        
         placaPluto = adi.Pluto()
         inicializarPlaca()
-        datos  = np.empty(1)
+        data  = np.zeros(1024)
         while(1):
             datosNuevos = placaPluto.rx()
-            np.append(datos,[datosNuevos])
+            data= np.append([data],[datosNuevos])
+            print(data.shape)
+
+	    
