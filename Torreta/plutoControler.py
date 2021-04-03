@@ -76,7 +76,10 @@ def inicializarPlaca():
     #se ponen los valores por defecto a la placa, para poder recibir una señal 
     setPortadoraRecepcion(ficheroJson['c_rx_default'])
     setPortadoraTransmision(ficheroJson['c_tx_default'])
+    setSampleRate(ficheroJson['samplerate'])
 
+def setSampleRate(samplerate):
+    placaPluto.sample_rate = samplerate
 def setPortadoraRecepcion(frecuencia):
     placaPluto.rx_lo=frecuencia
 def setPortadoraTransmision(frecuencia):
@@ -90,10 +93,7 @@ def setControladorGanancia(modo):
 def getControladorGanancia():
     return placaPluto.gain_control_mode_chan0
 
-def manejo():
-    global data
-    while(1):
-        pass
+
         
 
 with open('configuracion.json') as json_file:
@@ -133,10 +133,23 @@ if __name__== '__main__':
         
         placaPluto = adi.Pluto()
         inicializarPlaca()
-        data  = np.zeros(1024)
-        while(1):
+        data  = np.zeros(1)
+	 #se crean los hilos para el analisis de los datos
+        operacion = Operacion()
+        graficas = Graficas()
+        hiloControl = threading.Thread(target=manejo, daemon=True)
+        hiloFft = threading.Thread(target=operacion.runEspectro, daemon=True)
+        hiloGraficas = threading.Thread(target=graficas.runGraficas, daemon=True)
+        #se arrancan los hilos
+        hiloFft.start()
+        hiloControl.start()
+        hiloGraficas.start()
+
+        while(hiloControl.isAlive() and hiloFft.isAlive()):
+           #logica de control de la aplicación	
             datosNuevos = placaPluto.rx()
             data= np.append([data],[datosNuevos])
-            print(data.shape)
+        pg.QtGui.QApplication.exec_() # you MUST put this at the end
+        print("Hilos terminados")   
 
 	    
