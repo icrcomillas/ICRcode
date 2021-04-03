@@ -1,10 +1,10 @@
 {
     "direccionIp":"192.168.2.1",
     "test": false,
-    "c_rx_default":2000000000,
-    "c_tx_default":2000000000,
+    "c_rx_default":1000000,
+    "c_tx_default":2300000000,
     "muestras_analizar":5000,
-    "samplerate":1000000,
+    "samplerate":40000000,
     "f_threshold":1
 
 
