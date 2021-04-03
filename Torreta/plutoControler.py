@@ -35,7 +35,7 @@ class Operacion():
     def calcularEspectro(self, datos,samplerate):
         fft_data = fft(datos)/len(datos)
         fft_data = fftshift(np.abs(fft_data))
-        fft_data_db = 20*np.log10(fft_data)
+        fft_data_db = 20*np.log10(np.abs(fft_data))
         vector_frecuencia = np.linspace(-0.5,0.5,len(datos))*samplerate
         return np.column_stack((fft_data, vector_frecuencia,fft_data_db))
 
@@ -108,7 +108,7 @@ if __name__== '__main__':
         #en el caso de que nos encontremos en modo de test
         
 
-        samplerate, data = wavfile.read('prueba.wav')
+        samplerate, data = wavfile.read('Torreta/prueba.wav')
         """
         if data.shape[1] != 0:
             data = data[:,0]
@@ -125,7 +125,7 @@ if __name__== '__main__':
         hiloFft.start()
 
         hiloGraficas.start()
-        while(hiloControl.isAlive() and hiloFft.isAlive()):
+        while(hiloFft.isAlive()):
            #logica de control de la aplicación
            pass
         pg.QtGui.QApplication.exec_() # you MUST put this at the end
