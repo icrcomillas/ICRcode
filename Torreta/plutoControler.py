@@ -114,13 +114,13 @@ if __name__== '__main__':
         #se crean los hilos para el analisis de los datos
         operacion = Operacion()
         graficas = Graficas()
-        hiloControl = threading.Thread(target=manejo, daemon=True)
+
         hiloFft = threading.Thread(target=operacion.runEspectro, daemon=True)
         hiloGraficas = threading.Thread(target=graficas.runGraficas, daemon=True)
         #se arrancan los hilos
 
         hiloFft.start()
-        hiloControl.start()
+
         hiloGraficas.start()
         while(hiloControl.isAlive() and hiloFft.isAlive()):
            #logica de control de la aplicación
@@ -137,15 +137,15 @@ if __name__== '__main__':
 	 #se crean los hilos para el analisis de los datos
         operacion = Operacion()
         graficas = Graficas()
-        hiloControl = threading.Thread(target=manejo, daemon=True)
+
         hiloFft = threading.Thread(target=operacion.runEspectro, daemon=True)
         hiloGraficas = threading.Thread(target=graficas.runGraficas, daemon=True)
         #se arrancan los hilos
         hiloFft.start()
-        hiloControl.start()
+
         hiloGraficas.start()
 
-        while(hiloControl.isAlive() and hiloFft.isAlive()):
+        while(hiloFft.isAlive()):
            #logica de control de la aplicación	
             datosNuevos = placaPluto.rx()
             data= np.append([data],[datosNuevos])
