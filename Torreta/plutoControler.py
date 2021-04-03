@@ -17,7 +17,7 @@ class Operacion():
     def __init__(self):
         super().__init__()
         #se cargan las constantes necesarias para ejecutar el modulo
-        with open('Torreta\configuracion.json') as json_file:
+        with open('configuracion.json') as json_file:
             ficheroJson = json.load(json_file)
         self.MUESTRAS_ANALIZAR = ficheroJson['muestras_analizar']
         self.SAMPLERATE = ficheroJson['samplerate']
@@ -78,12 +78,12 @@ def inicializarPlaca():
     setPortadoraTransmision(ficheroJson['c_tx_default'])
 
 def setPortadoraRecepcion(frecuencia):
-    placaPluto.rx_lo(frecuencia)
+    placaPluto.rx_lo=frecuencia
 def setPortadoraTransmision(frecuencia):
-    placaPluto.tx_lo(frecuencia)
+    placaPluto.tx_lo = frecuencia
 def setGananciaRecepcion(ganancia):
     if getControladorGanancia() == "manual":
-        placaPluto.rx_hardwaregain_chan0(ganancia)
+        placaPluto.rx_hardwaregain_chan0 = ganancia
 def setControladorGanancia(modo):
     if modo == "slow_attack" or modo == "fast_attack" or modo == "manual":
         placaPluto.gain_control_mode_chan0(modo)
@@ -96,7 +96,7 @@ def manejo():
         pass
         
 
-with open('Torreta\configuracion.json') as json_file:
+with open('configuracion.json') as json_file:
     ficheroJson = json.load(json_file)
 
 
@@ -105,7 +105,7 @@ if __name__== '__main__':
         #en el caso de que nos encontremos en modo de test
         
 
-        samplerate, data = wavfile.read('Torreta\prueba.wav')
+        samplerate, data = wavfile.read('prueba.wav')
         """
         if data.shape[1] != 0:
             data = data[:,0]
@@ -130,9 +130,9 @@ if __name__== '__main__':
     else:
         import adi 
 
-        placaPluto = adi.Pluto(ficheroJson['direccionIp'])
+        placaPluto = adi.Pluto()
         inicializarPlaca()
-        datos  = np.empty()
+        datos  = np.empty(1)
         while(1):
             datosNuevos = placaPluto.rx()
             np.append(datos,[datosNuevos])
