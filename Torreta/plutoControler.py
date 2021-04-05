@@ -34,7 +34,7 @@ class Operacion():
                 data = data[self.MUESTRAS_ANALIZAR:]
                 fft_calculada = self.calcularEspectro(datos_analizar,self.SAMPLERATE)
     def calcularEspectro(self, datos,samplerate):
-        fft_data = samplerate*fft(datos)/len(datos)
+        fft_data = fft(datos)/len(datos)
         fft_data = fftshift(np.abs(fft_data))
         fft_data_db = 20*np.log10(np.abs(fft_data))
         
@@ -98,7 +98,7 @@ def setControladorGanancia(modo):
 def getControladorGanancia():
     return placaPluto.gain_control_mode_chan0
 def setFiltroAnalogico(frecuencia):
-    placaPluto.rx_rf_bandwidth(frecuencia)
+    placaPluto.rx_rf_bandwidth =frecuencia
 def gettFiltroAnalogico():
     return placaPluto.rx_rf_bandwidth
 def setFiltro(filtro):
