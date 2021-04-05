@@ -38,8 +38,7 @@ class Operacion():
         fft_data = fft(datos)/len(datos)
         fft_data = fftshift(np.abs(fft_data))
         fft_data_db = 20*np.log10(np.abs(fft_data))
-        np.savetxt("fft{}.txt".format(self.i),fft_data)
-        np.savetxt("data{}.txt".format(self.i),datos)
+        
         self.i = self.i +1
         vector_frecuencia = np.linspace(-0.5,0.5,len(datos))*samplerate
         return np.column_stack((fft_data, vector_frecuencia,fft_data_db))
