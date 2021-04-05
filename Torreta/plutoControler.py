@@ -82,6 +82,7 @@ def inicializarPlaca():
     setPortadoraTransmision(ficheroJson['c_tx_default'])
     setSampleRate(ficheroJson['samplerate'])
     setFiltroAnalogico(ficheroJson['f_analog'])
+    setControladorGanancia("manual")
 
 def setSampleRate(samplerate):
     placaPluto.sample_rate = samplerate
