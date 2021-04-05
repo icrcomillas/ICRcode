@@ -41,17 +41,6 @@ class Operacion():
         vector_frecuencia = np.linspace(-0.5,0.5,len(datos))*samplerate
         return np.column_stack((fft_data, vector_frecuencia,fft_data_db))
 
-    def analizarEspectro(self, f_target, f_threshold, f_carrier, samplerate):
-
-        f = f_target - f_carrier # frecuencia buscada 
-        delta_f = samplerate / (len(datos) - 1) # intervalo entre frec. 
-        pos = (f - samplerate) / delta_f # posicion del valor de la frecuencia buscado
-
-        if fft_calculada[pos, 0] >= f_threshold:
-            return True
-        else:
-            return False
-
 class Graficas():
     def __init__(self):
         super().__init__()
