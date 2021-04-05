@@ -85,7 +85,6 @@ def inicializarPlaca():
 
 def setSampleRate(samplerate):
     placaPluto.sample_rate = samplerate
-    placaPluto.rx_rf_bandwidth  = samplerate
 def setPortadoraRecepcion(frecuencia):
     placaPluto.rx_lo=frecuencia
 def setPortadoraTransmision(frecuencia):
