@@ -22,7 +22,6 @@ class Operacion():
         with open('configuracion.json') as json_file:
             ficheroJson = json.load(json_file)
         self.MUESTRAS_ANALIZAR = ficheroJson['muestras_analizar']
-        self.i = 0
         self.SAMPLERATE = ficheroJson['samplerate']
         self.F_THRESHOLD = ficheroJson['f_threshold']
 
@@ -35,11 +34,10 @@ class Operacion():
                 data = data[self.MUESTRAS_ANALIZAR:]
                 fft_calculada = self.calcularEspectro(datos_analizar,self.SAMPLERATE)
     def calcularEspectro(self, datos,samplerate):
-        fft_data = fft(datos)/len(datos)
+        fft_data = samplerate*fft(datos)/len(datos)
         fft_data = fftshift(np.abs(fft_data))
         fft_data_db = 20*np.log10(np.abs(fft_data))
         
-        self.i = self.i +1
         vector_frecuencia = np.linspace(-0.5,0.5,len(datos))*samplerate
         return np.column_stack((fft_data, vector_frecuencia,fft_data_db))
 

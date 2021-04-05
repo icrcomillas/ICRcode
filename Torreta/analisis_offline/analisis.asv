@@ -1,0 +1,25 @@
+close all
+clear
+error = 
+%se leen los archivos y se calcula el error de la fft obtenida y la
+%calculada
+for i = 1:22
+    j = i-1;
+    ficheroFft = "fft"+j+".txt";
+    fileIdFft = fopen(ficheroFft,'r');
+    datosFft = fscanf(fileIdFft,'%f',40000);
+    fclose(fileIdFft);
+    
+    ficheroData = "data"+j+".txt";
+    fileIdData = fopen(ficheroData,'r');
+    datosData = fscanf(fileIdData,'%f',40000);
+    fclose(fileIdData);
+    Fft = fft(datosData)/length(datosData);
+    Fft = fftshift(abs(Fft));
+    % se calcula el error
+    for k =1:40000
+        errorCuadratico = 
+    end
+    
+end
+
