@@ -1,30 +1,25 @@
 close all
 clear
 fs = 40000;
-error = zeros(0,22);
+threshold = 8;
 %se leen los archivos y se calcula el error de la fft obtenida y la
 %calculada
-for i = 0:21
+for i = 0:5
     
     ficheroFft = "fft"+i+".txt";
     fileIdFft = fopen(ficheroFft,'r');
     datosFft = fscanf(fileIdFft,'%f',40000);
     fclose(fileIdFft);
-    
-    ficheroData = "data"+i+".txt";
-    fileIdData = fopen(ficheroData,'r');
-    datosTextoData = fscanf(fileIdData,'%s',40000);
-   
-    fclose(fileIdData);
-    Fft = fs*fft(datosData)/length(datosData);
-    Fft = fftshift(abs(Fft));
-    % se calcula el error
-    errorCuadratico = 0;
-    for k =1:40001
-        errorCuadratico = errorCuadratico + (datosFft(k)- Fft(k))^2;
+    figure
+    hold on
+    for k = 1:length(datosFft)
+        if abs(datosFft(k))< threshold
+            datosFft(k) = 0;
+        end
     end
-    error(i+1) = errorCuadratico;
+    
+    stem(datosFft)
+    %plot(20*log10(datosFft),'*')
     
 end
-mean(error)
 
