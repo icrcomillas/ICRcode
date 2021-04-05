@@ -81,6 +81,7 @@ def inicializarPlaca():
     setPortadoraRecepcion(ficheroJson['c_rx_default'])
     setPortadoraTransmision(ficheroJson['c_tx_default'])
     setSampleRate(ficheroJson['samplerate'])
+    setFiltroAnalogico(ficheroJson['f_analog'])
 
 def setSampleRate(samplerate):
     placaPluto.sample_rate = samplerate
@@ -97,6 +98,12 @@ def setControladorGanancia(modo):
         placaPluto.gain_control_mode_chan0(modo)
 def getControladorGanancia():
     return placaPluto.gain_control_mode_chan0
+def setFiltroAnalogico(frecuencia):
+    placaPluto.rx_rf_bandwidth(frecuencia)
+def gettFiltroAnalogico():
+    return placaPluto.rx_rf_bandwidth
+def setFiltro(filtro):
+    placaPluto.filter(filtro)
 
 
         
