@@ -8,23 +8,15 @@ from pyqtgraph.Qt import QtCore, QtGui
 import pyqtgraph as pg
 
 
-global data 
-global fft_calculada
 
-fft_calculada = np.empty((0,5))
-data = np.empty((0,1))
 
 
 class Operacion():
-    def __init__(self):
+    def __init__(self,samplerate):
         super().__init__()
-        #se cargan las constantes necesarias para ejecutar el modulo
-        with open('configuracion.json') as json_file:
-            ficheroJson = json.load(json_file)
-        self.MUESTRAS_ANALIZAR = ficheroJson['muestras_analizar']
-        self.SAMPLERATE = ficheroJson['samplerate']
-        self.F_THRESHOLD = ficheroJson['f_threshold']
-
+        self.sameplerate = samplerate
+        
+    """
     def runEspectro(self):
         global data
         global fft_calculada
@@ -33,12 +25,17 @@ class Operacion():
                 datos_analizar = data[0:self.MUESTRAS_ANALIZAR]
                 data = data[self.MUESTRAS_ANALIZAR:]
                 fft_calculada = self.calcularEspectro(datos_analizar,self.SAMPLERATE)
-    def calcularEspectro(self, datos,samplerate):
-        fft_data = fft(datos)/len(datos)
-        fft_data = fftshift(np.abs(fft_data))
+    """
+    def calcularEspectro(self, datos):
+        #se quita el ultimo valor 
+        frecuencia = datos[-1]
+        datos = datos[:-1]
+        fft_data = np.fft.fft(datos)/len(datos)
+        fft_data = np.fft.fftshift(np.abs(fft_data))
         fft_data_db = 20*np.log10(np.abs(fft_data))
         
-        vector_frecuencia = np.linspace(-0.5,0.5,len(datos))*samplerate
+        vector_frecuencia = (np.linspace(-0.5,0.5,len(datos))*self.samplerate)+frecuencia
+        
         return np.column_stack((fft_data, vector_frecuencia,fft_data_db))
 
 class Graficas():
@@ -64,38 +61,81 @@ class Graficas():
         self.curve = self.p.plot() 
         while True:
            self.mostrarGrafica()          
+class Controller():
+    def inicializarPlaca(self,frecuenciaPortadoraRecv,frecuenciaPortadoraTrans,samplerate,filtroAnalog,ganancia):
+        import adi
+        self.placaPluto = adi.Pluto()
+        #se ponen los valores por defecto a la placa, para poder recibir una señal 
+        setPortadoraRecepcion(frecuenciaPortadoraRecv)
+        setPortadoraTransmision(frecuenciaPortadoraTrans)
+        setSampleRate(samplerate)
+        setFiltroAnalogico(filtroAnalog)
+        setControladorGanancia(ganancia)
 
-def inicializarPlaca():
-    #se ponen los valores por defecto a la placa, para poder recibir una señal 
-    setPortadoraRecepcion(ficheroJson['c_rx_default'])
-    setPortadoraTransmision(ficheroJson['c_tx_default'])
-    setSampleRate(ficheroJson['samplerate'])
-    setFiltroAnalogico(ficheroJson['f_analog'])
-    setControladorGanancia("manual")
+    def setSampleRate(self,samplerate):
+        self.placaPluto.sample_rate = samplerate
+    def setPortadoraRecepcion(self,frecuencia):
+        self.placaPluto.rx_lo=frecuencia
+    def setPortadoraTransmision(self,frecuencia):
+        self.placaPluto.tx_lo = frecuencia
+    def setGananciaRecepcion(self,ganancia):
+        if getControladorGanancia() == "manual":
+            self.placaPluto.rx_hardwaregain_chan0 = ganancia
+    def setControladorGanancia(self,modo):
+        if modo == "slow_attack" or modo == "fast_attack" or modo == "manual":
+            self.placaPluto.gain_control_mode_chan0 = modo
+    def getControladorGanancia(self,):
+        return self.placaPluto.gain_control_mode_chan0
+    def setFiltroAnalogico(self,frecuencia):
+        self.placaPluto.rx_rf_bandwidth =frecuencia
+    def gettFiltroAnalogico(self):
+        return self.placaPluto.rx_rf_bandwidth
+    def setFiltro(self,filtro):
+        self.placaPluto.filter(filtro)
+    def rx(self):
+        return self.placaPluto.rx()
+class Sistema():
+    def __init__(self,saltoFrecuencias,frecuenciaMin,frecuenciaMax):
+        super().__init__()
+        self.saltoFrecuencia = saltoFrecuencias
+        self.frecuenciaMin = frecuenciaMin
+        self.frecuenciaMax = frecuenciaMax
 
-def setSampleRate(samplerate):
-    placaPluto.sample_rate = samplerate
-def setPortadoraRecepcion(frecuencia):
-    placaPluto.rx_lo=frecuencia
-def setPortadoraTransmision(frecuencia):
-    placaPluto.tx_lo = frecuencia
-def setGananciaRecepcion(ganancia):
-    if getControladorGanancia() == "manual":
-        placaPluto.rx_hardwaregain_chan0 = ganancia
-def setControladorGanancia(modo):
-    if modo == "slow_attack" or modo == "fast_attack" or modo == "manual":
-        placaPluto.gain_control_mode_chan0 = modo
-def getControladorGanancia():
-    return placaPluto.gain_control_mode_chan0
-def setFiltroAnalogico(frecuencia):
-    placaPluto.rx_rf_bandwidth =frecuencia
-def gettFiltroAnalogico():
-    return placaPluto.rx_rf_bandwidth
-def setFiltro(filtro):
-    placaPluto.filter(filtro)
+    def analizarEspectroFrecuencia(self,arrayDatos,arrayFrecuencias,threshold):
+        frecuencia = -1
+        for i in range(0,len(arrayDatos)):
+            if arrayDatos[i] > threshold:
+                #en el caso de que un valor sea superior al esperado, busca la frecuencia
+                frecuencia = arrayFrecuencias[i]
+        return frecuencia
+    def decidirFrecuenciaPortadora(self,frecuenciaActual,arrayDatos,arrayFrecuencia,threshold):
+        encontrado = False
+        frecuenciaResultado = self.analizarEspectroFrecuencia(arrayDatos,arrayFrecuencia,threshold)
+        if frecuenciaResultado<0:
+            #eso significa que la banda que se ha analizado no tiene nada de interés
+            if frecuenciaActual+self.saltoFrecuencia> self.frecuenciaMax:
+                frecuenciaPortadora = self.frecuenciaMax
+            else:
+                frecuenciaPortadora = frecuenciaActual+self.saltoFrecuencia
+        else:
+            #hay algo de interés, por lo tanto se mueve la frecuencia de portadora para que la banda de interés se encuentre en el centro del espectro
+            frecuenciaPortadora = frecuenciaResultado
+            encontrado = True
 
+        return frecuenciaPortadora,encontrado
 
-        
+    def analizarEspectro(self,arrayDatos,arrayFrecuencias ,f_target, f_threshold, f_carrier, samplerate):
+
+        f = f_target - f_carrier # frecuencia buscada 
+        delta_f = samplerate / (len(arrayDatos) - 1) # intervalo entre frec. 
+        pos = (f - samplerate) / delta_f # posicion del valor de la frecuencia buscado
+
+        if arrayFrecuencias(pos) >= f_threshold:
+            return True
+        else:
+            return False
+    def generarRuido(self,media,varianza,longitud):
+        return np.random.normal(media,varianza,longitud)
 
 with open('configuracion.json') as json_file:
     ficheroJson = json.load(json_file)
@@ -135,6 +175,7 @@ if __name__== '__main__':
         placaPluto = adi.Pluto()
         inicializarPlaca()
         data  = np.zeros(1)
+        frecuencia_portadora = 0
 	 #se crean los hilos para el analisis de los datos
         operacion = Operacion()
         graficas = Graficas()
@@ -149,8 +190,15 @@ if __name__== '__main__':
         while(hiloFft.isAlive()):
            #logica de control de la aplicación	
             datosNuevos = placaPluto.rx()
+            #se diezman los datos por un valor de 2
+            datosNuevos = datosNuevos[:-M_diezmado:M_diezmado]
+            datosNuevos =np.append([datosNuevos],[np.array(frecuencia_portadora)])
             data= np.append([data],[datosNuevos])
         pg.QtGui.QApplication.exec_() # you MUST put this at the end
         print("Hilos terminados")   
 
 	    
+
+
+        
+

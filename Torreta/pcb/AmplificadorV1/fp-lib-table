@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name Connector_Coaxial)(type KiCad)(uri C:/Users/gonza/Documents/GitHub/ICRcode/Torreta/pcb/Connector_Coaxial.pretty)(options "")(descr ""))
+  (lib (name FootprintAmpli)(type KiCad)(uri C:/Users/gonza/Documents/GitHub/ICRcode/Torreta/pcb/FootprintAmpli)(options "")(descr ""))
+)

@@ -4,9 +4,10 @@
     "c_rx_default":2400000000,
     "c_tx_default":2300000000,
     "muestras_analizar":10000,
-    "samplerate":44000000,
+    "samplerate":88000000,
     "f_threshold":1,
-    "f_analog":44000000
+    "f_analog":44000000,
+    "ganancia":"manual"
 
 
 }
