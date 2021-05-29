@@ -45,22 +45,25 @@ class Graficas():
         self.primera_vez = True
 
     def mostrarGrafica(self):
-        global fft_calculada
+        global datosMostrar
         
        
-        self.curve.setData(np.abs(fft_calculada[:,0]))                     # set the curve with this data
-        self.curve.setPos(-(len(fft_calculada[:,1])/2),0)                   # set x position in the graph to 0
+        self.curve.setData(np.abs(datosMostrar[:,0]))                     # set the curve with this data
+        self.curve.setPos(-(len(datosMostrar[:,1])/2),0)                   # set x position in the graph to 0
         QtGui.QApplication.processEvents()
-        
 
     def runGraficas(self):
         app = QtGui.QApplication([])      
+        self.seguir = True
 
         self.win = pg.GraphicsWindow(title="Analisis espectral") # creates a window
         self.p = self.win.addPlot(title="Fft")  # creates empty space for the plot in the window
         self.curve = self.p.plot() 
-        while True:
-           self.mostrarGrafica()          
+        while self.seguir:
+           self.mostrarGrafica() 
+    def close(self):
+        self.seguir = False
+        pg.QtGui.QApplication.exec_()         
 class Controller():
     def inicializarPlaca(self,frecuenciaPortadoraRecv,frecuenciaPortadoraTrans,samplerate,filtroAnalog,ganancia):
         import adi
@@ -137,65 +140,7 @@ class Sistema():
     def generarRuido(self,media,varianza,longitud):
         return np.random.normal(media,varianza,longitud)
 
-with open('configuracion.json') as json_file:
-    ficheroJson = json.load(json_file)
 
-
-if __name__== '__main__':
-    if ficheroJson['test']:
-        #en el caso de que nos encontremos en modo de test
-        
-
-        samplerate, data = wavfile.read('Torreta/prueba.wav')
-        """
-        if data.shape[1] != 0:
-            data = data[:,0]
-        """
-        
-        #se crean los hilos para el analisis de los datos
-        operacion = Operacion()
-        graficas = Graficas()
-
-        hiloFft = threading.Thread(target=operacion.runEspectro, daemon=True)
-        hiloGraficas = threading.Thread(target=graficas.runGraficas, daemon=True)
-        #se arrancan los hilos
-
-        hiloFft.start()
-
-        hiloGraficas.start()
-        while(hiloFft.isAlive()):
-           #logica de control de la aplicación
-           pass
-        pg.QtGui.QApplication.exec_() # you MUST put this at the end
-        print("Hilos terminados")
-    else:
-        import adi 
-	
-        
-        placaPluto = adi.Pluto()
-        inicializarPlaca()
-        data  = np.zeros(1)
-        frecuencia_portadora = 0
-	 #se crean los hilos para el analisis de los datos
-        operacion = Operacion()
-        graficas = Graficas()
-
-        hiloFft = threading.Thread(target=operacion.runEspectro, daemon=True)
-        hiloGraficas = threading.Thread(target=graficas.runGraficas, daemon=True)
-        #se arrancan los hilos
-        hiloFft.start()
-
-        hiloGraficas.start()
-
-        while(hiloFft.isAlive()):
-           #logica de control de la aplicación	
-            datosNuevos = placaPluto.rx()
-            #se diezman los datos por un valor de 2
-            datosNuevos = datosNuevos[:-M_diezmado:M_diezmado]
-            datosNuevos =np.append([datosNuevos],[np.array(frecuencia_portadora)])
-            data= np.append([data],[datosNuevos])
-        pg.QtGui.QApplication.exec_() # you MUST put this at the end
-        print("Hilos terminados")   
 
 	    
 
