@@ -116,8 +116,8 @@ class Sistema():
         frecuenciaResultado = self.analizarEspectroFrecuencia(arrayDatos,arrayFrecuencia,threshold)
         if frecuenciaResultado<0:
             #eso significa que la banda que se ha analizado no tiene nada de interés
-            if frecuenciaActual+self.saltoFrecuencia> self.frecuenciaMax:
-                frecuenciaPortadora = self.frecuenciaMax
+            if frecuenciaActual+self.saltoFrecuencia> self.frecuenciaMax+self.saltoFrecuencia:
+                frecuenciaPortadora = self.frecuenciaMin
             else:
                 frecuenciaPortadora = frecuenciaActual+self.saltoFrecuencia
         else:

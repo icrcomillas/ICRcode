@@ -39,28 +39,42 @@ if __name__== '__main__':
         #se arranca el hilo
         hiloGraficas.start()
         print("Se ha inicializado el sistema")
+        contradorMuestras = 0 #contador para saber si se ha detectado algo en 
         while(continuar ==True):
-           #logica de control de la aplicación	
-            datosNuevos = controller.rx()
-            #se diezman los datos por un valor de 2
-            datosNuevos = datosNuevos[:-M_diezmado:M_diezmado]
-            datosNuevos =np.append([datosNuevos],[np.array(frecuenciaPortadoraRecv)])
+            #logica de control de la aplicación	
             
-            #se calcula la fft de la secuencia
-            fft = operacion.calcularEspectro(datosNuevos)
-            
-            if estado =='grueso': #significa que estamos en una estimacion gruesa de portadora
+            if estado == 'recepcion':
+                datosNuevos = controller.rx()
+                #se diezman los datos por un valor de 2
+                datosNuevos = datosNuevos[:-M_diezmado:M_diezmado]
+                datosNuevos =np.append([datosNuevos],[np.array(frecuenciaPortadoraRecv)])
+                
+                #se calcula la fft de la secuencia
+                fft = operacion.calcularEspectro(datosNuevos)
+            if estado =='gruesa': #significa que estamos en una estimacion gruesa de portadora
                 datosMostrar = fft[:,0:1]
-                frecuenciaPortadoraRecv,encontrado = sistema.decidirFrecuenciaPortadora(fft[:,0],fft[:,1],threshold)
-                #se cambia la frecuencia de portadora
+                frecuenciaPortadoraRecv,detectado = sistema.decidirFrecuenciaPortadora(fft[:,0],fft[:,1],threshold)
+                
+                if detectado:
+                    estado = 'espera'
+                else:
+                    estado = 'portadora'                   
+                
+            elif estado =='portadora':
+                #en este caso se hace la estimacion de la frecuencia
                 controller.setPortadoraRecepcion(frecuenciaPortadoraRecv)
-                if encontrado:
-                    estado = 'fino'
-                    print("se ha encontrado algo en la frecuencia {}".format(frecuenciaPortadoraRecv))
                 print("Se cambia la frecuencia de portadora de recepcion a {}".format(frecuenciaPortadoraRecv))
-            elif estado =='fino':
+            elif estado =='espera':
+                print("se ha encontrado algo en la frecuencia {}".format(frecuenciaPortadoraRecv))
+                
+            elif estado =='transmision':
                 #en este caso se hace la estimacion de la frecuencia
                 a = 1
+            elif estado =='analisis':
+                #en este caso se hace la estimacion de la frecuencia
+                a = 1
+
+        
         hiloGraficas.close()
 
         print("Hilos terminados")   
