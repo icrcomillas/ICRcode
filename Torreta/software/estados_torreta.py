@@ -79,7 +79,7 @@ class Espera(Estado):
 
     def on_event(self, event):
         if event == 'limite_espera':
-            return ModificacionPortadora()
+            return Transmision()
         elif event == 'KO':
             return Fallo_Mortal()
 
