@@ -110,6 +110,13 @@ class Sistema():
                 #en el caso de que un valor sea superior al esperado, busca la frecuencia
                 frecuencia = arrayFrecuencias[i]
         return frecuencia
+    def analizarEspectroFrecuenciaTf(self,arrayDatos,arrayFrecuencias,threshold):
+        detectado = False
+        for i in range(0,len(arrayDatos)):
+            if arrayDatos[i] > threshold:
+                #en el caso de que un valor sea superior al esperado, busca la frecuencia
+                detectado = True
+        return detectado
     def decidirFrecuenciaPortadora(self,frecuenciaActual,arrayDatos,arrayFrecuencia,threshold):
         encontrado = False
         frecuenciaResultado = self.analizarEspectroFrecuencia(arrayDatos,arrayFrecuencia,threshold)

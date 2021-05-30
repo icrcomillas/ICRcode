@@ -74,12 +74,14 @@ class ModificacionPortadora(Estado):
 
 class Espera(Estado):
     """
-    En primer lugar se incrementa el contador. Se arranca un temporizador. TODO: cuidado con el contador!
+    En primer lugar se incrementa el contador. Se arranca un temporizador.
     """
 
     def on_event(self, event):
         if event == 'limite_espera':
             return Transmision()
+        elif event == 'no_detectado':
+            return Recepcion()
         elif event == 'KO':
             return Fallo_Mortal()
 
@@ -87,8 +89,7 @@ class Espera(Estado):
 
 class Transmision(Estado):
     """
-    En este estado se realiza la transmisión para cortar las comunicaciones. Se arranca un temporizador. 
-    TODO: cuidado con el contador!
+    En este estado se realiza la transmisión para cortar las comunicaciones. Se arranca un temporizador.
     """
 
     def on_event(self, event):

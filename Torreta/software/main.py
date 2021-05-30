@@ -1,11 +1,22 @@
 import json
 import numpy as np
 import threading
+import time
 from software.plutoControler import Controller,Operacion,Sistema,Graficas
 from software.maquina_estados import MaquinaEstados
 
 global longitud_datos
 global datosMostrar
+
+def recibir():
+    datosNuevos = controller.rx()
+    #se diezman los datos por un valor de 2
+    datosNuevos = datosNuevos[:-M_diezmado:M_diezmado]
+    datosNuevos = np.append([datosNuevos],[np.array(frecuenciaPortadoraRecv)])
+    
+    #se calcula la fft de la secuencia
+    fft = operacion.calcularEspectro(datosNuevos)
+    return fft
 
 if __name__== '__main__':
 
@@ -57,20 +68,14 @@ if __name__== '__main__':
             if maquina.estado == 'Arranque':
                 
                 # Estado de Arranque
-                # TODO: Incluir aquí si se necesita algunua funcion de incialización
+                # TODO: Incluir aquí si se necesita alguna funcion de incialización
 
                 # Si ha ido todo OK se modifica el estado
                 maquina.on_event('OK')
 
             elif maquina.estado == 'Recepcion':
 
-                datosNuevos = controller.rx()
-                #se diezman los datos por un valor de 2
-                datosNuevos = datosNuevos[:-M_diezmado:M_diezmado]
-                datosNuevos = np.append([datosNuevos],[np.array(frecuenciaPortadoraRecv)])
-                
-                #se calcula la fft de la secuencia
-                fft = operacion.calcularEspectro(datosNuevos)
+                fft = recibir()
 
                 # Si ha ido todo OK se modifica el estado
                 maquina.on_event('OK')
@@ -84,8 +89,9 @@ if __name__== '__main__':
                 # Si ha ido todo OK se modifica el estado
                 if detectado:
                     maquina.on_event('detectado')
-                    # TODO: Aquí se debería arrancar el temporizador de espera
-                    t = 0
+                    # TODO: Aquí se debería empezar a transmitir se inicia el iterador
+                    i = 0
+                    
                 elif not detectado:
                     maquina.on_event('no_detectado')                 
                 
@@ -100,35 +106,38 @@ if __name__== '__main__':
 
             elif maquina.estado == 'Espera':
 
-                # Estado de espera
-
-                # TODO: Revisar el print
-                print("se ha encontrado algo en la frecuencia {}".format(frecuenciaPortadoraRecv))
-
+                # Estado de confirmacion de que existe algo en la banda detectada
+                              
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de espera
-                if t >= limite_espera:
+                if i >= limite_espera:
                     maquina.on_event('limite_espera')
-                    # TODO: Aquí se debería arrancar el temporizador de transmisión
-                    t = 0
+                    # TODO: empezar a transmitir
+                    tiempo_inicial = time.time()
                 else:
-                    # Se incrementa el temporizador de espera
-                    t += 1
+                    fft = recibir()
+                    datosMostrar = fft[:,0:1]
+                    detectado = sistema.analizarEspectroFrecuenciaTf(fft[:,0],fft[:,1],threshold)
+                    if detectado:
+                        # Se incrementa el iterador de espera
+                        i += 1
+                    else:
+                        maquina.on_event('no_detectado')
                 
             elif maquina.estado =='Transmision':
 
                 # Estado de trasmisión
                 
                 # .... (logica de transmision)
-
-                # TODO: Revisar el print
+                
+                tiempo_pasado= time.time()-tiempo_inicial
                 print("Se transmite en la frecuencia {}".format(frecuenciaPortadoraRecv))
 
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de trasmisión
-                if t >= limite_transmision:
+                if tiempo_pasado >= limite_transmision:
+                    # TODO se para la tansmisión
                     maquina.on_event('limite_transmision')
-                else:
-                    # Se incrementa el temporizador de trasnmisión
-                    t += 1
+                    
+              
 
             elif maquina.estado =='Analisis':
 
@@ -138,11 +147,14 @@ if __name__== '__main__':
 
                 # TODO: Revisar el print
                 print("Analizando el margen de frecuencias {}".format(frecuenciaPortadoraRecv))
+                fft = recibir()
+                datosMostrar = fft[:,0:1]
+                detectado = sistema.analizarEspectroFrecuenciaTf(fft[:,0],fft[:,1],threshold)
 
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de trasmisión
-                if detectado_analisis:
+                if detectado:
                     maquina.on_event('detectado')
-                elif not detectado_analisis:
+                elif not detectado:
                     maquina.on_event('no_detectado')
 
             elif maquina.estado == 'Fallo_Mortal':
