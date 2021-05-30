@@ -57,7 +57,7 @@ if __name__== '__main__':
             if maquina.estado == 'Arranque':
                 
                 # Estado de Arranque
-                # TO DO: Incluir aquí si se necesita algunua funcion de incialización
+                # TODO: Incluir aquí si se necesita algunua funcion de incialización
 
                 # Si ha ido todo OK se modifica el estado
                 maquina.on_event('OK')
@@ -84,7 +84,7 @@ if __name__== '__main__':
                 # Si ha ido todo OK se modifica el estado
                 if detectado:
                     maquina.on_event('detectado')
-                    # TO DO: Aquí se debería arrancar el temporizador de espera
+                    # TODO: Aquí se debería arrancar el temporizador de espera
                     t = 0
                 elif not detectado:
                     maquina.on_event('no_detectado')                 
@@ -102,13 +102,13 @@ if __name__== '__main__':
 
                 # Estado de espera
 
-                # TO DO: Revisar el print
+                # TODO: Revisar el print
                 print("se ha encontrado algo en la frecuencia {}".format(frecuenciaPortadoraRecv))
 
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de espera
                 if t >= limite_espera:
                     maquina.on_event('limite_espera')
-                    # TO DO: Aquí se debería arrancar el temporizador de transmisión
+                    # TODO: Aquí se debería arrancar el temporizador de transmisión
                     t = 0
                 else:
                     # Se incrementa el temporizador de espera
@@ -120,7 +120,7 @@ if __name__== '__main__':
                 
                 # .... (logica de transmision)
 
-                # TO DO: Revisar el print
+                # TODO: Revisar el print
                 print("Se transmite en la frecuencia {}".format(frecuenciaPortadoraRecv))
 
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de trasmisión
@@ -136,7 +136,7 @@ if __name__== '__main__':
                 
                 # .... (logica de analisis)
 
-                # TO DO: Revisar el print
+                # TODO: Revisar el print
                 print("Analizando el margen de frecuencias {}".format(frecuenciaPortadoraRecv))
 
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de trasmisión
@@ -149,7 +149,7 @@ if __name__== '__main__':
 
                 continuar = False
                 
-                # TO DO: Incluir la lógica asociada a fallos en el maquina de estados, almacenando en la variable
+                # TODO: Incluir la lógica asociada a fallos en el maquina de estados, almacenando en la variable
                 # 'estado_error' el último esatdo antes de llegar a Fallo Mortal
                 print('Ha ocurrido un fallo mortal en el estado de ', estado_error)
      
