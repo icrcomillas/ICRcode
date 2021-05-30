@@ -2,13 +2,14 @@ import json
 import numpy as np
 import threading
 import time
-from software.plutoControler import Controller,Operacion,Sistema,Graficas
+from software.plutoController import Controller,Operacion,Sistema,Graficas
 from software.maquina_estados import MaquinaEstados
 
 global longitud_datos
 global datosMostrar
+global controller
 
-def recibir():
+def recibirDatos():
     datosNuevos = controller.rx()
     #se diezman los datos por un valor de 2
     datosNuevos = datosNuevos[:-M_diezmado:M_diezmado]
@@ -18,13 +19,28 @@ def recibir():
     fft = operacion.calcularEspectro(datosNuevos)
     return fft
 
+def transmitirDatos():
+
+    # Llamada a la funcion para generar la señal de interferencia
+    interferencia = generarInterferencia()
+
+    # Se transmiten los datos 
+    controller.tx(interferencia)
+
+def generarInterferencia():
+
+    # TODO:Funcion que genera una señal en la banda de frecuencias actual
+    interferencia = np.array(frecuenciaPortadoraTrans)
+
+    return interferencia
+
 if __name__== '__main__':
 
         # Declaracion de variables
 
         limite_espera = 3 # Tiempo limite de espera en el estado Espera (s) (MODIFICABLE)
         limite_transmision = 3 # Tiempo limite de espera en el estado Espera (s) (MODIFICABLE)
-        continuar =True
+        continuar = True
         M_diezmado = 2
         longitud_datos = 1024/M_diezmado   #Se calcula la longitud de los datos a procesar para poder saber la posicion del indice de la frecuencia de muestreo
         
@@ -47,7 +63,7 @@ if __name__== '__main__':
         operacion = Operacion(samplerate)
 
         #objeto para la toma de decisiones
-        sistema =Sistema(ficheroJson['salto_frecuencia'],ficheroJson['frecuencia_min'],ficheroJson['frecuencia_max'])
+        sistema = Sistema(ficheroJson['salto_frecuencia'],ficheroJson['frecuencia_min'],ficheroJson['frecuencia_max'])
         
         #objeto de graficas
         graficasFFt = Graficas()
@@ -75,7 +91,7 @@ if __name__== '__main__':
 
             elif maquina.estado == 'Recepcion':
 
-                fft = recibir()
+                fft = recibirDatos(controller, operacion)
 
                 # Si ha ido todo OK se modifica el estado
                 maquina.on_event('OK')
@@ -114,7 +130,7 @@ if __name__== '__main__':
                     # TODO: empezar a transmitir
                     tiempo_inicial = time.time()
                 else:
-                    fft = recibir()
+                    fft = recibirDatos(controller, operacion)
                     datosMostrar = fft[:,0:1]
                     detectado = sistema.analizarEspectroFrecuenciaTf(fft[:,0],fft[:,1],threshold)
                     if detectado:
@@ -136,8 +152,6 @@ if __name__== '__main__':
                 if tiempo_pasado >= limite_transmision:
                     # TODO se para la tansmisión
                     maquina.on_event('limite_transmision')
-                    
-              
 
             elif maquina.estado =='Analisis':
 
@@ -147,7 +161,7 @@ if __name__== '__main__':
 
                 # TODO: Revisar el print
                 print("Analizando el margen de frecuencias {}".format(frecuenciaPortadoraRecv))
-                fft = recibir()
+                fft = recibirDatos(controller, operacion)
                 datosMostrar = fft[:,0:1]
                 detectado = sistema.analizarEspectroFrecuenciaTf(fft[:,0],fft[:,1],threshold)
 
