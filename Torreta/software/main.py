@@ -50,11 +50,19 @@ if __name__== '__main__':
         # Se crea una instancia de la máquina de estados
         maquina = MaquinaEstados()
 
-        while(continuar ==True):
+        while continuar:
 
             #logica de control de la aplicación	
 
-            if maquina.estado == 'Recepcion':
+            if maquina.estado == 'Arranque':
+                
+                # Estado de Arranque
+                # TO DO: Incluir aquí si se necesita algunua funcion de incialización
+
+                # Si ha ido todo OK se modifica el estado
+                maquina.on_event('OK')
+
+            elif maquina.estado == 'Recepcion':
 
                 datosNuevos = controller.rx()
                 #se diezman los datos por un valor de 2
@@ -93,6 +101,8 @@ if __name__== '__main__':
             elif maquina.estado == 'Espera':
 
                 # Estado de espera
+
+                # TO DO: Revisar el print
                 print("se ha encontrado algo en la frecuencia {}".format(frecuenciaPortadoraRecv))
 
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de espera
@@ -110,6 +120,7 @@ if __name__== '__main__':
                 
                 # .... (logica de transmision)
 
+                # TO DO: Revisar el print
                 print("Se transmite en la frecuencia {}".format(frecuenciaPortadoraRecv))
 
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de trasmisión
@@ -119,13 +130,13 @@ if __name__== '__main__':
                     # Se incrementa el temporizador de trasnmisión
                     t += 1
 
-
             elif maquina.estado =='Analisis':
 
                 # Estado de analisis
                 
                 # .... (logica de analisis)
 
+                # TO DO: Revisar el print
                 print("Analizando el margen de frecuencias {}".format(frecuenciaPortadoraRecv))
 
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de trasmisión
@@ -134,9 +145,14 @@ if __name__== '__main__':
                 elif not detectado_analisis:
                     maquina.on_event('no_detectado')
 
-        
+            elif maquina.estado == 'Fallo_Mortal':
+
+                continuar = False
+                
+                # TO DO: Incluir la lógica asociada a fallos en el maquina de estados, almacenando en la variable
+                # 'estado_error' el último esatdo antes de llegar a Fallo Mortal
+                print('Ha ocurrido un fallo mortal en el estado de ', estado_error)
+     
         hiloGraficas.close()
 
         print("Hilos terminados")   
-
-	    
