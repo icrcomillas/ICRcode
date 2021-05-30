@@ -1,7 +1,6 @@
 import json
 import numpy as np
 from scipy.io import wavfile
-from operaciones import Sistema
 import threading
 from scipy.fft import fft, fftfreq, fftshift
 from pyqtgraph.Qt import QtCore, QtGui

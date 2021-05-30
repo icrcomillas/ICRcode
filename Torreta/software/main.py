@@ -1,10 +1,12 @@
 import json
 import numpy as np
 import threading
-from plutoController import Controller,Operacion,Sistema,Graficas
+from software.plutoControler import Controller,Operacion,Sistema,Graficas
+from software.maquina_estados import MaquinaEstados
 
 global longitud_datos
 global datosMostrar
+
 if __name__== '__main__':
         continuar =True
         M_diezmado = 2
@@ -40,10 +42,15 @@ if __name__== '__main__':
         hiloGraficas.start()
         print("Se ha inicializado el sistema")
         contradorMuestras = 0 #contador para saber si se ha detectado algo en 
+
+        # Se crea una instancia de la máquina de estados
+        maquina = MaquinaEstados()
+
         while(continuar ==True):
+
             #logica de control de la aplicación	
-            
-            if estado == 'recepcion':
+
+            if maquina.estado == 'Recepcion':
                 datosNuevos = controller.rx()
                 #se diezman los datos por un valor de 2
                 datosNuevos = datosNuevos[:-M_diezmado:M_diezmado]
@@ -51,7 +58,11 @@ if __name__== '__main__':
                 
                 #se calcula la fft de la secuencia
                 fft = operacion.calcularEspectro(datosNuevos)
-            if estado =='gruesa': #significa que estamos en una estimacion gruesa de portadora
+
+            elif maquina.estado == 'EstimacionGruesa': 
+
+                """significa que estamos en una estimacion gruesa de portadora"""
+
                 datosMostrar = fft[:,0:1]
                 frecuenciaPortadoraRecv,detectado = sistema.decidirFrecuenciaPortadora(fft[:,0],fft[:,1],threshold)
                 
