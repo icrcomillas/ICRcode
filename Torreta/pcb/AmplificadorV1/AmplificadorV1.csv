@@ -1,0 +1,11 @@
+"Id";"Identificador";"Empaquetado";"Cantidad";"Identificación";"Suministrador y ref";
+1;" , , ";"MountingHole_3.2mm_M3";3;"MountingHole_3.2mm_M3";;;
+2;"U1";"QFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm";1;"Amplificador_2_4Ghz";;;
+3;"R1";"R_0603_1608Metric";1;"7.5K";;;
+4;"J3,J1";"SMA_Amphenol_132289_EdgeMount";2;"Conn_Coaxial";;;
+5;"J2";"TerminalBlock_bornier-2_P5.08mm";1;"Conn_01x02_Female";;;
+6;"33nH1,15nH1";"L_0402_1005Metric";2;"INDUCTOR";;;
+7;"2.0pF1,100pF1";"C_0805_2012Metric";2;"C";;;
+8;"18pF1";"C_1206_3216Metric";1;"C";;;
+9;"1.8pF1";"C_0603_1608Metric";1;"C";;;
+10;"0.1uF1";"C_0402_1005Metric";1;"C";;;

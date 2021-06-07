@@ -1,0 +1,17 @@
+### Module positions - created on 06/05/21 20:18:46 ###
+### Printed by Pcbnew version kicad (5.1.9)-1
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val                  Package                                     PosX       PosY       Rot  Side
+0.1uF1    C                    C_0402_1005Metric                       164.2110   -93.5990  180.0000  top
+1.8pF1    C                    C_0603_1608Metric                       154.3050  -102.3750  270.0000  top
+2.0pF1    C                    C_0805_2012Metric                       151.5720  -101.6000  180.0000  top
+15nH1     INDUCTOR             L_0402_1005Metric                       163.9570  -101.1150   90.0000  top
+18pF1     C                    C_1206_3216Metric                       167.7180  -101.6000  180.0000  top
+33nH1     INDUCTOR             L_0402_1005Metric                       148.8440  -102.1080  270.0000  top
+100pF1    C                    C_0805_2012Metric                       164.6530   -96.0120  180.0000  top
+J1        Conn_Coaxial         SMA_Amphenol_132289_EdgeMount           143.5100  -101.6000  180.0000  top
+J3        Conn_Coaxial         SMA_Amphenol_132289_EdgeMount           175.7200  -101.6000    0.0000  top
+R1        7.5K                 R_0603_1608Metric                       155.7020   -96.8370   90.0000  top
+U1        Amplificador_2_4Ghz  QFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm   159.6900  -101.0305    0.0000  top
+## End
