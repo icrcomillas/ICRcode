@@ -43,7 +43,6 @@ class Graficas():
 
     def mostrarGrafica(self):
         global datosMostrar
-        
        
         self.curve.setData(np.abs(datosMostrar[:,0]))                     # set the curve with this data
         self.curve.setPos(-(len(datosMostrar[:,1])/2),0)                   # set x position in the graph to 0

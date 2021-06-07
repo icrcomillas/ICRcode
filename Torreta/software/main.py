@@ -21,18 +21,17 @@ def recibirDatos():
 
 def transmitirDatos():
 
-    # Llamada a la funcion para generar la señal de interferencia
-    interferencia = generarInterferencia()
+    # Llamada a la funcion para generar la señal de ruido
+        # media nula 
+        # varianza ?
+        #longitud ?
+    media = 0
+    varianza = 1
+    longitud = 1000 # tambien se puede usar len(controller.rx())
+    interferencia = sistema.generarRuido(media, varianza, longitud)
 
     # Se transmiten los datos 
     controller.tx(interferencia)
-
-def generarInterferencia():
-
-    # TODO:Funcion que genera una señal en la banda de frecuencias actual
-    interferencia = np.array(frecuenciaPortadoraTrans)
-
-    return interferencia
 
 if __name__== '__main__':
 
