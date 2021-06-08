@@ -2,19 +2,20 @@ import json
 import numpy as np
 import threading
 import time
-from software.plutoController import Controller,Operacion,Sistema,Graficas
-from software.maquina_estados import MaquinaEstados
+from plutoController import Controller,Operacion,Sistema,Graficas
+from maquina_estados import MaquinaEstados
 
 global longitud_datos
-global datosMostrar
+
 global controller
+
 
 def recibirDatos():
     datosNuevos = controller.rx()
     #se diezman los datos por un valor de 2
-    datosNuevos = datosNuevos[:-M_diezmado:M_diezmado]
+    datosNuevos = datosNuevos[::M_diezmado]
+    print(frecuenciaPortadoraRecv)
     datosNuevos = np.append([datosNuevos],[np.array(frecuenciaPortadoraRecv)])
-    
     #se calcula la fft de la secuencia
     fft = operacion.calcularEspectro(datosNuevos)
     return fft
@@ -41,7 +42,7 @@ if __name__== '__main__':
         limite_transmision = 3 # Tiempo limite de espera en el estado Espera (s) (MODIFICABLE)
         continuar = True
         M_diezmado = 2
-        longitud_datos = 1024/M_diezmado   #Se calcula la longitud de los datos a procesar para poder saber la posicion del indice de la frecuencia de muestreo
+        longitud_datos = 1024//M_diezmado   #Se calcula la longitud de los datos a procesar para poder saber la posicion del indice de la frecuencia de muestreo
         
         with open('configuracion.json') as json_file:
             ficheroJson = json.load(json_file)
@@ -52,7 +53,7 @@ if __name__== '__main__':
         samplerate = ficheroJson['samplerate']
         filtroAnalog = ficheroJson['f_analog']
         ganancia = ficheroJson['ganancia']
-        threshold = ficheroJson['threshold']
+        threshold_1 = ficheroJson['threshold_1']
 	
         #se inicializa el controlador de la placa
         controller = Controller()
@@ -65,9 +66,9 @@ if __name__== '__main__':
         sistema = Sistema(ficheroJson['salto_frecuencia'],ficheroJson['frecuencia_min'],ficheroJson['frecuencia_max'])
         
         #objeto de graficas
-        graficasFFt = Graficas()
+        graficas = Graficas()
         #se crea el hilo para mostrar los resultados
-        hiloGraficas = threading.Thread(target=graficasFFt.runGraficas, daemon = True)
+        hiloGraficas = threading.Thread(target=graficas.runGraficas, daemon = True)
         #se arranca el hilo
         hiloGraficas.start()
         print("Se ha inicializado el sistema")
@@ -75,31 +76,31 @@ if __name__== '__main__':
 
         # Se crea una instancia de la máquina de estados
         maquina = MaquinaEstados()
-
+        time.sleep(5)
         while continuar:
 
             #logica de control de la aplicación	
 
-            if maquina.estado == 'Arranque':
+            if str(maquina.estado) == 'Arranque':
                 
-                # Estado de Arranque
-                # TODO: Incluir aquí si se necesita alguna funcion de incialización
+                
 
                 # Si ha ido todo OK se modifica el estado
                 maquina.on_event('OK')
 
-            elif maquina.estado == 'Recepcion':
+            elif str(maquina.estado) == 'Recepcion':
 
-                fft = recibirDatos(controller, operacion)
+                fft = recibirDatos()
 
                 # Si ha ido todo OK se modifica el estado
                 maquina.on_event('OK')
 
-            elif maquina.estado == 'EstimacionGruesa': 
+            elif str(maquina.estado) == 'EstimacionGruesa': 
 
                 #significa que estamos en una estimacion gruesa de portadora
-                datosMostrar = fft[:,0:1]
-                frecuenciaPortadoraRecv,detectado = sistema.decidirFrecuenciaPortadora(fft[:,0],fft[:,1],threshold)
+
+                graficas.updateGrafica(fft[:,0:2])
+                frecuenciaPortadoraRecv,detectado = sistema.decidirFrecuenciaPortadora(frecuenciaPortadoraRecv,fft[:,0],fft[:,1],threshold_1)
                 
                 # Si ha ido todo OK se modifica el estado
                 if detectado:
@@ -110,7 +111,7 @@ if __name__== '__main__':
                 elif not detectado:
                     maquina.on_event('no_detectado')                 
                 
-            elif maquina.estado =='ModificacionPortadora':
+            elif str(maquina.estado) =='ModificacionPortadora':
 
                 #en este caso se hace la estimacion de la frecuencia
                 controller.setPortadoraRecepcion(frecuenciaPortadoraRecv)
@@ -119,7 +120,7 @@ if __name__== '__main__':
                 # Si ha ido todo OK se modifica el estado
                 maquina.on_event('OK')
 
-            elif maquina.estado == 'Espera':
+            elif str(maquina.estado) == 'Espera':
 
                 # Estado de confirmacion de que existe algo en la banda detectada
                               
@@ -129,30 +130,30 @@ if __name__== '__main__':
                     # TODO: empezar a transmitir
                     tiempo_inicial = time.time()
                 else:
-                    fft = recibirDatos(controller, operacion)
-                    datosMostrar = fft[:,0:1]
-                    detectado = sistema.analizarEspectroFrecuenciaTf(fft[:,0],fft[:,1],threshold)
+                    fft = recibirDatos()
+                    graficas.updateGrafica(fft[:,0:2])
+                    detectado = sistema.analizarEspectroFrecuenciaTf(fft[:,0],fft[:,1],threshold_1)
                     if detectado:
                         # Se incrementa el iterador de espera
                         i += 1
                     else:
                         maquina.on_event('no_detectado')
                 
-            elif maquina.estado =='Transmision':
+            elif str(maquina.estado) =='Transmision':
 
                 # Estado de trasmisión
                 
                 # .... (logica de transmision)
                 
                 tiempo_pasado= time.time()-tiempo_inicial
-                print("Se transmite en la frecuencia {}".format(frecuenciaPortadoraRecv))
+                #print("Se transmite en la frecuencia {}".format(frecuenciaPortadoraRecv))
 
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de trasmisión
                 if tiempo_pasado >= limite_transmision:
                     # TODO se para la tansmisión
                     maquina.on_event('limite_transmision')
 
-            elif maquina.estado =='Analisis':
+            elif str(maquina.estado) =='Analisis':
 
                 # Estado de analisis
                 
@@ -160,9 +161,9 @@ if __name__== '__main__':
 
                 # TODO: Revisar el print
                 print("Analizando el margen de frecuencias {}".format(frecuenciaPortadoraRecv))
-                fft = recibirDatos(controller, operacion)
-                datosMostrar = fft[:,0:1]
-                detectado = sistema.analizarEspectroFrecuenciaTf(fft[:,0],fft[:,1],threshold)
+                fft = recibirDatos()
+                graficas.updateGrafica(fft[:,0:2])
+                detectado = sistema.analizarEspectroFrecuenciaTf(fft[:,0],fft[:,1],threshold_1)
 
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de trasmisión
                 if detectado:
@@ -170,7 +171,7 @@ if __name__== '__main__':
                 elif not detectado:
                     maquina.on_event('no_detectado')
 
-            elif maquina.estado == 'Fallo_Mortal':
+            elif str(maquina.estado) == 'Fallo_Mortal':
 
                 continuar = False
                 

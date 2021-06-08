@@ -1,4 +1,4 @@
-from software.estados_torreta import Arranque
+from estados_torreta import Arranque
 
 class MaquinaEstadosMeta(type):
     """

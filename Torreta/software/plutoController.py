@@ -9,7 +9,7 @@ import pyqtgraph as pg
 class Operacion():
     def __init__(self,samplerate):
         super().__init__()
-        self.sameplerate = samplerate
+        self.samplerate = samplerate
         
     """
     def runEspectro(self):
@@ -35,28 +35,36 @@ class Operacion():
         return np.column_stack((fft_data, vector_frecuencia,fft_data_db))
 
 class Graficas():
-
+	
     def __init__(self):
         super().__init__()
-       
+        import numpy as np
         self.primera_vez = True
 
     def mostrarGrafica(self):
-        global datosMostrar
-       
-        self.curve.setData(np.abs(datosMostrar[:,0]))                     # set the curve with this data
-        self.curve.setPos(-(len(datosMostrar[:,1])/2),0)                   # set x position in the graph to 0
-        QtGui.QApplication.processEvents()
+
+        if(self.datos_nuevos):       	
+	        self.curve.setData(np.abs(self.datos[:,0]))                     # set the curve with this data
+	        self.curve.setPos(-(len(self.datos[:,1])/2),0)                   # set x position in the graph to 0
+	        QtGui.QApplication.processEvents()
+	        self.datos_nuevos = False
+    def updateGrafica(self,datos):
+	    self.datos = datos
+	    self.datos_nuevos = True
 
     def runGraficas(self):
-        app = QtGui.QApplication([])      
-        self.seguir = True
 
+        app = QtGui.QApplication([])  
+       
+        self.seguir = True
+        self.datos_nuevos = False
         self.win = pg.GraphicsWindow(title="Analisis espectral") # creates a window
         self.p = self.win.addPlot(title="Fft")  # creates empty space for the plot in the window
-        self.curve = self.p.plot() 
-        while self.seguir:
-           self.mostrarGrafica() 
+        self.curve = self.p.plot()
+        while(self.seguir):
+	        self.mostrarGrafica()
+
+        
 
     def close(self):
         self.seguir = False

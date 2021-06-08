@@ -2,12 +2,15 @@
     "direccionIp":"192.168.2.1",
     "test": false,
     "c_rx_default":2400000000,
-    "c_tx_default":2300000000,
+    "c_tx_default":2400000000,
     "muestras_analizar":10000,
-    "samplerate":88000000,
-    "f_threshold":1,
-    "f_analog":44000000,
-    "ganancia":"manual"
+    "samplerate":60000000,
+    "threshold_1":1,
+    "f_analog":30000000,
+    "ganancia":"manual",
+    "salto_frecuencia":3000000,
+    "frecuencia_min":2400000000,
+    "frecuencia_max":2500000000
 
 
 }

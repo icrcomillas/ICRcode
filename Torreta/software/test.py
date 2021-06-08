@@ -10,8 +10,8 @@ sdr = adi.Pluto()
 
 # Configure properties
 sdr.rx_rf_bandwidth = 4000000
-sdr.rx_lo = 100000
-sdr.tx_lo = 100000
+sdr.rx_lo =2000000000
+sdr.tx_lo = 325000000
 sdr.tx_cyclic_buffer = True
 sdr.tx_hardwaregain_chan0 = -30
 sdr.gain_control_mode_chan0 = "slow_attack"
@@ -29,5 +29,8 @@ i = np.cos(2 * np.pi * t * fc) * 2 ** 14
 q = np.sin(2 * np.pi * t * fc) * 2 ** 14
 iq = i + 1j * q
 
+
 # Send data
 sdr.tx(iq)
+while True:
+	a = 1

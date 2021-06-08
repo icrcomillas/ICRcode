@@ -1,4 +1,4 @@
-from software.estado import Estado
+from estado import Estado
 
 # Inicio de la declaración de estados
 
@@ -10,6 +10,7 @@ class Arranque(Estado):
 
     def on_event(self, event):
         if event == 'OK':
+            print("Cambiado")
             return Recepcion()
         elif event == 'KO':
             return Fallo_Mortal()
