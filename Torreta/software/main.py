@@ -76,6 +76,7 @@ if __name__== '__main__':
 
         # Se crea una instancia de la máquina de estados
         maquina = MaquinaEstados()
+        #tiempo para esperar a que arranque el hilo de graficas
         time.sleep(5)
         while continuar:
 
