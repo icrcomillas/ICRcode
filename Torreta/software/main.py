@@ -6,9 +6,8 @@ from plutoController import Controller,Operacion,Sistema,Graficas
 from maquina_estados import MaquinaEstados
 
 global longitud_datos
-
 global controller
-
+global sistema
 
 def recibirDatos():
     datosNuevos = controller.rx()
