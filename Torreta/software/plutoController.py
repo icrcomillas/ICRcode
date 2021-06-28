@@ -26,13 +26,14 @@ class Operacion():
         #se quita el ultimo valor 
         frecuencia = datos[-1]
         datos = datos[:-1]
+        print(frecuencia)
         fft_data = np.fft.fft(datos)/len(datos)
         fft_data = np.fft.fftshift(np.abs(fft_data))
         fft_data_db = 20*np.log10(np.abs(fft_data))
         
         vector_frecuencia = (np.linspace(-0.5,0.5,len(datos))*self.samplerate)+frecuencia
         
-        return np.column_stack((fft_data, vector_frecuencia,fft_data_db))
+        return np.column_stack((fft_data_db, vector_frecuencia,fft_data_db))
 
 class Graficas():
 	
@@ -145,6 +146,7 @@ class Sistema():
             if arrayDatos[i] > threshold:
                 #en el caso de que un valor sea superior al esperado, busca la frecuencia
                 detectado = True
+                print(arrayDatos[i])
         return detectado
 
     def decidirFrecuenciaPortadora(self,frecuenciaActual,arrayDatos,arrayFrecuencia,threshold):
@@ -161,7 +163,7 @@ class Sistema():
             frecuenciaPortadora = frecuenciaResultado
             encontrado = True
 
-        return frecuenciaPortadora,encontrado
+        return int(frecuenciaPortadora),encontrado
 
     def analizarEspectro(self,arrayDatos,arrayFrecuencias ,f_target, f_threshold, f_carrier, samplerate):
 

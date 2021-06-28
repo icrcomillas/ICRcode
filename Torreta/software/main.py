@@ -12,8 +12,8 @@ global sistema
 def recibirDatos():
     datosNuevos = controller.rx()
     #se diezman los datos por un valor de 2
-    datosNuevos = datosNuevos[::M_diezmado]
-    print(frecuenciaPortadoraRecv)
+    #datosNuevos = datosNuevos[::M_diezmado]
+
     datosNuevos = np.append([datosNuevos],[np.array(frecuenciaPortadoraRecv)])
     #se calcula la fft de la secuencia
     fft = operacion.calcularEspectro(datosNuevos)
