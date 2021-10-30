@@ -1,4 +1,4 @@
-update=27/10/2021 21:08:46
+update=29/10/2021 20:16:20
 version=1
 last_client=kicad
 [general]
@@ -25,7 +25,7 @@ ERC_TestSimilarLabels=1
 [pcbnew]
 version=1
 PageLayoutDescrFile=
-LastNetListRead=AmplificadorV1.net
+LastNetListRead=AtenuadoresV1.net
 CopperLayerCount=4
 BoardThickness=1.6
 AllowMicroVias=0
@@ -38,8 +38,8 @@ MinViaDrill=0.3
 MinMicroViaDiameter=0.2
 MinMicroViaDrill=0.09999999999999999
 MinHoleToHole=0.25
-TrackWidth1=0.25
-TrackWidth2=0.3
+TrackWidth1=0.34
+TrackWidth2=0.34
 ViaDiameter1=0.8
 ViaDrill1=0.4
 dPairWidth1=0.2
@@ -75,7 +75,7 @@ Type=0
 Enabled=1
 [pcbnew/Layer.In1.Cu]
 Name=In1.Cu
-Type=1
+Type=0
 Enabled=1
 [pcbnew/Layer.In2.Cu]
 Name=In2.Cu
@@ -239,18 +239,7 @@ Enabled=0
 [pcbnew/Netclasses/Default]
 Name=Default
 Clearance=0.2
-TrackWidth=0.25
-ViaDiameter=0.8
-ViaDrill=0.4
-uViaDiameter=0.3
-uViaDrill=0.1
-dPairWidth=0.2
-dPairGap=0.25
-dPairViaGap=0.25
-[pcbnew/Netclasses/1]
-Name=señal
-Clearance=0.2
-TrackWidth=0.29337
+TrackWidth=0.34
 ViaDiameter=0.8
 ViaDrill=0.4
 uViaDiameter=0.3

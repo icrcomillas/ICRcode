@@ -1,0 +1,38 @@
+<Qucs Schematic 0.0.15>
+<Properties>
+  <View=154,140,1434,820,1,45,0>
+  <Grid=10,10,0>
+  <DataSet=simulacion2.dat>
+  <DataDisplay=simulacion2.sch>
+  <OpenDisplay=1>
+  <showFrame=0>
+  <FrameText0=T\x00EDtulo>
+  <FrameText1=Dibujado por:>
+  <FrameText2=Fecha:>
+  <FrameText3=Revisi\x00F3n:>
+</Properties>
+<Symbol>
+</Symbol>
+<Components>
+</Components>
+<Wires>
+</Wires>
+<Diagrams>
+  <Tab 270 417 1060 237 3 #c0c0c0 1 00 1 9991 1 1 1 0 1 1 1 0 1 10000 315 0 225 "" "" "">
+	<"S[1,1]" #0000ff 0 3 0 0 0>
+	<"S[1,2]" #0000ff 0 3 0 0 0>
+	<"S[2,1]" #0000ff 0 3 0 0 0>
+	<"S[2,2]" #0000ff 0 3 0 0 0>
+  </Tab>
+  <Smith 270 690 200 200 3 #c0c0c0 1 00 1 0 1 1 1 0 4 1 1 0 1 1 315 0 225 "" "" "">
+	<"S[1,1]" #0000ff 0 3 0 0 0>
+	<"S[2,1]" #ff0000 0 3 0 0 0>
+	<"S[2,2]" #ff00ff 0 3 0 0 0>
+  </Smith>
+  <Rect 660 642 727 172 3 #c0c0c0 1 01 1 2e+09 5e+07 2.5e+09 1 -0.029762 0.2 0.479875 1 -1 1 1 315 0 225 "" "" "">
+	<"S[1,1]" #0000ff 0 3 0 0 0>
+	<"S[1,2]" #ff0000 0 3 0 0 0>
+  </Rect>
+</Diagrams>
+<Paintings>
+</Paintings>
