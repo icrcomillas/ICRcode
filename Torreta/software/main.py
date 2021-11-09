@@ -8,6 +8,7 @@ from maquina_estados import MaquinaEstados
 global longitud_datos
 global controller
 global sistema
+global gpu
 
 def recibirDatos():
     datosNuevos = controller.rx()
@@ -16,8 +17,13 @@ def recibirDatos():
 
     datosNuevos = np.append([datosNuevos],[np.array(frecuenciaPortadoraRecv)])
     #se calcula la fft de la secuencia
-    fft = operacion.calcularEspectro(datosNuevos)
-    return fft
+    
+    if gpu:
+        return operacion.calcularEspectroGPU(datosNuevos)
+    else:
+        return operacion.calcularEspectro(datosNuevos)
+
+    
 
 def transmitirDatos():
 
@@ -53,7 +59,8 @@ if __name__== '__main__':
         filtroAnalog = ficheroJson['f_analog']
         ganancia = ficheroJson['ganancia']
         threshold_1 = ficheroJson['threshold_1']
-	
+        gpu = ficheroJson['gpu']
+        
         #se inicializa el controlador de la placa
         controller = Controller()
         controller.inicializarPlaca(frecuenciaPortadoraRecv,frecuenciaPortadoraTrans,samplerate,filtroAnalog,ganancia)

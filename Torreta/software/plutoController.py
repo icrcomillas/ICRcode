@@ -5,12 +5,13 @@ import threading
 from scipy.fft import fft, fftfreq, fftshift
 from pyqtgraph.Qt import QtCore, QtGui
 import pyqtgraph as pg
+from numba import cuda
 
 class Operacion():
     def __init__(self,samplerate):
         super().__init__()
         self.samplerate = samplerate
-        
+       
     """
     def runEspectro(self):
         global data
@@ -34,6 +35,9 @@ class Operacion():
         vector_frecuencia = (np.linspace(-0.5,0.5,len(datos))*self.samplerate)+frecuencia
         
         return np.column_stack((fft_data_db, vector_frecuencia,fft_data_db))
+    @cuda
+    def calcularEspectroGPU(self,datos):
+        pass
 
 class Graficas():
 	

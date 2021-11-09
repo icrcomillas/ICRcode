@@ -10,7 +10,8 @@
     "ganancia":"manual",
     "salto_frecuencia":1000000,
     "frecuencia_min":2400000000,
-    "frecuencia_max":2500000000
+    "frecuencia_max":2500000000,
+    "gpu":false
 
 
 }
