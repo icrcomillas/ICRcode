@@ -158,6 +158,7 @@ if __name__== '__main__':
                 # Si ha ido todo OK se modifica el estado, en funcion del valor del temporizador de trasmisión
                 if tiempo_pasado >= limite_transmision:
                     # TODO se para la tansmisión
+                    tiempo_inicial = time.time()
                     maquina.on_event('limite_transmision')
 
             elif str(maquina.estado) =='Analisis':
