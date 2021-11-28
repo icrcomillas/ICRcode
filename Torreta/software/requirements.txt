@@ -2,6 +2,6 @@ numpy
 matplotlib
 scipy
 pyqtgraph
-PyQt5
+
 pylibiio
 pyadi-iio
