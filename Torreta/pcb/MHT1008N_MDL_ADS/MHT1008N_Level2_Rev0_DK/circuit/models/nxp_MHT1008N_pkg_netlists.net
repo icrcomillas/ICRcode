@@ -1,0 +1,58 @@
+; ADS NXP Library Package Netlists
+;***************************************************************************************
+define NXP_MHT1008N_FET2 ( _net100  _net200  source  thermal )
+parameters Gate_Periphery=12.1 Gate_Fingers=22 Selft=0 TNOM=298.15 TSNK=25  RTH=0.24 CTH=1.0e-7 File="HV9_AF7_F251_550_30_plastic_v1.mdl"
+
+Options:Options1 TopologyCheck=yes ForceS_Params=yes ForceM_Params=yes \
+	MaxSpectralSize=512 V_RelTol=1e-6 V_AbsTol=1e-6 V I_RelTol=1e-6 I_AbsTol=1e-6 A \
+	GiveAllWarnings=yes MaxWarnings=10 SaveBranchCurrents=no OutputInternalNodes=no \
+	DC_ReadInitialGuess=no DC_WriteFinalSolution=no 
+
+F_sclfact = (Gate_Periphery/(5.50000))
+NXP_NEW_CPG = if((4.500e+002) <=0.0) then 0.001 else ((4.500e+002)*F_sclfact) endif
+NXP_NEW_CPD = if((4.000e+002) <=0.0) then 0.001 else ((4.000e+002)*F_sclfact) endif
+NXP_NEW_CPGD = if((1.0e+000) <=0.0) then 0.001 else ((1.0e+000)*F_sclfact) endif
+NXP_NEW_LG = if((3.00e+001) <=0.0) then 0.001 else ((3.00e+001)/F_sclfact) endif
+NXP_NEW_LD = if((3.00e+001) <=0.0) then 0.001 else ((3.00e+001)/F_sclfact) endif
+NXP_NEW_LS = if((1.00e+000) <=0.0) then 0.001 else ((1.00e+000)/F_sclfact) endif
+NXP_NEW_LM = if((-5.00e+000) =0.0) then 0.001 else ((-5.00e+000)/F_sclfact) endif
+NXP_NEW_RGSH = if((5.50e+000) <=0.0) then 0.001 else ((5.50e+000)/F_sclfact) endif
+NXP_NEW_RDSH = if((6.00e+000) <=0.0) then 0.001 else ((6.00e+000)/F_sclfact) endif
+
+C:Cpg _net100 0 C=NXP_NEW_CPG fF
+R:Rgsh _net100 _net10 R=NXP_NEW_RGSH Ohms Noise=yes  
+L:L1 _net100 _net1 L=0.1 fH Noise=no  
+L:Lgate _net1 _net10 L=NXP_NEW_LG pH
+model FET2M1 FSLRFPK_FET2 ENCRFile=File
+"FET2M1":FSL1  _net10 _net20 _net30 thermal \
+  Periphery=Gate_Periphery mm NFING=Gate_Fingers Selft=Selft CTH=CTH RTH=RTH TSNK=TSNK TNOM=TNOM 
+L:Lsource _net30 source L=NXP_NEW_LS pH
+
+L:Ldrain _net20 _net2 L=NXP_NEW_LD pH
+L:L2 _net200 _net2 L=0.1 fH Noise=no  
+R:Rdsh _net20 _net200 R=NXP_NEW_RDSH Ohms Noise=yes  
+C:Cpd _net200 0 C=NXP_NEW_CPD fF
+	
+C:Cpgd _net100 _net200 C=NXP_NEW_CPGD fF
+Mutual:Mutual1  K=0.0 M=NXP_NEW_LM pH Inductor1="L1" Inductor2="L2" 
+R:RTHERM thermal 0 R=500 MOhm
+end NXP_MHT1008N_FET2
+;***************************************************************************************
+define NXP_MHT1008N_Level2_Rev0_SPmodel_FET2 ( gate  drain  source  thermal ) 
+parameters  Selft=0 TNOM="" TSNK=""  RTH=""  CTH="" DataPath="NXP_MHT1008N_Data\"
+Options:Options1 TopologyCheck=yes ForceS_Params=yes ForceM_Params=yes SaveBranchCurrents=no OutputInternalNodes=no 
+
+RTHD=1.0e-4
+CTHD=1.0e-7
+NRTH = if(RTH=="") then RTHD*1 else RTH*1 endif
+NCTH = if(CTH=="") then CTHD/1 else CTH/1 endif
+NTNOM = if(TNOM=="") then 298.15 else TNOM endif
+NTSNK = if(TSNK=="") then 25 else TSNK endif
+FileName=strcat(DataPath,"HV9_AF7_F251_550_30_plastic_v1.mdl")
+#uselib "ckt", "S6P"
+S6P:SNP1 gate drain _net13 _net14 _net15 source source File=strcat(DataPath, "MHT1008N_Level2_Rev0.s6p") \ 
+	Type="touchstone" InterpMode="linear" InterpDom="" ExtrpMode="constant" Temp=NTSNK CheckPassivity=0
+NXP_MHT1008N_FET2:T1 _net13 _net14 _net15 thermal Selft=Selft TNOM=NTNOM TSNK=NTSNK  RTH=NRTH  CTH=NCTH File=FileName
+R:R1 thermal 0 R=50 GOhm Noise=no
+end NXP_MHT1008N_Level2_Rev0_SPmodel_FET2
+

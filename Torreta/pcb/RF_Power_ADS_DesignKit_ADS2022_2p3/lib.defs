@@ -1,0 +1,5 @@
+# Library Defs for RF_Power_ADS_DesignKit design kit
+DEFINE RF_Power_ADS_DesignKit_tech ./RF_Power_ADS_DesignKit_tech
+ASSIGN RF_Power_ADS_DesignKit_tech libMode readOnly
+DEFINE RF_Power_ADS_DesignKit ./RF_Power_ADS_DesignKit
+ASSIGN RF_Power_ADS_DesignKit libMode readOnly

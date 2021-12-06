@@ -1,0 +1,25 @@
+CurrentLayer number = 4
+default	number = 0 stream = 0 iges = 0 color = 36 fill = 0 line = 0, 0 0 1, "*", type = 2
+user_symbody	number = 1 stream = 0 iges = 0 color = 16 fill = 0 line = 0, 0 0 1, "*", type = 2
+user_symtxt	number = 2 stream = 0 iges = 0 color = 16 fill = 0 line = 0, 0 0 1, "*", type = 2
+user_symbol	number = 3 stream = 0 iges = 0 color = 38 fill = 0 line = 0, 0 0 1, "*", type = 2
+wire	number = 4 stream = 0 iges = 0 color = 37 fill = 0 line = 0, 0 0 1, "*", type = 2
+text1	number = 5 stream = 0 iges = 0 color = 0 fill = 0 line = 0, 0 0 1, "*", type = 2
+labels	number = 6 stream = 0 iges = 0 color = 21 fill = 0 line = 0, 0 0 1, "*", type = 2
+identifiers	number = 7 stream = 0 iges = 0 color = 5 fill = 0 line = 0, 0 0 1, "*", type = 2
+parameters	number = 8 stream = 0 iges = 0 color = 14 fill = 0 line = 0, 0 0 1, "*", type = 2
+pin_num	number = 9 stream = 0 iges = 0 color = 18 fill = 0 line = 0, 0 0 1, "*", type = 2
+notes	number = 10 stream = 0 iges = 0 color = 18 fill = 0 line = 0, 0 0 1, "*", type = 2
+symbody	number = 11 stream = 0 iges = 0 color = 18 fill = 0 line = 0, 0 0 1, "*", type = 2
+symdesign	number = 12 stream = 0 iges = 0 color = 3 fill = 0 line = 0, 0 0 1, "*", type = 2
+SPint	number = 13 stream = 0 iges = 0 color = 88 fill = 18 line = 0, 2 0 1, "*", type = 2
+SPfix	number = 14 stream = 0 iges = 0 color = 98 fill = 18 line = 0, 2 0 1, "*", type = 2
+SPfloat	number = 15 stream = 0 iges = 0 color = 5 fill = 18 line = 0, 2 0 1, "*", type = 2
+SPcomplex	number = 16 stream = 0 iges = 0 color = 27 fill = 18 line = 0, 2 0 1, "*", type = 2
+SPtimed	number = 17 stream = 0 iges = 0 color = 0 fill = 18 line = 0, 2 0 1, "*", type = 2
+SPany	number = 18 stream = 0 iges = 0 color = 33 fill = 18 line = 0, 2 0 1, "*", type = 2
+SPother	number = 19 stream = 0 iges = 0 color = 28 fill = 18 line = 0, 2 0 1, "*", type = 2
+symtext	number = 20 stream = 0 iges = 0 color = 0 fill = 0 line = 0, 0 0 1, "*", type = 2
+symbodyFilled	number = 21 stream = 0 iges = 0 color = 18 fill = 18 line = 0, 1 0 1, "*", type = 2
+symbodySlash	number = 22 stream = 0 iges = 0 color = 18 fill = 0 line = 0, 0 0 1, "*", type = 2
+SPoptical	number = 23 stream = 0 iges = 0 color = 25 fill = 18 line = 0, 1 0 1, "*", type = 2

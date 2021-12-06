@@ -1,0 +1,6 @@
+INCLUDE $HPEESOF_DIR/oalibs/analog_rf.defs
+INCLUDE $HPEESOF_DIR/oalibs/dsp.defs
+DEFINE amplificador_lib amplificador_lib
+ASSIGN amplificador_lib libMode shared
+INCLUDE $HOME/Documents/GitHub/ICRcode/Torreta/pcb/RF_Power_ADS_DesignKit_ADS2022_2p3/lib.defs
+INCLUDE ../MHT1008N_MDL_ADS/MHT1008N_Level2_Rev0_DK/lib.defs

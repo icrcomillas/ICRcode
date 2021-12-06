@@ -1,0 +1,146 @@
+RF Power Design Kit for ADS 2009, ADS 2011, ADS 2012, ADS 2014, ADS 2015, ADS 2016, ADS 2017, ADS 2019, ADS 2020, ADS 2021, and ADS 2022
+version: 2.3
+
+Overview:  
+	This kit is for simulation only for our
+	external library and Single Product Design Kits (SPDKs).
+	The simulation components were compiled for use
+	within Keysight's ADS on MS Windows 64-bit and Linux 64-bit 
+	machines.
+	   
+Components:	
+		METMOS:		Simulator id is 'FSLRFPK_METMOS_v1'
+				Description:  Standard LDMOS file based
+				model used within our external libraries
+				and SPDKs.
+		LDMOS:		Simulator id is 'FSLRFPK_LDMOS_v1'
+				Description:  Standard LDMOS parameter based
+				model used within our external libraries
+				and SPDKs.
+		FET2:		Simulator id is 'FSLRFPK_FET2_v1 and FSLRFPK_FET2'
+				Description:  Standard LDMOS FET2 parameter based
+				model used within our external libraries
+				and SPDKs.
+		FET2_INT:	Simulator id is 'FSLRFPK_FET2_INT'
+				Description:  Standard LDMOS FET2 parameter based
+				model with access to internal current and charge
+				sources on both gate and drain used within our
+				internal process design kits and SPDKs.
+		FET2_WFE:	Simulator id is 'FSLRFPK_FET2_WFE'
+				Description:  Standard LDMOS FET2 parameter based
+				model with access to on drain used within our
+				internal process design kits and SPDKs.
+		GAN_WFE:	Simulator id is 'GAN_WFE'
+				Description:  Standard GaN FET2 parameter based
+				model with access to on drain used within our
+				internal process design kits and SPDKs.
+		MUC2:		Simulator id is 'FSLRFPK_MUC2_v1'
+				Description:  Standard 2 Mutually Coupled coil
+				parameter based model used within our external 
+				libraries and SPDKs.
+		MUC3:		Simulator id is 'FSLRFPK_MUC3_v1'
+				Description:  Standard 3 Mutually Coupled coil
+				parameter based model used within our external 
+				libraries and SPDKs.
+		LDMOS(mint):	Simulator id is 'FSLRFPK_LDMOS_mint_v1'
+				Description:  Standard LDMOS parameter based
+				model compiled using the MINT interface.  This
+				model is not fully supported or tested.
+		FET2i:
+		FET2e:
+		FET2e_v1
+
+Version:  2.3
+	Version 2.3 adds ADS2022 binaries for Linux and Windows.
+	
+Version:  2.2
+	Version 2.2 adds ADS2020 binaries for Linux, and ADS2021 binaries for Windows and Linux.
+	
+Version:  2.1
+	Version 2.1 adds ADS2020 binaries, and updates GAN_WFE model for ADS2016, ADS2017, and ADS2019
+	with improved convergence in load pull simulations.
+	
+Version:  2.0
+	Version 2.0 adds new model, 'GAN_WFE'.  Verified that VS2015 binaries work in ADS 2019.
+	
+Version:  1.9
+	Version 1.9 adds ADS2017 binaries without any model code changes.
+	
+Version:  1.8.1
+	Version 1.8.1 adds new parameter, 'Intrinsic', to the 'FSLRFPK_FET2_WFE' model enabling access to the
+	internal to drain-to-source and capacitive currents for waveform engineering.  This new parameter
+	is toggled between 1 and 0.  Setting this parameter to 1 enables the internal intrinsic currents.
+	These currents then return real values.  Setting this parameter to 0 disables these internal
+	intrinsic currents. Once disabled these currents return 0.
+	
+Version:  1.8
+	Version 1.8 adds new model, 'FSLRFPK_FET2_WFE', for waveform engineering supports access to the
+	internal to drain-to-source and capacitive currents in ADS2016 only.  This new model also
+	supports multi-threading to decrease simulation time.
+	Version 1.8 updates existing model, 'FSLRFPK_FET2_INT',
+	to support multi-threading to decrease simulation time in ADS2016 only.
+	
+Version:  1.7.2
+	Version 1.7.2 adds internal gate access to, 'FSLRFPK_FET2_INT', model for existing FET2
+	in ADS2012, ADS2014 and ADS2015 binaries without any model code changes.
+	
+Version:  1.7.1
+	Version 1.7.1 adds new model, 'FSLRFPK_FET2_INT', supporting internal drain access for
+	existing FET2 in ADS2012 and ADS2014 binaries without any model code changes.
+	
+Version:  1.7
+	Version 1.7 adds ADS2014 binaries without any model code changes.
+	
+Version:  1.6
+	Version 1.6 adds ADS2012 binaries without any model code changes.
+	
+Version:  1.5
+	Version 1.5 offers a convergence fix/improvement when the argument of the functions 
+	using exp() goes below -20.0 to limit the minimum to -20.0.
+	Also, for ADS2011, removed the loading of the library and palette ael files
+	from the CmdOp vocabulary which caused an issue.  And, made the function
+	name in the palette.ael file more unique to avoid namespace clashing.
+
+Version:  1.4
+	Version 1.4 Found thermal subcircuit scaling issues of RTH and CTH in the FET2
+	model.  These have been wrong since version 1.2.  This version 
+	corrects this issue. 
+	In Version 1.3 and 1.2, the scaling was inverted so that:
+		Rth_new = Rth*Area; and
+		Cth_new = Cth/Area;
+	Now, it is correct:
+		Rth_new = Rth/Area; and
+		Cth_new = Cth*Area; 
+	Where Area = New_Periphery/Base_Periphery;
+
+	Also, the FET2 model has been enhanced for more robust convergence
+	and increased speed.
+				
+	Components:	FET2		
+				Simulator id is 'FSLRFPK_FET2' which is now
+				preferred, but the user can still use 'FSLRFPK_FET2_v1'
+				to access the same model.
+				Description:  Standard FET2 file based
+				model used within our external libraries
+				and SPDKs.	
+
+Version:  1.3
+	Version 1.3 fixed thermal subcircuit issues to use external RTH and CTH.
+	Also fixed the QDS voltage referencing to Vggs instead of Vgs.	
+				
+Version:  1.2
+	Version 1.2 fixed scaling of RTH and CTH in the FET2 model.
+				
+Version:  1.1
+	Version 1.1 has added features to those above including the new
+	FET2 model.
+	    
+	Components:	FET2		
+				Simulator id is 'FSLRFPK_FET2_v1'
+				Description:  Standard FET2 file based
+				model used within our external libraries
+				and SPDKs.				
+
+
+
+

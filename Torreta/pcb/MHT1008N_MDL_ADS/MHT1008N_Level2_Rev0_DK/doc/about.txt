@@ -1,0 +1,5 @@
+Name: MHT1008N_Level2_Rev0_DK
+Version: MHT1008N_Level2_Rev0_DK
+Date: 10/14/2016
+Description: NXP RF High Power Model 2450MHz, 12.5W CW, 28V RFLDMOSFET
+Updated: This SPDK was included in the comprehensive SPDK QA, and may have had bug fixes on May 24, 2019. 

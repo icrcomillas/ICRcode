@@ -1,0 +1,5 @@
+# Library Defs for editing the MHT1008N_Level2_Rev0_DK design kit
+DEFINE MHT1008N_Level2_Rev0_DK MHT1008N_Level2_Rev0_DK
+ASSIGN MHT1008N_Level2_Rev0_DK libMode readOnly
+DEFINE MHT1008N_Level2_Rev0_DK_tech MHT1008N_Level2_Rev0_DK_tech
+ASSIGN MHT1008N_Level2_Rev0_DK_tech libMode readOnly
