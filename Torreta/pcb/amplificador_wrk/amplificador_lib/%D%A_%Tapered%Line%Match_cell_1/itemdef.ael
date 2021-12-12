@@ -1,0 +1,7 @@
+create_item("DA_TaperedLineMatch_cell_1","Tapered Line Match","DA_TaperedLineMatch",16,-1,"TaperedLineMatch.bmp","Component Parameters",NULL,"%d:%t %# %44?0%:%31?%C%:_net%c%;%;%e %b%r%8?%29?%:%30?%p %:%k%?[%1i]%;=%p %;%;%;%e%e","DA_TaperedLineMatch_cell_1","%t%b%r%38?%:\n%39?all_parm%A%:%30?%s%:%k%?[%1i]%;=%s%;%;%;%e%e%;","TaperedLineMatch",3,NULL,0,
+create_parm("Fp","Lower Passband Edge Frequency (Response is Highpass)",66048,"StdFormSet",0,prm("StdForm","1 GHz")),
+create_parm("Rg","Desired Input Impedance",66048,"StdFormSet",1,prm("StdForm","50 Ohm")),
+create_parm("RL","Load Impedance to Match",66048,"StdFormSet",1,prm("StdForm","100 Ohm")),
+create_parm("ResponseType","Type of Frequency Response",134656,"AJ_FilterMatch_TLResponseTypeFormSet",-1,prm("AJ_FilterMatch_ExponentialForm")),
+create_parm("Rmax","Maximum Voltage Reflection Coefficient",66048,"StdFormSet",13,prm("StdForm","-20 dB")),
+create_parm("N","Number of TLine Sections per Wavelength",66048,"StdFormSet",-1,prm("StdForm","20")));

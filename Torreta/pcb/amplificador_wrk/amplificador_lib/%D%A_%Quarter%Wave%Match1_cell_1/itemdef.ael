@@ -1,0 +1,8 @@
+create_item("DA_QuarterWaveMatch1_cell_1","Quarter-Wave Matching Transformer","DA_QuarterWaveMatch",16,-1,"QuarterWaveMatch.bmp","Component Parameters",NULL,"%d:%t %# %44?0%:%31?%C%:_net%c%;%;%e %b%r%8?%29?%:%30?%p %:%k%?[%1i]%;=%p %;%;%;%e%e","DA_QuarterWaveMatch1_cell_1","%t%b%r%38?%:\n%39?all_parm%A%:%30?%s%:%k%?[%1i]%;=%s%;%;%;%e%e%;","QuarterWaveMatch",3,NULL,0,
+create_parm("Fp1","Lower Passband Edge Frequency",66048,"StdFormSet",0,prm("StdForm","1 GHz")),
+create_parm("Fp2","Upper Passband Edge Frequency",66048,"StdFormSet",0,prm("StdForm","2 GHz")),
+create_parm("Rg","Desired Input Impedance",66048,"StdFormSet",1,prm("StdForm","50 Ohm")),
+create_parm("RL","Load Impedance to Match",66048,"StdFormSet",1,prm("StdForm","100 Ohm")),
+create_parm("ResponseType","Type of Frequency Response",134656,"AJ_FilterMatch_QWResponseTypeFormSet",-1,prm("AJ_FilterMatch_UniformForm")),
+create_parm("N","Number of Quarter-Wave Sections (set N=0 to compute N)",131584,"StdFormSet",-1,prm("StdForm","0")),
+create_parm("Rmax","Maximum Voltage Reflection Coefficient",66048,"StdFormSet",13,prm("StdForm","-20 dB")));

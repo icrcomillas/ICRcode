@@ -1,0 +1,7 @@
+create_item("DA_MTaper_cell_1","Microstrip Tapered Line Element","DA_MTaper",16,-1,"MTaper.bmp","Component Parameters",NULL,"%d:%t %# %44?0%:%31?%C%:_net%c%;%;%e %b%r%8?%29?%:%30?%p %:%k%?[%1i]%;=%p %;%;%;%e%e","DA_MTaper_cell_1","%t%b%r%38?%:\n%39?all_parm%A%:%30?%s%:%k%?[%1i]%;=%s%;%;%;%e%e%;","MTaper",3,NULL,0,
+create_parm("Subst","Substrate Instance Name",262144,"StringAndReferenceFormSet",-2,prm("StringAndReference","\"MSub1\"")),
+create_parm("F","Design Frequency",65536,"StdFormSet",0,prm("StdForm","1 GHz")),
+create_parm("Z1","Characteristic Impedance at Port 1",65536,"StdFormSet",1,prm("StdForm","50 Ohm")),
+create_parm("Z2","Characteristic Impedance at Port 2",65536,"StdFormSet",1,prm("StdForm","25 Ohm")),
+create_parm("Lphys","Physical Line Length (set to zero if Lelec specified)",65536,"StdFormSet",5,prm("StdForm","0")),
+create_parm("Lelec","Line Length in Wavelengths (set to zero if Lphys specified)",65536,"StdFormSet",-1,prm("StdForm","0.10")));

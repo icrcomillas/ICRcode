@@ -1,0 +1,32 @@
+; Top Design: "amplificador_lib:cell_1:schematic"
+; Netlisted using Hierarchy Policy: "Standard"
+
+Options ResourceUsage=yes UseNutmegFormat=no EnableOptim=no TopDesignName="amplificador_lib:cell_1:schematic" DcopOutputNodeVoltages=yes DcopOutputPinCurrents=yes DcopOutputAllSweepPoints=no DcopOutputDcopType=0
+Port:TermG1  N__10 0 Num=1 Z=50 Ohm Noise=yes 
+#ifndef NXP_MHT1008N_Level2_Rev0_DK_TECH_INCLUDE_DEF
+#define NXP_MHT1008N_Level2_Rev0_DK_TECH_INCLUDE_DEF
+#include "C:/Users/gonza/Documents/GitHub/ICRcode/Torreta/pcb/MHT1008N_MDL_ADS/MHT1008N_Level2_Rev0_DK//circuit/models/nxp_MHT1008N_pkg_netlists.net"
+#endif
+NXP_MHT1008N_Level2_Rev0_SPmodel_FET2:FET2NXP1  N__3 N__9 0 N__2 \
+	Selft=1 \
+	DataPath="C:/Users/gonza/Documents/GitHub/ICRcode/Torreta/pcb/MHT1008N_MDL_ADS/MHT1008N_Level2_Rev0_DK//circuit/data/NXP_MHT1008N_Data/"
+S_Param:SP1 CalcS=yes CalcY=no CalcZ=no GroupDelayAperture=1e-4 FreqConversion=no FreqConversionPort=1 StatusLevel=2 CalcNoise=no SortNoise=0 BandwidthForNoise=1.0 Hz DevOpPtLevel=0 \
+SweepVar="freq" SweepPlan="SP1_stim" OutputPlan="SP1_Output" 
+
+SweepPlan: SP1_stim Start=2.3 GHz Stop=2.5 GHz Step=0.0001 GHz 
+
+OutputPlan:SP1_Output \
+      Type="Output" \
+      UseEquationNestLevel=yes \
+      EquationNestLevel=2 \
+      UseSavedEquationNestLevel=yes \
+      SavedEquationNestLevel=2
+
+#load "python","LinearCollapse"
+Component Module="LinearCollapse" Type="ModelExtractor" NetworkRepresentation=2
+Port:TermG2  N__7 0 Num=2 Z=50 Ohm Noise=yes 
+model MSub1 MSUB H=10.0 um Er=9.6 Mur=1 Cond=1.0E+50 Hu=1e+36 um T=0 um TanD=0 Rough=0 um DielectricLossModel=1 FreqForEpsrTanD=1.0 GHz LowFreqForTanD=1.0 kHz HighFreqForTanD=1.0 THz RoughnessModel=2 
+C:C1  N__10 N__3 C=8.17 pF 
+L:L1  N__10 0 L=1.3597 nH Noise=yes  
+L:L2  N__9 0 L=46.8609 nH Noise=yes  
+L:L3  N__9 N__7 L=6.94652 nH Noise=yes  

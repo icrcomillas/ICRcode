@@ -1,0 +1,24 @@
+
+hpeesofsim (*) 551.shp Oct 27 2021, MINT version 5
+    (64-bit windows built: Thu Oct 28, 2021 03:25:42 +0000)
+
+
+***** Simulation started at Sat Dec 11 20:32:39 2021
+      Running on host: "LAPTOP-77OCM55A"
+      In Directory: "C:\Users\gonza\Documents\GitHub\ICRcode\Torreta\pcb\amplificador_wrk\data"
+      Process ID: 4088
+
+Message from hpeesofsim during netlist parsing.
+    Booting of NXP FET2 Power Kit was successful!
+
+Warning detected by hpeesofsim during circuit set up.
+    Mutual inductor `FET2NXP1.T1.Mutual1' has an unphysical mutual inductance M=-2.273e-12.
+    L1=1.000e-16 L2=1.000e-16; limit for M is +/-1.000e-16.
+
+
+SP SP1[1] <amplificador_lib:cell_1:schematic>   freq=(2.3 GHz->2.5 GHz)
+
+
+Resource usage:
+  Total stopwatch time     =     0.67 seconds.
+
