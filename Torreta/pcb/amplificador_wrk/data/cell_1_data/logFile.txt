@@ -3,22 +3,48 @@ hpeesofsim (*) 551.shp Oct 27 2021, MINT version 5
     (64-bit windows built: Thu Oct 28, 2021 03:25:42 +0000)
 
 
-***** Simulation started at Sat Dec 11 20:32:39 2021
+***** Simulation started at Sun Dec 12 22:01:24 2021
       Running on host: "LAPTOP-77OCM55A"
       In Directory: "C:\Users\gonza\Documents\GitHub\ICRcode\Torreta\pcb\amplificador_wrk\data"
-      Process ID: 4088
+      Process ID: 25488
 
 Message from hpeesofsim during netlist parsing.
     Booting of NXP FET2 Power Kit was successful!
+
+Warning detected by hpeesofsim in Substrate model during netlist flattening.
+    Simulations referencing substrate `MSub1' will not include metal loss
+    because metal thickness is zero.
 
 Warning detected by hpeesofsim during circuit set up.
     Mutual inductor `FET2NXP1.T1.Mutual1' has an unphysical mutual inductance M=-2.273e-12.
     L1=1.000e-16 L2=1.000e-16; limit for M is +/-1.000e-16.
 
+Pt DC convergence is used.
 
 SP SP1[1] <amplificador_lib:cell_1:schematic>   freq=(2.3 GHz->2.5 GHz)
+Warning detected by hpeesofsim during SP analysis 'SP1'.
+    UserValue(0.001270) < MinRecommendValue(0.000000) OR UserValue > MaxRecommendValue(0.001000) for 'W' in `TL9'
+
+Warning detected by hpeesofsim during SP analysis 'SP1'.
+    UserValue(0.009906) < MinRecommendValue(0.000000) OR UserValue > MaxRecommendValue(0.001000) for 'W' in `TL8'
+
+Warning detected by hpeesofsim during SP analysis 'SP1'.
+    UserValue(0.001270) < MinRecommendValue(0.000000) OR UserValue > MaxRecommendValue(0.001000) for 'W' in `TL6'
+
+Warning detected by hpeesofsim during SP analysis 'SP1'.
+    UserValue(0.000000) < MinRecommendValue(0.000000) OR UserValue > MaxRecommendValue(0.001000) for 'W' in `TL5'
+
+Warning detected by hpeesofsim during SP analysis 'SP1'.
+    UserValue(0.001016) < MinRecommendValue(0.000000) OR UserValue > MaxRecommendValue(0.001000) for 'W' in `TL3'
+
+Warning detected by hpeesofsim during SP analysis 'SP1'.
+    UserValue(0.001016) < MinRecommendValue(0.000000) OR UserValue > MaxRecommendValue(0.001000) for 'W' in `TL2'
+
+Warning detected by hpeesofsim during SP analysis 'SP1'.
+    UserValue(0.012700) < MinRecommendValue(0.000000) OR UserValue > MaxRecommendValue(0.001000) for 'W' in `TL1'
+
 
 
 Resource usage:
-  Total stopwatch time     =     0.67 seconds.
+  Total stopwatch time     =     0.97 seconds.
 

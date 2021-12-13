@@ -2,12 +2,8 @@
 ; Netlisted using Hierarchy Policy: "Standard"
 
 Options ResourceUsage=yes UseNutmegFormat=no EnableOptim=no TopDesignName="amplificador_lib:cell_1:schematic" DcopOutputNodeVoltages=yes DcopOutputPinCurrents=yes DcopOutputAllSweepPoints=no DcopOutputDcopType=0
-Port:TermG1  N__10 0 Num=1 Z=50 Ohm Noise=yes 
-#ifndef NXP_MHT1008N_Level2_Rev0_DK_TECH_INCLUDE_DEF
-#define NXP_MHT1008N_Level2_Rev0_DK_TECH_INCLUDE_DEF
-#include "C:/Users/gonza/Documents/GitHub/ICRcode/Torreta/pcb/MHT1008N_MDL_ADS/MHT1008N_Level2_Rev0_DK//circuit/models/nxp_MHT1008N_pkg_netlists.net"
-#endif
-NXP_MHT1008N_Level2_Rev0_SPmodel_FET2:FET2NXP1  N__3 N__9 0 N__2 \
+Port:TermG1  N__3 0 Num=1 Z=50 Ohm Noise=yes 
+NXP_MHT1008N_Level2_Rev0_SPmodel_FET2:FET2NXP1  N__5 N__4 0 N__8 \
 	Selft=1 \
 	DataPath="C:/Users/gonza/Documents/GitHub/ICRcode/Torreta/pcb/MHT1008N_MDL_ADS/MHT1008N_Level2_Rev0_DK//circuit/data/NXP_MHT1008N_Data/"
 S_Param:SP1 CalcS=yes CalcY=no CalcZ=no GroupDelayAperture=1e-4 FreqConversion=no FreqConversionPort=1 StatusLevel=2 CalcNoise=no SortNoise=0 BandwidthForNoise=1.0 Hz DevOpPtLevel=0 \
@@ -24,9 +20,23 @@ OutputPlan:SP1_Output \
 
 #load "python","LinearCollapse"
 Component Module="LinearCollapse" Type="ModelExtractor" NetworkRepresentation=2
-Port:TermG2  N__7 0 Num=2 Z=50 Ohm Noise=yes 
-model MSub1 MSUB H=10.0 um Er=9.6 Mur=1 Cond=1.0E+50 Hu=1e+36 um T=0 um TanD=0 Rough=0 um DielectricLossModel=1 FreqForEpsrTanD=1.0 GHz LowFreqForTanD=1.0 kHz HighFreqForTanD=1.0 THz RoughnessModel=2 
-C:C1  N__10 N__3 C=8.17 pF 
-L:L1  N__10 0 L=1.3597 nH Noise=yes  
-L:L2  N__9 0 L=46.8609 nH Noise=yes  
-L:L3  N__9 N__7 L=6.94652 nH Noise=yes  
+model MSub1 MSUB H=10.0 um Er=3.66 Mur=1 Cond=1.0E+50 Hu=1e+36 um T=0 um TanD=0 Rough=0 um DielectricLossModel=1 FreqForEpsrTanD=1.0 GHz LowFreqForTanD=1.0 kHz HighFreqForTanD=1.0 THz RoughnessModel=2 
+C:C1  N__0 N__13 C=6.8 pF 
+C:C2  0 N__14 C=1.0 pF 
+MLIN2:TL1  N__6 N__5 Subst="MSub1" W=12.7 mm L=10 mm Wall1=1.0E+30 um Wall2=1.0E+30 um Mod=1 
+MLIN2:TL2  N__14 N__6 Subst="MSub1" W=1.016 mm L=18 mm Wall1=1.0E+30 um Wall2=1.0E+30 um Mod=1 
+MLIN2:TL3  N__13 N__14 Subst="MSub1" W=1.016 mm L=10 mm Wall1=1.0E+30 um Wall2=1.0E+30 um Mod=1 
+MLIN2:TL4  N__3 N__0 Subst="MSub1" W=1.016 um L=16 um Wall1=1.0E+30 um Wall2=1.0E+30 um Mod=1 
+Port:TermG2  N__9 0 Num=2 Z=50 Ohm Noise=yes 
+C:C3  N__15 N__2 C=6.8 pF 
+C:C4  0 N__11 C=1.3 pF 
+MLIN2:TL5  N__11 N__15 Subst="MSub1" W=0.05 um L=0.55 in Wall1=1.0E+30 um Wall2=1.0E+30 um Mod=1 
+MLIN2:TL6  N__2 N__9 Subst="MSub1" W=0.05 in L=0.71 in Wall1=1.0E+30 um Wall2=1.0E+30 um Mod=1 
+MLIN2:TL7  N__19 N__12 Subst="MSub1" W=0.35 mm L=0.26 in Wall1=1.0E+30 um Wall2=1.0E+30 um Mod=1 
+MLIN2:TL8  N__4 N__19 Subst="MSub1" W=0.39 in L=0.49 in Wall1=1.0E+30 um Wall2=1.0E+30 um Mod=1 
+#ifndef NXP_MHT1008N_Level2_Rev0_DK_TECH_INCLUDE_DEF
+#define NXP_MHT1008N_Level2_Rev0_DK_TECH_INCLUDE_DEF
+#include "C:/Users/gonza/Documents/GitHub/ICRcode/Torreta/pcb/MHT1008N_MDL_ADS/MHT1008N_Level2_Rev0_DK//circuit/models/nxp_MHT1008N_pkg_netlists.net"
+#endif
+MLIN2:TL9  N__12 N__11 Subst="MSub1" W=0.05 in L=0.2 in Wall1=1.0E+30 um Wall2=1.0E+30 um Mod=1 
+C:C5  0 N__8 C=1.0 pF 

@@ -4,3 +4,4 @@ DEFINE amplificador_lib amplificador_lib
 ASSIGN amplificador_lib libMode shared
 INCLUDE $HOME/Documents/GitHub/ICRcode/Torreta/pcb/RF_Power_ADS_DesignKit_ADS2022_2p3/lib.defs
 INCLUDE ../MHT1008N_MDL_ADS/MHT1008N_Level2_Rev0_DK/lib.defs
+INCLUDE ../MHT2012N_MDL_ADS/MHT2012N_Level1_Rev0_DK/lib.defs

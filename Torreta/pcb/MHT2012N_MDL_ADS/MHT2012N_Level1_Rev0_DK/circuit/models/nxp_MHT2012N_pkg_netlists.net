@@ -1,0 +1,136 @@
+; ADS Freescale Library Package Netlists
+;***************************************************************************************
+define NXP_MHT2012N_ST1_FET2 ( _net100  _net200  source  thermal )
+parameters Intrinsic=0 Gate_Periphery=2.4 Gate_Fingers=6 Selft=0 TNOM=298.15 TSNK=25  RTH=1.0e-5  CTH=1.0e-7 File="AF7_N07G_F253_400_38P2_plastic_v4.mdl"
+
+Options:Options1 TopologyCheck=yes ForceS_Params=yes ForceM_Params=yes \
+	MaxSpectralSize=512 V_RelTol=1e-6 V_AbsTol=1e-6 V I_RelTol=1e-6 I_AbsTol=1e-6 A \
+	GiveAllWarnings=yes MaxWarnings=10 SaveBranchCurrents=no OutputInternalNodes=no \
+	DC_ReadInitialGuess=no DC_WriteFinalSolution=no 
+
+F_sclfact = (Gate_Periphery/(4.8))
+NXP_NEW_CPG = if((5.669810e+002) <=0.0) then 0.001 else ((5.669810e+002)*F_sclfact) endif
+NXP_NEW_CPD = if((4.308690e+002) <=0.0) then 0.001 else ((4.308690e+002)*F_sclfact) endif
+NXP_NEW_CPGD = if((7.589190e-005) <=0.0) then 0.001 else ((7.589190e-005)*F_sclfact) endif
+NXP_NEW_LG = if((1.852490e+001) <=0.0) then 0.001 else ((1.852490e+001)/F_sclfact) endif
+NXP_NEW_LD = if((3.444020e+001) <=0.0) then 0.001 else ((3.444020e+001)/F_sclfact) endif
+NXP_NEW_LS = if((2.81100e+000) <=0.0) then 0.001 else ((2.81100e+000)/F_sclfact) endif
+NXP_NEW_LM = if((-2.252340e+000) =0.0) then 0.001 else ((-2.252340e+000)/F_sclfact) endif
+NXP_NEW_RG = if((1.479500e+000) <=0.0) then 0.001 else ((1.479500e+000)/F_sclfact) endif
+NXP_NEW_RD = if((3.743830e+000) <=0.0) then 0.001 else ((3.743830e+000)/F_sclfact) endif
+NXP_NEW_RS = if((1.41600e-001) <=0.0) then 0.001 else ((1.41600e-001)/F_sclfact) endif
+NXP_NEW_RGSH = if((1.005330e+001) <=0.0) then 0.001 else ((1.005330e+001)/F_sclfact) endif
+NXP_NEW_RDSH = if((2.323270e+001) <=0.0) then 0.001 else ((2.323270e+001)/F_sclfact) endif
+
+C:Cpg _net100 0 C=NXP_NEW_CPG fF
+R:Rgsh _net100 _net11 R=NXP_NEW_RGSH Ohms Noise=yes  
+L:L1 _net100 _net1 L=0.1 fH Noise=no  
+L:Lgate _net1 _net11 L=NXP_NEW_LG pH
+R:Rg _net11 _net10 R=NXP_NEW_RG Ohms Noise=yes
+; Standard FET2 model for MRF and AFT SPDK
+model FET2M1 FSLRFPK_FET2 ENCRFile=File
+"FET2M1":FSL1  _net10 _net21 _net30 thermal \
+  Periphery=Gate_Periphery mm NFING=Gate_Fingers Selft=Selft CTH=CTH RTH=RTH TSNK=TSNK TNOM=TNOM 
+;Internal Drain Access FET2 Model for AirFast2 (A2T) SPDK
+;model FET2M1 FSLRFPK_FET2_WFE ENCRFile=File
+;"FET2M1":FSL1  _net10 _net20 _net30 thermal _net40 _net50 \
+;  Periphery=Gate_Periphery mm NFING=Gate_Fingers Selft=Selft CTH=CTH RTH=RTH TSNK=TSNK TNOM=TNOM Intrinsic=Intrinsic
+;R:Rg1 _net10 VG R=0.001 mOhm Noise=no
+;R:Rd1 _net20 VD R=0.001 mOhm Noise=no
+;Short:Icdg  0 _net40 Mode=0 SaveCurrent=Intrinsic 
+;Short:Icds  0 _net50 Mode=0 SaveCurrent=Intrinsic 
+;Short:Ids_ext  _net20 _net21 Mode=0 SaveCurrent=Intrinsic 
+L:Lsource _net30 _net300 L=NXP_NEW_LS pH
+R:Rsource _net300 source R=NXP_NEW_RS Ohms
+
+R:Rd _net21 _net22 R=NXP_NEW_RD Ohms Noise=yes
+L:Ldrain _net2 _net22 L=NXP_NEW_LD pH
+L:L2 _net200 _net2 L=0.1 fH Noise=no  
+R:Rdsh _net22 _net200 R=NXP_NEW_RDSH Ohms Noise=yes  
+C:Cpd _net200 0 C=NXP_NEW_CPD fF
+	
+C:Cpgd _net100 _net200 C=NXP_NEW_CPGD fF
+Mutual:Mutual1  K=0.0 M=NXP_NEW_LM pH Inductor1="L1" Inductor2="L2" 
+R:RTHERM thermal 0 R=500 MOhm
+end NXP_MHT2012N_ST1_FET2
+;***************************************************************************************
+define NXP_MHT2012N_ST2_FET2 ( _net100  _net200  source  thermal )
+parameters Intrinsic=0 Gate_Periphery=14 Gate_Fingers=28 Selft=0 TNOM=298.15 TSNK=25  RTH=1.0e-5  CTH=1.0e-7 File="AF7_N10G_500R80_F251_500_32_Plastic_finger_v5.mdl"
+
+Options:Options1 TopologyCheck=yes ForceS_Params=yes ForceM_Params=yes \
+	MaxSpectralSize=512 V_RelTol=1e-6 V_AbsTol=1e-6 V I_RelTol=1e-6 I_AbsTol=1e-6 A \
+	GiveAllWarnings=yes MaxWarnings=10 SaveBranchCurrents=no OutputInternalNodes=no \
+	DC_ReadInitialGuess=no DC_WriteFinalSolution=no 
+
+F_sclfact = (Gate_Periphery/(5))
+NXP_NEW_CPG = if((5.821210e+002) <=0.0) then 0.001 else ((5.821210e+002)*F_sclfact) endif
+NXP_NEW_CPD = if((3.155390e+002) <=0.0) then 0.001 else ((3.155390e+002)*F_sclfact) endif
+NXP_NEW_CPGD = if((8.021480e-005) <=0.0) then 0.001 else ((8.021480e-005)*F_sclfact) endif
+NXP_NEW_LG = if((1.222530e+001) <=0.0) then 0.001 else ((1.222530e+001)/F_sclfact) endif
+NXP_NEW_LD = if((0.000000e+000) <=0.0) then 0.001 else ((0.000000e+000)/F_sclfact) endif
+NXP_NEW_LS = if((1.128420e+000) <=0.0) then 0.001 else ((1.128420e+000)/F_sclfact) endif
+NXP_NEW_LM = if((-2.029970e+000) =0.0) then 0.001 else ((-2.029970e+000)/F_sclfact) endif
+NXP_NEW_RG = if((1.722610e+000) <=0.0) then 0.001 else ((1.722610e+000)/F_sclfact) endif
+NXP_NEW_RD = if((1.76490e+000) <=0.0) then 0.001 else ((1.76490e+000)/F_sclfact) endif
+NXP_NEW_RS = if((1.07570e-001) <=0.0) then 0.001 else ((1.07570e-001)/F_sclfact) endif
+NXP_NEW_RGSH = if((2.879670e+000) <=0.0) then 0.001 else ((2.879670e+000)/F_sclfact) endif
+NXP_NEW_RDSH = if((1.338470e+000) <=0.0) then 0.001 else ((1.338470e+000)/F_sclfact) endif
+
+C:Cpg _net100 0 C=NXP_NEW_CPG fF
+R:Rgsh _net100 _net11 R=NXP_NEW_RGSH Ohms Noise=yes  
+L:L1 _net100 _net1 L=0.1 fH Noise=no  
+L:Lgate _net1 _net11 L=NXP_NEW_LG pH
+R:Rg _net11 _net10 R=NXP_NEW_RG Ohms Noise=yes
+; Standard FET2 model for MRF and AFT SPDK
+model FET2M1 FSLRFPK_FET2 ENCRFile=File
+"FET2M1":FSL1  _net10 _net21 _net30 thermal \
+  Periphery=Gate_Periphery mm NFING=Gate_Fingers Selft=Selft CTH=CTH RTH=RTH TSNK=TSNK TNOM=TNOM 
+;Internal Drain Access FET2 Model for AirFast2 (A2T) SPDK
+;model FET2M1 FSLRFPK_FET2_WFE ENCRFile=File
+;"FET2M1":FSL1  _net10 _net20 _net30 thermal _net40 _net50 \
+;  Periphery=Gate_Periphery mm NFING=Gate_Fingers Selft=Selft CTH=CTH RTH=RTH TSNK=TSNK TNOM=TNOM Intrinsic=Intrinsic
+;R:Rg1 _net10 VG R=0.001 mOhm Noise=no
+;R:Rd1 _net20 VD R=0.001 mOhm Noise=no
+;Short:Icdg  0 _net40 Mode=0 SaveCurrent=Intrinsic 
+;Short:Icds  0 _net50 Mode=0 SaveCurrent=Intrinsic 
+;Short:Ids_ext  _net20 _net21 Mode=0 SaveCurrent=Intrinsic 
+L:Lsource _net30 _net300 L=NXP_NEW_LS pH
+R:Rsource _net300 source R=NXP_NEW_RS Ohms
+
+R:Rd _net21 _net22 R=NXP_NEW_RD Ohms Noise=yes
+L:Ldrain _net2 _net22 L=0.0 pH
+L:L2 _net200 _net2 L=0.1 fH Noise=no  
+R:Rdsh _net22 _net200 R=NXP_NEW_RDSH Ohms Noise=yes  
+C:Cpd _net200 0 C=NXP_NEW_CPD fF
+	
+C:Cpgd _net100 _net200 C=NXP_NEW_CPGD fF
+Mutual:Mutual1  K=0.0 M=NXP_NEW_LM pH Inductor1="L1" Inductor2="L2" 
+R:RTHERM thermal 0 R=500 MOhm
+end NXP_MHT2012N_ST2_FET2
+;***************************************************************************************
+define NXP_MHT2012N_Level1_Rev0_SPmodel_FET2 ( pin3 pin4 pin8 pin10 pin15 pin16 VT_Stg1 VT_Stg2 pin24 ) 
+parameters Intrinsic=0 Selft=0 TNOM="" TSNK=""  RTH=""  CTH="" DataPath="NXP_MHT2012N_Data\"
+Options:Options1 TopologyCheck=yes ForceS_Params=yes ForceM_Params=yes SaveBranchCurrents=no OutputInternalNodes=no 
+
+RTHD=1.0e-5
+NRTH = if(RTH=="") then RTHD*2 else RTH*2 endif
+CTHD=1.0e-7
+NCTH = if(CTH=="") then CTHD/2 else CTH/2 endif
+NTNOM = if(TNOM=="") then 298.15 else TNOM endif
+NTSNK = if(TSNK=="") then 25 else TSNK endif
+R:R1 pin3 pin4 R=0.001 mOhm Noise=no
+R:R2 pin15 pin16 R=0.001 mOhm Noise=no
+#uselib "ckt" , "S9P"
+S9P:SNP1 pin3 pin15 pin24 pin10 pin8 _net16 _net17 _net28 _net29 0 File=strcat(DataPath, "MHT2012N_Level1_Rev0_DK.s9p") \ 
+	Type="touchstone" InterpMode="linear" InterpDom="" ExtrapMode="constant" Temp=NTSNK CheckPassivity=0 
+FileName1=strcat(DataPath, "AF7_N07G_F253_400_38P2_plastic_v4.mdl")
+NXP_MHT2012N_ST1_FET2:Stage1 _net16 _net17 _net1 VT_Stg1 Intrinsic=Intrinsic TNOM=NTNOM TSNK=NTSNK RTH=NRTH CTH=NCTH File=FileName1
+L:L1 _net1 0 L=((40/2.4)-460.562) pH R=0.132715 mOhm Noise=no  
+;aele Stage1_Ids = if (Intrinsic==1) then (Stage1.Ids_ext.i-Stage1.Icdg.i-Stage1.Icds.i) else(0.0) endif
+
+FileName2=strcat(DataPath, "AF7_N10G_500R80_F251_500_32_Plastic_finger_v5.mdl")
+NXP_MHT2012N_ST2_FET2:Stage2 _net28 _net29 _net2 VT_Stg2 Intrinsic=Intrinsic TNOM=NTNOM TSNK=NTSNK RTH=NRTH CTH=NCTH File=FileName2
+L:L2 _net2 0 L=((40/14)-44.6522) pH R=0.00309541 mOhm Noise=no  
+;aele Stage2_Ids = if (Intrinsic==1) then (Stage2.Ids_ext.i-Stage2.Icdg.i-Stage2.Icds.i) else(0.0) endif
+end NXP_MHT2012N_Level1_Rev0_SPmodel_FET2
+

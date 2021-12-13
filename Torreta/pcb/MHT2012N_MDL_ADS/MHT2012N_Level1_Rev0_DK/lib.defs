@@ -1,0 +1,6 @@
+# Library Defs for editing the MHT2012N_Level1_Rev0_DK design kit
+# Remove this from the design kit before distributing to customers.
+DEFINE MHT2012N_Level1_Rev0_DK MHT2012N_Level1_Rev0_DK
+ASSIGN MHT2012N_Level1_Rev0_DK libMode readOnly
+DEFINE MHT2012N_Level1_Rev0_DK_tech MHT2012N_Level1_Rev0_DK_tech
+ASSIGN MHT2012N_Level1_Rev0_DK_tech libMode readOnly

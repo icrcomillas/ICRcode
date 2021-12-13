@@ -1,0 +1,13 @@
+<!DOCTYPE Technology>
+<Lpp_List>
+    <LPP alpha="105" mode="2" protect="0" purpose="drawing" line="0" fill="18" layer="0" rgb="16711680" visible="1"/>
+    <LPP alpha="105" mode="2" protect="0" purpose="drawing" line="0" fill="18" layer="BOARD_OUTLINE" rgb="255" visible="1"/>
+    <LPP alpha="105" mode="2" protect="0" purpose="drawing" line="0" fill="18" layer="BOTTOM_METAL" rgb="25600" visible="1"/>
+    <LPP alpha="105" mode="2" protect="0" purpose="drawing" line="0" fill="18" layer="BOTTOM_METAL_HATCH" rgb="16716947" visible="1"/>
+    <LPP alpha="105" mode="2" protect="0" purpose="drawing" line="0" fill="18" layer="DRILL_NO_PLATING" rgb="16711935" visible="1"/>
+    <LPP alpha="105" mode="2" protect="0" purpose="drawing" line="0" fill="18" layer="DRILL_PLATED" rgb="16776960" visible="1"/>
+    <LPP alpha="105" mode="2" protect="0" purpose="drawing" line="0" fill="18" layer="ETCH_METAL" rgb="16444375" visible="1"/>
+    <LPP alpha="105" mode="2" protect="0" purpose="drawing" line="0" fill="18" layer="SILKSCREEN" rgb="49152" visible="1"/>
+    <LPP alpha="105" mode="2" protect="0" purpose="drawing" line="0" fill="18" layer="TOP_METAL" rgb="65535" visible="1"/>
+    <LPP alpha="105" mode="2" protect="0" purpose="drawing" line="0" fill="18" layer="TOP_METAL_HATCH" rgb="13458524" visible="1"/>
+</Lpp_List>

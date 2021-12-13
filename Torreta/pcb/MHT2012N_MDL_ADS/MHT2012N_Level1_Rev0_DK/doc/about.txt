@@ -1,0 +1,5 @@
+Name: MHT2012N_Level1_Rev0_DK
+Version: MHT2012N_Level1_Rev0_DK
+Date: 02/16/2018
+Description: NXP RF High Power Model 2400-2500MHz, 12.5W AVG, 28V LDMOSFET
+Updated: This SPDK was included in the comprehensive SPDK QA, and may have had bug fixes on May 24, 2019. 
