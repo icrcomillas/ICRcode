@@ -1,7 +1,7 @@
 AJ_SmithChart_NetList = NULL;
 AJ_SmithChart_TrailList = NULL;
 AJ_SmithChart_QList = NULL;
-AJ_SmithChart_QCheck = NULL;
+AJ_SmithChart_QCheck = list(0,0);
 AJ_SmithChart_ZList = NULL;
 AJ_SmithChart_SourceX = 225;
 AJ_SmithChart_SourceY = -225;
