@@ -43,10 +43,9 @@ void setup() {
   
   //Se establece la velocidad del puerto serial
   Serial.begin(115200);
-//  while(!Serial.available()){
-//    
-//  }
-moverYaw(360,1);
+  while(!Serial.available()){
+    
+  }
   
 }
 
